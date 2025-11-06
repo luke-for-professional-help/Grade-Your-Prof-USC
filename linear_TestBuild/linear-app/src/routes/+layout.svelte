@@ -22,7 +22,6 @@
 	</NavBrand>
 	<!--CONDITIONAL FOR HANDLING USER LOG IN STATE-->
 	{#if $isLoggedIn}
-
 		<UserMenu /> <!--FOR BACKEND, PLEASE CHECK /src/lib/components for these component files-->
 	{:else}
 		<UserLogin />

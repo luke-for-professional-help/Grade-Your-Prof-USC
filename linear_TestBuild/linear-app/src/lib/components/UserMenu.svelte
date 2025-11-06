@@ -1,6 +1,6 @@
 <script>
 	import { Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownGroup, NavHamburger} from "flowbite-svelte";
-	import { user, isLoggedIn, isMember } from '$lib/stores/user.js';
+	import { user, isLoggedIn } from '$lib/stores/user.js';
 </script>
 
 <!--USER PROFILE SETTINGS-->
@@ -19,7 +19,7 @@
         </DropdownHeader>
         <DropdownGroup>
             <DropdownItem>
-                Manage Reviews
+                <a href="/reviewmanage">Manage Reviews</a>
             </DropdownItem>
             <DropdownItem on:click={() => isLoggedIn.set(false)}>
                 Sign Out

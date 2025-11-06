@@ -5,7 +5,7 @@
 
     let mode = 'signup';
 </script>
-
+<!--USER AUTHENTICATION SCREEN-->
 <div class="flex justify-center items-start mt-20">
 	<div class="w-full max-w-2xl rounded-xl p-6">
 		<Card size="lg" class="p-4 text-center sm:p-8 md:p-10">

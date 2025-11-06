@@ -14,3 +14,7 @@
     </div>
     <Button type="submit" href="/">Submit</Button>
 </form>
+
+<!--GUYS PLEASE MAKE SURE THAT THE USER HAS INPUTTED THEIR DETAILS BEFORE SIGNING IN
+
+ALSO MAKE SURE isLoggedIn = true, isMember = true  -->
