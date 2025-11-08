@@ -15,3 +15,5 @@ How to start:
 6. npm run dev -- --open
 7. type 'o' in terminal to open the website in the browser. 
 8. Frontend can see files in src/lib/components and src/routes
+9. Backend can go and SUCK ITTTTTTT
+   
