@@ -1,6 +1,7 @@
 <script lang="ts">
 
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from "flowbite-svelte";
+    import DeleteReviewBtn from "$lib/components/btns/deleteReviewBtn.svelte";
     import { Card } from "flowbite-svelte";
 
 </script>
@@ -27,7 +28,7 @@
                         <TableBodyCell>09/23/2025</TableBodyCell>
                         <TableBodyCell>Pending</TableBodyCell>
                         <TableBodyCell>
-                        <a href="/tables" class="text-primary-600 dark:text-primary-500 font-medium hover:underline">Delete</a>
+                        <DeleteReviewBtn />
                     </TableBodyCell>
                 </TableBodyRow>
                 <TableBodyRow>
@@ -36,7 +37,7 @@
                     <TableBodyCell>10/13/2025</TableBodyCell>
                     <TableBodyCell>Posted</TableBodyCell>
                     <TableBodyCell>
-                      <a href="/tables" class="text-primary-600 dark:text-primary-500 font-medium hover:underline">Delete</a>
+                      <DeleteReviewBtn />
                     </TableBodyCell>
                 </TableBodyRow>
                 </TableBody>

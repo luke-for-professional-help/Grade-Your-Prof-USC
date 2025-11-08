@@ -6,9 +6,8 @@
 	let query = "";
 </script>
 
-<!--LANDING PAGE/SEARCH AREA-->
+<!--LANDING PAGE/SEARCH AREA/FAQs-->
 <section class="relative isolate min-h-[60vh] flex flex-col items-center justify-center px-4">
-	<!--Title container-->
 	<div class="text-center mb-4">
 		<Heading tag="h1" class="mb-4 pb-4 text-4xl font-extrabold  md:text-5xl lg:text-6xl">
 			Grade your <span class="text-orange-500">Prof</span>
@@ -18,10 +17,9 @@
 		  	Choose the right for your academic journey.
 		</P>
 	</div>
-
-    <!-- Search area  -->
+	<!-- HERO AREA -->
+	 
     <div class="relative w-full max-w-3xl mt-14 pt-6 ">
-		<!-- Background band for future image: spans full width, 10% viewport height -->
 		<div aria-hidden="true" class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-screen h-[30vh] bg-gray-900/40">
         	
 			<img src={heroImage} alt="Background" class="w-full h-full object-cover">
@@ -34,10 +32,10 @@
 						text-xs tracking-tight pt-7">
 					Search by professor name or subject code.
 				</p>
-			</div> <!-- gray overlay with 50% opacity -->
+			</div> 
     	</div>
 
-		<!-- Search input (no functionality yet) -->
+	<!--SEARCH INPUT BACKEND PLS COOK THIS ILY GUYS-->
 		<form action="/search" method="GET">
 			<div class="relative z-10 rounded-full bg-white/90 shadow-lg ring-1 ring-black/10 backdrop-blur">
 				<div class="flex items-center gap-3 px-5">
