@@ -3,16 +3,16 @@
     import { isLoggedIn, isMember } from '$lib/stores/user.js';
 </script>
     <!--NOTE TO BACKEND: THIS IS FOR SIGNING UP-->
+    <!--DATA{
+      user_id: RANDOMLY GENERATED
+      user_password:
+      user_IdNumber: **FROM USC**
+
+    }-->
 <form>
-    <div class="mb-6 grid gap-6 md:grid-cols-2">
-      <div>
-        <Label for="first_name" class="mb-2">First name</Label>
-        <Input type="text" id="first_name" placeholder="John" required />
-      </div>
-      <div>
-        <Label for="last_name" class="mb-2">Last name</Label>
-        <Input type="text" id="last_name" placeholder="Doe" required />
-      </div>
+    <div class="mb-6">
+      <Label for="text" class="mb-2">User name</Label>
+      <Input type="text" id="user_name" placeholder="John Doe" required />
     </div>
     <div class="mb-6">
       <Label for="email" class="mb-2">Email address</Label>
