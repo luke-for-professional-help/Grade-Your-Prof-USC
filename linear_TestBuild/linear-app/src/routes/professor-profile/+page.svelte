@@ -44,7 +44,7 @@ user_id
 <!--Tabs display the options that the user can select
     Tab filters the individual subjects taught by that professor
     ProfessorReviewCard will display the component that contains the individual review made by a user under that same subject-->
-<div class="flex justify-center items-start mt-5">
+<div class="flex justify-center items-start mt-5 pb-20">
     <div class="w-full max-w-5xl rounded-xl p-6">
         <Tabs tabStyle="underline">
             <TabItem open title="All">

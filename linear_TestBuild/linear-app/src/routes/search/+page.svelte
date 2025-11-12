@@ -5,6 +5,7 @@
     import { Card } from "flowbite-svelte";
     import Pageination from '$lib/components/item-management/pageination.svelte';
     import ProfessorQueryResults from '$lib/components/professor/professorQueryResults.svelte';
+	import Footer from "$lib/components/footer.svelte";
 //script for handling user query
     let results = [];
     let query = "";
@@ -65,7 +66,7 @@ Data{
 professor_name:
 subject_id
 }-->
-<div class="flex justify-center items-start mt-20">
+<div class="flex justify-center items-start mt-20 pb-20">
 	<div class="w-full max-w-5xl rounded-xl p-6">
         <Card size="xl" class="p-4 text-left sm:p-8 md:p-10">
             <h1 class="text-base md:text-xl font-bold tracking-tight text-gray-600 pb-3">Results for "QUERY":</h1>
@@ -78,4 +79,5 @@ subject_id
         </Card>
 	</div>
 </div>
+
 

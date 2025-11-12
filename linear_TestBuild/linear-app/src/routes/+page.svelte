@@ -2,15 +2,16 @@
     import FAQAccordion from "$lib/components/FAQAccordion.svelte";
 	import heroImage from '$lib/assets/hero-background.jpg';
 	import { Heading, P, Button } from "flowbite-svelte";
+	import Footer from "$lib/components/footer.svelte";
 
 	let query = "";
 </script>
 
 <!--LANDING PAGE/SEARCH AREA/FAQs-->
-<section class="relative isolate min-h-[60vh] flex flex-col items-center justify-center px-4">
+<section class="relative isolate min-h-[60vh] flex flex-col items-center justify-center px-4 pb-20">
 	<div class="text-center mb-4">
-		<Heading tag="h1" class="mb-4 pb-4 text-4xl font-extrabold  md:text-5xl lg:text-6xl">
-			Grade your <span class="text-orange-500">Prof</span>
+		<Heading tag="h1" class="mb-4 pb-4 text-4xl md:text-5xl lg:text-6xl" style="font-family: 'Lato', sans-serif;">
+			Grade Your <span class="text-orange-500">Prof</span>
 		</Heading>
 			
 		<P class="mb-6 text-lg sm:px-16 lg:text-xl xl:px-48 dark:text-gray-400 text-center">
@@ -58,13 +59,16 @@
 		</form>
 	</div>
 	    <!--End of search area-->
-</section>
-<div class="flex justify-center items-start mt-20">
-	<div class="w-full max-w-5xl rounded-xl p-6">
-		<h1 class="text-base md:text-3xl font-bold tracking-tight text-gray-600 pb-3">FAQ:</h1>
-		<FAQAccordion></FAQAccordion>
+	<div class="flex justify-center items-start mt-20">
+		<div class="w-full max-w-5xl rounded-xl p-6">
+			<h1 class="text-base md:text-3xl font-bold tracking-tight text-gray-600 pb-3">FAQ:</h1>
+			<FAQAccordion></FAQAccordion>
+		</div>
 	</div>
-</div>
+</section>
+
+
+
 
 
 
