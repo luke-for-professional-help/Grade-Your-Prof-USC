@@ -49,7 +49,7 @@
 				type="text"
 				bind:value={query}
 				placeholder="Search"
-				class="w-full bg-transparent py-4 outline-none text-gray-900 placeholder:text-gray-400"
+				class="w-full bg-transparent py-4 text-gray-900 font-noto-sans placeholder:text-gray-400 border-0"
 				autocomplete="off"
 				/>
 				</div>
