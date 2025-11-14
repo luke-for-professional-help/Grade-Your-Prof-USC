@@ -2,12 +2,16 @@
     import { AccordionItem, Accordion } from "flowbite-svelte";
 </script>
   
-<Accordion>
+<Accordion><p class="font-noto-sans">
     <AccordionItem>
       {#snippet header()}How do I get started?{/snippet}
-      <p class="mb-2 text-gray-500 dark:text-gray-400">Simple, you can start as a guest just by searching the professor's name or a subject that you want to view.</p>
-      <p class="mb-2 text-gray-500 dark:text-gray-400">-Searching by prof allows you to see the reviews made by fellow students regarding the professor's teaching style, performance, grading system, etc.</p>
-      <p class="mb-2 text-gray-500 dark:text-gray-400">-Searching by subject code allows you to see the professors that are teaching that subject.</p>
+      <p class="mb-2 text-gray-500 dark:text-gray-400">
+        Simple, you can start as a guest just by searching the professor's name or a subject that you want to view.
+      </p>
+      <ul class="list-disc text-gray-500 dark:text-gray-400 pl-7">
+        <li>Searching by prof allows you to see the reviews made by fellow students regarding the professor's teaching style, performance, grading system, etc.</li>
+        <li>Searching by subject code allows you to see the professors that are teaching that subject.</li>
+      </ul>
     </AccordionItem>
 
     <AccordionItem>
@@ -18,7 +22,7 @@
 
     <AccordionItem>
       {#snippet header()}How do I add my own reviews/professors/subject code?{/snippet}
-      <p class="mb-2 text-gray-500 dark:text-gray-400">Make sure you're signed up first. Then you can proceed to request to add a prof/subject, we will only require a screenshot or copy of your study load in order to verify you are under that professor or currently taking that subject for the term.
+      <p class="mb-2 text-gray-500 dark:text-gray-400">Make sure you're signed up first. Then you can proceed to request to add a professor or subject, we will only require a screenshot or copy of your study load in order to verify you are under that professor or currently taking that subject for the term.
       </p>
     </AccordionItem>
     
@@ -33,4 +37,5 @@
         <p class="mb-2 text-gray-500 dark:text-gray-400">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo ab necessitatibus sint explicabo ...</p>
 
     </AccordionItem>
+    </p>
 </Accordion>

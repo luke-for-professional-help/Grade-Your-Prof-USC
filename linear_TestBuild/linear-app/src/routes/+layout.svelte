@@ -38,7 +38,7 @@
 <Navbar>
 	<NavBrand href="/">
 	  <img src={usc} class="me-3 h-6 shadow-none sm:h-9 logo-img" alt="gyp" />
-	  <span class="self-center text-xl font-semibold whitespace-nowrap text-black logo-text">Grade Your <span class="prof-glow">Prof</span></span>
+	  <span class="self-center text-xl font-semibold whitespace-nowrap text-black logo-text" style="font-family: 'Lato', sans-serif;">Grade Your <span class="prof-glow">Prof</span></span>
 	</NavBrand>
 	<!--CONDITIONAL FOR HANDLING USER LOG IN STATE-->
 	{#if $isLoggedIn}
@@ -48,5 +48,5 @@
 	{/if}
 </Navbar>
 
-<Footer></Footer>
+<Footer />
 {@render children()}

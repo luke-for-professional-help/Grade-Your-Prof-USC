@@ -10,11 +10,11 @@
 <!--LANDING PAGE/SEARCH AREA/FAQs-->
 <section class="relative isolate min-h-[60vh] flex flex-col items-center justify-center px-4 pb-20">
 	<div class="text-center mb-4">
-		<Heading tag="h1" class="mb-4 pb-4 text-4xl md:text-5xl lg:text-6xl" style="font-family: 'Lato', sans-serif;">
+		<Heading tag="h1" class="mb-4 pb-4 text-4xl md:text-5xl lg:text-6xl font-lato">
 			Grade Your <span class="text-orange-500">Prof</span>
 		</Heading>
 			
-		<P class="mb-6 text-lg sm:px-16 lg:text-xl xl:px-48 dark:text-gray-400 text-center">
+		<P class="mb-6 text-lg sm:px-16 lg:text-xl xl:px-48 dark:text-gray-400 text-center font-montserrat">
 		  	Choose the right for your academic journey.
 		</P>
 	</div>
@@ -25,12 +25,10 @@
         	
 			<img src={heroImage} alt="Background" class="w-full h-full object-cover">
 			<div class="absolute inset-0 bg-gray-900/80">
-				<h4 class="flex flex-col items-center justify-center mb-8 text-white
-							text-3xl tracking-tight pt-7
-							">Search to start
+				<h4 class="flex flex-col items-center justify-center mb-8 text-white text-3xl tracking-tight pt-8 font-bold font-noto-sans">
+					Search to start
 				</h4>
-				<p class="flex flex-col items-center mb-8 text-white
-						text-xs tracking-tight pt-7">
+				<p class="flex flex-col items-center mb-8 text-white text-xs tracking-tight pt-17 font-open-sans">
 					Search by professor name or subject code.
 				</p>
 			</div> 
@@ -61,7 +59,9 @@
 	    <!--End of search area-->
 	<div class="flex justify-center items-start mt-20">
 		<div class="w-full max-w-5xl rounded-xl p-6">
-			<h1 class="text-base md:text-3xl font-bold tracking-tight text-gray-600 pb-3">FAQ:</h1>
+			<h1 class="text-base md:text-3xl font-bold tracking-tight text-gray-600 pb-3 font-noto-sans">
+				FAQ:
+			</h1>
 			<FAQAccordion></FAQAccordion>
 		</div>
 	</div>

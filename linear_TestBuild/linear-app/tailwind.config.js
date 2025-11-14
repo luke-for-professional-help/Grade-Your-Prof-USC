@@ -7,8 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'open-sans': ['Open Sans', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Liberation Sans', 'sans-serif'],
-        'lato': ['Lato', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Liberation Sans', 'sans-serif'],
+        'open-sans': ['"Open Sans"', 'system-ui', 'sans-serif'],
+        'lato': ['Lato', 'system-ui', 'sans-serif'],
+        'montserrat': ['Montserrat', 'system-ui', 'sans-serif'],
       },
     },
   },

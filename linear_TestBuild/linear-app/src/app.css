@@ -7,6 +7,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --font-family-open-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-family-lato: Lato, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-family-montserrat: Montserrat, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   
   --color-primary-50: #fff5f2;
   --color-primary-100: #fff1ee;
@@ -35,8 +38,32 @@
 @source "../node_modules/flowbite-svelte-icons/dist";
 
 @layer base {
+  /* Reset default font from Flowbite */
+  :root {
+    --default-font-family: inherit;
+  }
+  
   /* disable chrome cancel button */
   input[type="search"]::-webkit-search-cancel-button {
     display: none;
+  }
+}
+
+/* Ensure font utility classes exist and take precedence if Tailwind utilities aren't generated */
+@layer utilities {
+  .font-open-sans {
+    font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif !important;
+  }
+
+  .font-lato {
+    font-family: 'Lato', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif !important;
+  }
+
+  .font-montserrat {
+    font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif !important;
+  }
+
+  .font-noto-sans {
+    font-family: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif !important;
   }
 }
