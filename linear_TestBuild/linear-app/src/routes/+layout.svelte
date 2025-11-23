@@ -7,7 +7,7 @@
 	import Footer from "$lib/components/footer.svelte";
 	import UserMenu from '$lib/components/UserMenu.svelte';
 	import UserLogin from '$lib/components/UserLogin.svelte';
-	import { isLoggedIn, isMember } from '$lib/stores/user.js';
+	import { isLoggedIn } from '$lib/stores/user.js';
 </script>
 
 <style>
@@ -48,5 +48,4 @@
 	{/if}
 </Navbar>
 
-<Footer />
 {@render children()}

@@ -1,9 +1,8 @@
 <script lang="ts">
     import { Card, Dropdown, DropdownItem, Avatar, Button, Img } from "flowbite-svelte";
-    import { ButtonGroup } from "flowbite-svelte";
     import ProfessorReviewCard from "$lib/components/professor/professorReviewCard.svelte";
     import { Tabs, TabItem   } from "flowbite-svelte";
-	import ProfessorQueryResults from "$lib/components/professor/professorQueryResults.svelte";
+    import { isLoggedIn } from "$lib/stores/user";
 </script>
 
 
@@ -25,7 +24,10 @@ subjectsTaught:
                     <span class="text-sm text-gray-500 dark:text-gray-400">Teaches: CIS1101, CIS1201, CIS2102</span>
                 </div>
                 <div class="mt-4 flex space-x-3 lg:mt-2 rtl:space-x-reverses ml-auto">
-                  <Button>Share</Button>
+                    {#if $isLoggedIn}
+                        <Button href="/createpage">Add Review</Button>
+                    {/if}
+                    <Button>Share</Button> 
                 </div>
             </div>
         </Card>        
