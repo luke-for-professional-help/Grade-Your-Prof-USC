@@ -26,14 +26,10 @@
   }
 </script>
 
-<!--BRINGING BACK THE SEARCH -->
-
 <section class="relative isolate min-h-[30vh] flex flex-col items-center justify-center px-4">
     <div class="relative w-full max-w-3xl mt-14 pt-6 ">
         <div aria-hidden="true" class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-screen h-[30vh] bg-gray-900/40">
         </div> 
-   
-    
     <!--SEARCH INPUT BACKEND PLS COOK THIS ILY GUYS-->
         <form action="/search" method="GET">
             <div class="relative z-10 rounded-full bg-white/90 shadow-lg ring-1 ring-black/10 backdrop-blur">
@@ -69,7 +65,7 @@ subject_id
 <div class="flex justify-center items-start mt-20 pb-20">
 	<div class="w-full max-w-5xl rounded-xl p-6">
         <Card size="xl" class="p-4 text-left sm:p-8 md:p-10">
-            <h1 class="text-base md:text-xl font-bold tracking-tight text-gray-600 pb-3">Results for "QUERY":</h1>
+            <h1 class="text-base md:text-xl font-bold tracking-tight text-gray-600 pb-3">Results for "{query}":</h1>
                 <ProfessorQueryResults />
                 <ProfessorQueryResults />
                 <ProfessorQueryResults />

@@ -14,7 +14,6 @@
     let selectedFiles = $state<FileList | null>(null);
 
     let fileNames = $derived(
-
     selectedFiles
     ? Array.from(selectedFiles)
         .map((file) => file.name)
@@ -38,11 +37,6 @@
                     Select which item to request
                     <Select class="mt-2" items={options} bind:value={clearableSelected} clearable />
                 </Label>
-                {#if }
-
-                {:else}
-
-                {/if}
                 <Label for="textarea-id" class="mb-2">Upload a copy of your study load here</Label>
                 <Fileupload clearable bind:files={selectedFiles} multiple />
                 <Helper color="emerald" class="mt-2">Selected files: {fileNames}</Helper>

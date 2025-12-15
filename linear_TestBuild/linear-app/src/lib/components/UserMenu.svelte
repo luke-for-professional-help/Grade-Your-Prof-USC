@@ -1,6 +1,6 @@
 <script>
 	import { Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownGroup, NavHamburger} from "flowbite-svelte";
-	import { user, isLoggedIn } from '$lib/stores/user.js';
+	import { user, isLoggedIn, isModerator, isAdmin } from '$lib/stores/user.js';
 </script>
 
 <!--USER PROFILE SETTINGS-->
@@ -14,13 +14,23 @@
 <Dropdown placement="bottom" triggeredBy="#avatar-menu">
     <DropdownHeader>
       <!--IMPORTANT: INITIALIZE TO CHANGE USER NAME ONCE LOGGED IN-->
-          <span class="block text-sm">PLACEHOLDER</span>
-          <span class="block truncate text-sm font-medium">name@placeholder.com</span>
+          <span class="block text-sm">{$user.name}</span>
+          <span class="block truncate text-sm font-medium">{$user.email}</span>
         </DropdownHeader>
         <DropdownGroup>
             <DropdownItem>
-                <a href="/reviewmanage">Manage Reviews</a>
+                <a href="/reviewmanage">Manage Your Reviews</a>
             </DropdownItem>
+            {#if $isModerator}
+                <DropdownItem>
+                    <a href="/moderator">Moderator Panel</a>
+                </DropdownItem>
+            {/if}
+            {#if $isAdmin}
+                <DropdownItem>
+                    <a href="/admin">Admin Panel</a>
+                </DropdownItem>
+            {/if}
             <DropdownItem on:click={() => isLoggedIn.set(false)}>
                 Sign Out
             </DropdownItem>
