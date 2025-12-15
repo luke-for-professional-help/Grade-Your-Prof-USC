@@ -21,12 +21,12 @@
                 <h3 class="mb-2">
                    Subject Code: 
                 </h3>
-                <Input />
+                <Input disabled readonly value="SUBJECT CODE PLACEHOLDER"/>
                 <br>
                 <h3 class="mb-2">
                     Subject Name: 
                 </h3>
-                <Input />
+                <Input disabled readonly value="SUBJECT NAME PLACEHOLDER"/>
             </Label>
         </div>
     </Card>

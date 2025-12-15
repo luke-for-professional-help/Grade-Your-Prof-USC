@@ -24,12 +24,12 @@
                 <h3 class="mb-2">
                     Professor Name: 
                 </h3>
-                <Input />
+                <Input disabled readonly value="PROFESSOR'S NAME PLACEHOLDER"/>
                 <br>
                 <h3 class="mb-2">
                     Subjects Taught:
                 </h3>
-                <Input />
+                <Input disabled readonly value="SUBJECTS TAUGHT PLACEHOLDER"/>
             </Label>
         </div>
     </Card>

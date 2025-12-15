@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { user } from "$lib/stores/user";
     import { Button, Card, Modal, Input, Label, Textarea } from "flowbite-svelte";
     
 
@@ -9,17 +10,19 @@
     //professor_name
     //subject_selected //this means which subject is being selected + the professor that the user inputted in the "make review" page
     //
-    let Review_ID = 200089;
-    let Professor_Name = "John Doe";
-    let Subject_Selected = "CIS1101";
+    let reviewId = 200089;
+    let professorName = "John Doe";
+    let subjectSelected = "CIS1101";
+
+    let review: string ="PLACE HODLER REVIEW FOR THIS STUPID ASS BALD ASS PROFESSOR"
 </script>   
 
 <Card class="h-30 max-w-full mb-3 mt-3 sm:p-3 sm:p-5"> 
     <div class="flex flex-row text-justify">
         <div>
-            <h3>Review ID: {Review_ID}</h3>
-            <h3>Professor Name: {Professor_Name}</h3>
-            <h3>Subject Selected: {Subject_Selected}</h3>
+            <h3>Review ID: {reviewId}</h3>
+            <h3>Professor Name: {professorName}</h3>
+            <h3>Subject Selected: {subjectSelected}</h3>
         </div>
         <div class="ml-auto flex-row pt-3.5">
             <Button onclick={() => (formModal = true)}>View</Button>
@@ -38,28 +41,28 @@
             <div class="m-4">
                 <Label>
                     <h3 class="mt-2">
-                        Review ID: {Review_ID}
+                        Review ID: {reviewId}
                     </h3>
                 </Label>
                 <Label>
                     <h3 class="mt-2">
                         Professor Name: 
                     </h3>
-                    <Input />
+                    <Input disabled readonly value="John Pork"/>
                 </Label>
                     <br>
                 <Label>
                     <h3 class="mt-2">
                     Subject Code:
                     </h3>
-                    <Input />
+                    <Input disabled readonly value="CIS1101"/>
                 </Label>        
                     <br>
                 <Label>
                     <h3 class="mt-2">
                         User's review: 
                     </h3>
-                    <Textarea id="textarea-id" placeholder="User's review goes here" rows={4} name="message" class="w-full" />
+                    <Textarea id="textarea-id" placeholder={review} disabled rows={4} name="message" class="w-full" />
                 </Label>
             </div>    
             <div class="ml-4 mt-2 mb-2 ">
