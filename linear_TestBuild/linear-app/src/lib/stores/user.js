@@ -9,4 +9,6 @@ export const user = writable({
 	email: 'placeholder@gmail.com',
 	avatar: ''
 });
+
+
 //THESE ARE PLACEHOLDER VALUES FOR NOW
