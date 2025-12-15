@@ -6,10 +6,11 @@
 <!--EACH CARD DISPLAYS INDIVIDUAL REVIEWS MADE BY STUDENTS
 
 Data{
-review_id:
-user_id:
-professor_id:
-subject_id:
+Review_ID
+User_ID
+Professor_ID
+Subject_ID
+Review //the content of the review
 }
 
 -->
@@ -21,6 +22,7 @@ subject_id:
 
         <Hr />
         <p class="text-md text-gray-500 dark:text-gray-400">
+            <!--This is the field where the review is displayed-->
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
     </div>

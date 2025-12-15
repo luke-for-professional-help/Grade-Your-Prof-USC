@@ -47,6 +47,10 @@
             .join(", ");
     }
 
+
+    //BACKEND!
+    //THIS IS FOR LOADING AVAILABLE SUBS THAT THE USER CAN
+    //INITIALLY SET
     let availableSubjects = [
         { value: "GE-ART", name: "GE-ART" },
         { value: "GE-PC", name: "GE-PC" },

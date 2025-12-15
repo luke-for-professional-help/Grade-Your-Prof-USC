@@ -2,7 +2,7 @@
     import { Label, Card, Input, Button } from "flowbite-svelte";
 
 //VALUES
-    let requestID = 10009;
+    let requestId = 10009;
     let subjectCode = "CIS1101"
     let subejctName = "Programming I"
 </script>
@@ -15,7 +15,7 @@
         <div class="m-3">
             <Label>
                 <h3>
-                    Request ID: {requestID}
+                    Request ID: {requestId}
                 </h3>
                 <br>
                 <h3 class="mb-2">

@@ -3,7 +3,8 @@
     import PopProfessorRequest from "./requestModal/popProfessorRequest.svelte";
     import PopSubjectRequest from "./requestModal/popSubjectRequest.svelte";
     
-    let requestID = 10009;
+    //placeholder values
+    let requestId = 10009;
     let formModal = $state(false);
     let requestType = "Professor"; 
     //THIS VARIABLE SHOULD BE CHANGABLE IN THE BACKEND, when calling this component, 
@@ -13,7 +14,7 @@
 <Card class="h-30 max-w-full p-4 mb-3 mt-3 sm:p-3 md:p-5">
     <div class="flex flex-row text-justify pt-3">
         <div>
-            <h3>ID: {requestID}</h3>
+            <h3>ID: {Request_ID}</h3>
             <h3>Type of request: {requestType}</h3>
         </div>
         <div class="ml-auto flex-row pt-2">

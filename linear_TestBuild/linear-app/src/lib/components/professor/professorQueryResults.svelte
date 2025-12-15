@@ -1,5 +1,8 @@
 <script lang="ts">
     import { Card, Avatar } from "flowbite-svelte";
+    
+    //STORE VARIABLES HERE
+    
 </script>
 
 <a href="/professor-profile">

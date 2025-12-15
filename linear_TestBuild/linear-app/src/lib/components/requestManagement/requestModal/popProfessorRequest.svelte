@@ -2,8 +2,8 @@
     import { Label, Card, Input, Button } from "flowbite-svelte";
 
 //VALUES
-    let requestID = 10009;
-    let profName = "JOHN DOE";
+    let requestId = 10009;
+    let professorName = "JOHN DOE";
     let profilePicture = "FAAAAAAAAAAAAAAAAAA";
 </script>
 

@@ -23,9 +23,6 @@
                     <AdminUserManagement />
                     <AdminUserManagement />
                 </TabItem>
-                <TabItem open title="">
-
-                </TabItem>
             </Tabs>
         </Card>
     </div>

@@ -10,7 +10,7 @@
     //to verify they exist in our database
     //currently these are just placeholder names
     //Professor will also have an ID in the backend so we can link subjects to them
-    const professorNames = [
+    const professorName = [
         "John Pork",
         "Mike Hunt",
         "Sigma Bouy",
@@ -72,7 +72,7 @@
         <form method="POST">
             <div class="text-justify">
                 <Label for="name" class="my-4">Professor Name</Label>
-                <Input data={professorNames} clearable placeholder="Enter professor name here..." />
+                <Input data={professorName} clearable placeholder="Enter professor name here..." />
                 <p class="text-xs">Professor not found? Click <a href="/addProfessor" class="underline text-blue-400">here</a></p>
                 <br>
                 <Label>
@@ -108,11 +108,11 @@
             <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add a subject for this professor</h3>
          <Label class="space-y-2">
             <span>Subject Code</span>
-            <Input type="subject_code" name="subject code" placeholder="GE-PC" required />
+            <Input type="Subject_Code" name="subject code" placeholder="GE-PC" required />
         </Label>
         <Label class="space-y-2">
             <span>Subject Name</span>
-            <Input type="subject_name" name="subject name" placeholder="General Elective - Purposive Communication" required />
+            <Input type="Subject_Name" name="subject name" placeholder="General Elective - Purposive Communication" required />
         </Label>
             <Button type="submit" onclick={popToast} value="request_subject">Submit</Button>
             </div>

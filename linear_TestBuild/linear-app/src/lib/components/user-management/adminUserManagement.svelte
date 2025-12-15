@@ -3,7 +3,7 @@
     import { slide } from "svelte/transition";
     import { CheckCircleSolid, CloseCircleSolid } from "flowbite-svelte-icons";
 
-    let names=[
+    let userNames=[
         "Ian Florentino"
     ]
 
@@ -36,12 +36,16 @@
         toastStatus = false;
     }
 
+    let reviewId = 200089;
+    let professorName = "John Doe";
+    let subjectCode = "CIS1101"; // Changed from "Subject_Selected"
+
 </script>
 
 <Card class="h-30 max-w-full p-4 sm:p-3 md:p-5 mb-3 mt-3">
     <div class="flex flex-row text-justify">
         <div>
-            <h3>Name: {names}</h3>
+            <h3>Name: {userNames}</h3>
             <p class="text-gray-400">Role: Moderator</p>
             <p class="text-gray-400">Date Added: 10/13/2025</p>
         </div>

@@ -9,17 +9,17 @@
     //professor_name
     //subject_selected //this means which subject is being selected + the professor that the user inputted in the "make review" page
     //
-    let reviewID = 200089;
-    let professorName = "John Doe";
-    let subjectSelected = "CIS1101";
+    let Review_ID = 200089;
+    let Professor_Name = "John Doe";
+    let Subject_Selected = "CIS1101";
 </script>   
 
 <Card class="h-30 max-w-full mb-3 mt-3 sm:p-3 sm:p-5"> 
     <div class="flex flex-row text-justify">
         <div>
-            <h3>Review ID: {reviewID}</h3>
-            <h3>Professor Name: {professorName}</h3>
-            <h3>Subject Selected: {subjectSelected}</h3>
+            <h3>Review ID: {Review_ID}</h3>
+            <h3>Professor Name: {Professor_Name}</h3>
+            <h3>Subject Selected: {Subject_Selected}</h3>
         </div>
         <div class="ml-auto flex-row pt-3.5">
             <Button onclick={() => (formModal = true)}>View</Button>
@@ -38,7 +38,7 @@
             <div class="m-4">
                 <Label>
                     <h3 class="mt-2">
-                        Review ID: {reviewID}
+                        Review ID: {Review_ID}
                     </h3>
                 </Label>
                 <Label>
