@@ -6,7 +6,7 @@
 <!--USER PROFILE SETTINGS-->
 
 <div class="flex items-center md:order-2">
-    <Avatar id="avatar-menu" src="$lib/assets/images/user.jpg" />
+    <Avatar id="avatar-menu" src="$lib/assets/images/user.png" />
     <NavHamburger />
 </div>
 
