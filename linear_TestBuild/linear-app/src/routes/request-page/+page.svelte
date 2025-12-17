@@ -1,9 +1,12 @@
 <script lang="ts">
     import { Card, Input, Label, MultiSelect, Button } from "flowbite-svelte";
     import { Tabs, TabItem, Dropzone, Img} from "flowbite-svelte";
+    import RequestSubject from "$lib/components/forms/RequestSubject.svelte";
+
 
     let filesInDropzone: FileList | null = $state(null);
     let imagePreview: string | null = $state(null);
+
 
     function handleOnChange(event: Event) {
         console.log("handleOnChange fired.");
@@ -20,7 +23,7 @@
             imagePreview = null;
         }
     }
-
+//HANDLING FILE DROP
     function handleOnDrop(event: DragEvent) {
         console.log("handleOnDrop fired.");
         event.preventDefault();
@@ -56,7 +59,7 @@
         { value: "GE-PC", name: "GE-PC" },
         { value: "EDM1", name: "EDM1" },
         { value: "MATH1101", name: "MATH1101" },
-        { value: "CIS1101", name: "CIS1101" },
+        { value: "CIS1101", name: "CIS1101" }
     ];
 
     let selectedValues: string[] = [];
@@ -72,7 +75,7 @@
                         <p class="mb-4">If you would like to request the addition of a new professor to our database, please fill out the appropriate form below. We appreciate your input and will review your request as soon as possible.</p>
                         
                         <p class="mb-2">Upload Professor Profile Image.</p>
-                        <Label class="mb-2" for="profileImage">(Only if available)</Label>
+                        <Label class="mb-2" for="profileImage">(Only if available, placeholder image will be placed if image is unavailable)</Label>
 
                         <Dropzone 
                         id="image-dropzone" 
@@ -90,7 +93,7 @@
                                 <span class="font-semibold">Click to upload</span>
                                 or drag and drop
                                 </p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">JPG or PNG(MAX. 300x300px)</p>
                             {:else}
                                 <p class="text-sm text-green-600">{showFiles(filesInDropzone)}</p>
                                 <button class="mt-2 text-sm text-red-500 hover:underline" 
@@ -112,8 +115,13 @@
                         <Input id="professor-name" type="text" placeholder="Enter professor's full name (e.g., John Doe)" required class="mb-4"/>
 
                         <Label class="mb-2" for="subjects">Enter subjects taught (e.g., GE-ART, GE-PC, EDM1)</Label>
-                        <MultiSelect items={availableSubjects} value={selectedValues} size="lg" />
+                        <MultiSelect items={availableSubjects} value={selectedValues} size="lg"  required/>
                         <Button type="submit" class="mt-4">Submit Request</Button>
+                    </div>
+                </TabItem>
+                <TabItem open title="Request a Subject">
+                    <div class="text-justify">
+                        <RequestSubject />
                     </div>
                 </TabItem>
             </Tabs>
