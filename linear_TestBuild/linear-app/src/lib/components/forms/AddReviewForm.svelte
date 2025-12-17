@@ -24,7 +24,8 @@
     ];
 
     //handle subject selection
-    let selected = "";
+    // svelte-ignore non_reactive_update
+        let selected = "";
     //placeholder subjects
     //backend should load the list of subejcts binded to the selected professor's ID
     let subjectCode: { value: string; name: string }[] = [
@@ -73,7 +74,7 @@
             <div class="text-justify">
                 <Label for="name" class="my-4">Professor Name</Label>
                 <Input data={professorName} clearable placeholder="Enter professor name here..." />
-                <p class="text-xs">Professor not found? Click <a href="/addProfessor" class="underline text-blue-400">here</a></p>
+                <p class="text-xs">Professor not found? Click <a href="/request-page" class="underline text-blue-400">here</a></p>
                 <br>
                 <Label>
                     Select a subject to review under this professor.

@@ -70,7 +70,7 @@ subject_id
                 <ProfessorQueryResults />
                 <ProfessorQueryResults />
             <div class="text-center mt-4">
-                <Pageination />
+                <p>Cant find your prof or subject? <a href="/request-page" class="text-blue-600 underline">Click here.</a></p>
             </div>
         </Card>
 	</div>
