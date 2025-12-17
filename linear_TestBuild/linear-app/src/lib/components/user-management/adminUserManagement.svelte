@@ -36,9 +36,8 @@
         toastStatus = false;
     }
 
-    let reviewId = 200089;
-    let professorName = "John Doe";
-    let subjectCode = "CIS1101"; // Changed from "Subject_Selected"
+    let currRole = "Moderator"; // current role to be displayed
+    let date = "10/13/2025"
 
 </script>
 
@@ -46,8 +45,8 @@
     <div class="flex flex-row text-justify">
         <div>
             <h3>Name: {userNames}</h3>
-            <p class="text-gray-400">Role: Moderator</p>
-            <p class="text-gray-400">Date Added: 10/13/2025</p>
+            <p class="text-gray-400">Role: {currRole}</p>
+            <p class="text-gray-400">Date Added: {date}</p>
         </div>
         <div class="ml-auto flex-row">
             <Select items={roles} bind:value={selected} size="md" class="flex mb-1"/>

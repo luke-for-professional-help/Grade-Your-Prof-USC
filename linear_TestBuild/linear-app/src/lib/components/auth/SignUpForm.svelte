@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Input, Label, Button, Checkbox, A } from "flowbite-svelte";
-    import { isLoggedIn, isMember } from '$lib/stores/user.js';
+    import { isLoggedIn } from '$lib/stores/user.js';
 </script>
     <!--NOTE TO BACKEND: THIS IS FOR SIGNING UP-->
     <!--DATA{
