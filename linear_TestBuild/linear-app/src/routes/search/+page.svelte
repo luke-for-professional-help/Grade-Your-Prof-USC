@@ -8,12 +8,13 @@
     import { getSearchResults}  from "$lib/server/dbconnect.js";
     import pool from "$lib/server/dbconnect.js";
 //script for handling user query
-    let results = $state([]);
-    let query = $state("");
+let query = '';
 
-    $effect(() => {
-        results = await getSearchResults(query);
-    });
+async function search() {
+  const response = await fetch(`/search?term=${encodeURIComponent(query)}`);
+  const data = await response.json();
+  console.log(data);
+}
 
 </script>
 
@@ -57,9 +58,7 @@ subject_id
 	<div class="w-full max-w-5xl rounded-xl p-6">
         <Card size="xl" class="p-4 text-left sm:p-8 md:p-10">
             <h1 class="text-base md:text-xl font-bold tracking-tight text-gray-600 pb-3">Results for "{query}":</h1>
-            {#each results as result}
 
-            {/each}
             <div class="text-center mt-4">
                 <p>Cant find your prof or subject? <a href="/request-page" class="text-blue-600 underline">Click here.</a></p>
             </div>
