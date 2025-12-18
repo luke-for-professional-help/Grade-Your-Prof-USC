@@ -4,9 +4,20 @@
     import ReviewDisplayCard from "$lib/components/requestManagement/reviewDisplayCard.svelte";
     import RequestDisplayCard from "$lib/components/requestManagement/requestDisplayCard.svelte";
     import DisplayGuidelines from "$lib/components/requestManagement/displayGuidelines.svelte";
+    import Footer from "$lib/components/footer.svelte";
 
     // Data passed from +page.server.js
     let { data } = $props(); 
+
+    // Svelte 5 Reactive State for filtering
+    let activeFilter = $state('all'); // options: 'all', 'review', 'request'
+
+    // Derived list based on the active filter
+    const filteredHistory = $derived(
+        activeFilter === 'all' 
+            ? data.history 
+            : data.history.filter(item => item.category === activeFilter)
+    );
 </script>
 
 <div class="flex justify-center items-start mt-20">
@@ -31,6 +42,20 @@
                 {:else}
                     <p class="p-4 text-gray-500">No pending requests.</p>
                 {/each}
+            </TabItem>
+
+            <TabItem title="Approval History">
+                <div class="space-y-4">
+                    {#each data.history as item}
+                        {#if item.category === 'review'}
+                            <ReviewDisplayCard review={item} />
+                        {:else}
+                            <RequestDisplayCard requestData={item} />
+                        {/if}
+                    {:else}
+                        <p class="p-4 text-gray-500">No history found.</p>
+                    {/each}
+                </div>
             </TabItem>
 
             <TabItem title="Guidelines">

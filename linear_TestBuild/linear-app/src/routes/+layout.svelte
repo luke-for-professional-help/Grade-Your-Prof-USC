@@ -35,17 +35,26 @@
 	
   
   <!--NAVBAR PERSISTENT UI FOR THE ENTIRE WEBSITE-->
-<Navbar>
-	<NavBrand href="/">
-	  <img src={usc} class="me-3 h-6 shadow-none sm:h-9 logo-img" alt="gyp" />
-	  <span class="self-center text-xl font-semibold whitespace-nowrap text-black logo-text" style="font-family: 'Lato', sans-serif;">Grade Your <span class="prof-glow">Prof</span></span>
-	</NavBrand>
-	<!--CONDITIONAL FOR HANDLING USER LOG IN STATE-->
-	{#if $isLoggedIn}
-		<UserMenu /> <!--FOR BACKEND, PLEASE CHECK /src/lib/components for these component files-->
-	{:else}
-		<UserLogin />
-	{/if}
-</Navbar>
+<div class="flex flex-col min-h-screen">
+    
+    <Navbar>
+        <NavBrand href="/">
+            <img src={usc} class="me-3 h-6 shadow-none sm:h-9 logo-img" alt="gyp" />
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-black logo-text">
+                Grade Your <span class="prof-glow">Prof</span>
+            </span>
+        </NavBrand>
+        {#if $isLoggedIn}
+            <UserMenu /> 
+        {:else}
+            <UserLogin />
+        {/if}
+    </Navbar>
 
-{@render children()}
+    <main class="flex-grow">
+        {@render children?.()}
+    </main>
+
+    <Footer />
+</div>
+

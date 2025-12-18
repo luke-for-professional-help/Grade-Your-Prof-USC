@@ -3,7 +3,7 @@ import pool from '$lib/server/dbconnect';
 export async function load() {
     try {
         // Use the pool to query
-        const [rows] = await pool.query('SELECT * FROM professors');
+        const [rows] = await pool.query('SELECT * FROM professor');
         
         return {
             professors: rows

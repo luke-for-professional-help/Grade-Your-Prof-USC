@@ -1,39 +1,39 @@
 <script lang="ts">
-    import { Label, Card, Input, Button } from "flowbite-svelte";
+    import { Label, Input, Button, Modal } from "flowbite-svelte";
+    import { enhance } from '$app/forms';
 
-//VALUES
-    let requestId = 10009;
-    let subjectCode = "CIS1101"
-    let subejctName = "Programming I"
+    let { requestData, open = $bindable() } = $props();
 </script>
 
-<div class="items-left">
-    <Label class="text-md">
-        <h2>Professor Request</h2>
-    </Label>
-    <Card class="max-w-full mt-2">
-        <div class="m-3">
-            <Label>
-                <h3>
-                    Request ID: {requestId}
-                </h3>
-                <br>
-                <h3 class="mb-2">
-                   Subject Code: 
-                </h3>
-                <Input disabled readonly value="SUBJECT CODE PLACEHOLDER"/>
-                <br>
-                <h3 class="mb-2">
-                    Subject Name: 
-                </h3>
-                <Input disabled readonly value="SUBJECT NAME PLACEHOLDER"/>
-            </Label>
-        </div>
-    </Card>
-    <div class="ml-auto mt-4 mb-2 mr-4">
-        <Button>
-            Post this request
-        </Button>
-    </div>
-</div>
+<Modal title="Subject Request" bind:open size="md">
+    <div class="space-y-4">
+        <p class="text-sm text-gray-500">Request ID: {requestData?.Request_ID}</p>
+        
+        <Label class="space-y-2">
+            <span>Subject Code</span>
+            <Input disabled value={requestData?.subCode || 'No Code'} />
+        </Label>
 
+        <Label class="space-y-2">
+            <span>Subject Name</span>
+            <Input disabled value={requestData?.subName || 'No Name'} />
+        </Label>
+    </div>
+
+    {#snippet footer()}
+        <form method="POST" action="?/moderateRequest" use:enhance class="flex w-full justify-between">
+            <input type="hidden" name="requestId" value={requestData?.Request_ID} />
+            
+            <Button color="red" name="action" value="reject" type="submit">
+                Reject
+            </Button>
+
+            <div class="flex gap-2">
+                <Button color="alternative" onclick={() => (open = false)}>Cancel</Button>
+                <Button color="green" name="action" value="approve" type="submit">
+                    Approve
+                </Button>
+            </div>
+        </form>
+    {/snippet}
+</Modal>

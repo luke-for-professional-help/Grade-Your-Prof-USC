@@ -19,7 +19,7 @@
 	</div>
 	<!-- HERO AREA -->
 	 
-    <div class="relative w-full max-w-3xl mt-14 pt-6 ">
+    <div class="relative w-full max-w-3xl mt-14 pt-20">
 		<div aria-hidden="true" class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-screen h-[30vh] bg-gray-900/40">
         	
 			<img src={heroImage} alt="Background" class="w-full h-full object-cover">
@@ -27,7 +27,7 @@
 				<h4 class="flex flex-col items-center justify-center mb-8 text-white text-3xl tracking-tight pt-8 font-bold font-noto-sans">
 					Search to start
 				</h4>
-				<p class="flex flex-col items-center mb-8 text-white text-xs tracking-tight pt-17 font-open-sans">
+				<p class="flex flex-col items-center mb-8 text-white text-xs tracking-tight pt-5 font-open-sans">
 					Search by professor name or subject code.
 				</p>
 			</div> 
@@ -65,8 +65,6 @@
 		</div>
 	</div>
 </section>
-
-<Footer />
 
 
 

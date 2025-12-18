@@ -1,52 +1,76 @@
-<script lang="ts">
-    import { Card, Label, Button, Modal } from "flowbite-svelte";
+<script>
+    import { Card, Button, Badge } from "flowbite-svelte";
     import PopProfessorRequest from "./requestModal/popProfessorRequest.svelte";
     import PopSubjectRequest from "./requestModal/popSubjectRequest.svelte";
-    
-    //placeholder values
-    let requestId = 10009;
-    let formModal = $state(false);
-    let requestType = "Professor"; 
-    //THIS VARIABLE SHOULD BE CHANGABLE IN THE BACKEND, when calling this component, 
-    //the ID of this request component should be binded to the type of request. 
+
+    let { requestData } = $props();
+    let showModal = $state(false);
+
+    const statusMap = {
+        1: { text: 'Pending', color: 'yellow' },
+        2: { text: 'Approved', color: 'green' },
+        3: { text: 'Rejected', color: 'red' }
+    };
+
+    const currentStatus = $derived(statusMap[requestData.Status_ID] || { text: 'Unknown', color: 'dark' });
+
+    // Logic to determine if it's a dual request
+    const isDual = $derived(requestData.profName && requestData.subName);
+    const displayTag = $derived(isDual ? 'Reassignment' : requestData.requestType);
 </script>
 
-<Card class="h-30 max-w-full p-4 mb-3 mt-3 sm:p-3 md:p-5">
-    <div class="flex flex-row text-justify pt-3">
-        <div>
-            <h3>ID: {requestId}</h3>
-            <h3>Type of request: {requestType}</h3>
+<Card class="mb-4 relative p-4 max-w-5xl">
+    <div class="absolute top-4 right-4">
+        <Badge color={currentStatus.color} class="px-4 py-1 text-xs font-bold uppercase shadow-sm">
+            {currentStatus.text}
+        </Badge>
+    </div>
+
+    <div class="flex items-center justify-between gap-4 mt-2">
+        <div class="flex-grow space-y-2">
+            <span class="text-[10px] font-bold tracking-widest bg-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase">
+                {displayTag}
+            </span>
+            
+            <div class="pt-1">
+                <h3 class="text-xl font-extrabold leading-tight text-gray-900">
+                    Request for {isDual ? 'Reassignment' : (requestData.requestType === 'subject' ? 'Subject' : 'Professor')}
+                </h3>
+                
+                <div class="mt-1">
+                    {#if requestData.profName}
+                        <h4 class="text-lg font-bold text-gray-800">
+                            Professor: {requestData.profName}
+                        </h4>
+                    {/if}
+                    {#if requestData.subName}
+                        <h4 class="text-md font-medium text-gray-600">
+                            Course: {requestData.subCode} - {requestData.subName}
+                        </h4>
+                    {/if}
+                </div>
+            </div>
+
+            <p class="text-sm text-gray-500 pt-1">
+                Submitted by <span class="font-semibold text-gray-700">{requestData.Username}</span>
+            </p>
         </div>
-        <div class="ml-auto flex-row pt-2">
-            <Button  class="pl-auto" onclick={() => (formModal = true)}>View Item</Button>
+
+        <div class="flex-shrink-0">
+            <Button 
+                class="bg-[#E64A19] hover:bg-[#D84315] text-white font-bold py-4 px-6 rounded-lg text-center leading-tight"
+                onclick={() => (showModal = true)}
+            >
+                View Details
+            </Button>
         </div>
     </div>
 </Card>
 
-{#if formModal == true}
-<div class="text-justify">
-    <Modal form bind:open={formModal} size="sm">
-        {#if requestType=="Professor"}
-            <PopProfessorRequest />
-        {:else}
-            <PopSubjectRequest />
-        {/if}
-    </Modal>
-</div>
-    
+{#if showModal}
+    {#if requestData.requestType === 'professor' || isDual}
+        <PopProfessorRequest {requestData} bind:open={showModal} />
+    {:else if requestData.requestType === 'subject'}
+        <PopSubjectRequest {requestData} bind:open={showModal} />
+    {/if}
 {/if}
-
-
-<!--WTF
-SEPERATE COMPONENTS TO DISPLAY THE SUBEJCT AND PROF MODAL
-
-BECAUSE subejct field requires
-Request ID
-Subject Code
-Subejct Name
-
-While professor field requires
-Request ID
-Professor Name
-Professor Profile Pic
--->
