@@ -95,3 +95,10 @@ export async function getSearchResults(searchInput){
     `, [searchInput], [searchInput], [searchInput]);
     return results;
 }
+
+export async function getAllReviews() {
+	const [reviews] = await pool.query(`SELECT * FROM review`);
+	if (!reviews) error(404);
+	console.log(reviews);
+	return reviews;
+}

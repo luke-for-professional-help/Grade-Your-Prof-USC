@@ -3,6 +3,8 @@
     import ProfessorReviewCard from "$lib/components/professor/professorReviewCard.svelte";
     import { Tabs, TabItem   } from "flowbite-svelte";
     import { isLoggedIn } from "$lib/stores/user";
+    let {data} = $props();
+    console.log(data.teacher[0]);
 </script>
 
 
@@ -20,8 +22,8 @@ subjectsTaught:
             <div class="flex flex-row items-center m-5">
                 <Img src="/images/examples/image-2@2x.jpg" alt="sample 1" class="max-w-xl shadow-xl dark:shadow-gray-800" />
                 <div class="flex flex-col ml-5">
-                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">John Doe</h5>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Teaches: CIS1101, CIS1201, CIS2102</span>
+                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{data.teacher[0].Professor_Name}</h5>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Teaches: {data.teacher.map(t => t.Subject_Code).join(', ')}</span>
                 </div>
                 <div class="mt-4 flex space-x-3 lg:mt-2 rtl:space-x-reverses ml-auto">
                     {#if $isLoggedIn}
@@ -49,25 +51,19 @@ user_id
 <div class="flex justify-center items-start mt-5 pb-20">
     <div class="w-full max-w-5xl rounded-xl p-6">
         <Tabs tabStyle="underline">
-            <TabItem open title="All">
-                <ProfessorReviewCard />
-                <ProfessorReviewCard />
-            </TabItem>
-            <TabItem open title="CIS1101">
-                <ProfessorReviewCard />
-                <ProfessorReviewCard />
-                <ProfessorReviewCard />
-                <ProfessorReviewCard />
-            </TabItem>
-            <TabItem open title="CIS1201">
-                <ProfessorReviewCard />
-                <ProfessorReviewCard />
-            </TabItem>
-            <TabItem open title="CIS2102">
-                <ProfessorReviewCard />
-                <ProfessorReviewCard />
-                <ProfessorReviewCard />
-            </TabItem>
+                <TabItem open title="All">
+                    {#each data.reviews as review}
+                        <ProfessorReviewCard />
+                    {/each}
+                </TabItem>
+
+            {#each data.teacher as teacher}
+                <TabItem open title={teacher.Subject_Code}>
+                    {#each data.reviews as review}
+                        <ProfessorReviewCard data=review />
+                    {/each}
+                </TabItem>
+            {/each}
         </Tabs>
     </div>
 </div>

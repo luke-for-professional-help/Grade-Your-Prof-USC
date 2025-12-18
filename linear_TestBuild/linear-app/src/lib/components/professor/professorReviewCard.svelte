@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Card } from "flowbite-svelte";
     import { Hr } from "flowbite-svelte";
+    let {data} = $props();
 </script>
 
 <!--EACH CARD DISPLAYS INDIVIDUAL REVIEWS MADE BY STUDENTS
@@ -23,7 +24,8 @@ Review //the content of the review
         <Hr />
         <p class="text-md text-gray-500 dark:text-gray-400">
             <!--This is the field where the review is displayed-->
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. -->
+            {data.Description}
         </p>
     </div>
     
