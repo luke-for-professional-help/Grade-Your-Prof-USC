@@ -1,19 +1,18 @@
 import { writable } from 'svelte/store';
 
 export const isLoggedIn = writable(true); //regular member
-export const isModerator = writable(true); //can manage user generated reviews
-export const isAdmin = writable(true); //can manage user roles and site settings
+export const isModerator = writable(false); //can manage user generated reviews
+export const isAdmin = writable(false); //can manage user roles and site settings
 
 export const user = writable({
-	User_ID: null,
-	Username: '',
-	Email:'',
+	userId: null,
+	userName: '',
+	userEmail: '',
 	userAvatar: '',
 	role: 'user'
 });
 
 //THESE ARE PLACEHOLDER VALUES FOR NOW
-
 
 export function setUser(userData) {
 	user.set({
@@ -24,13 +23,12 @@ export function setUser(userData) {
 		role: userData.role || 'user'
 	});
 
-
 	isLoggedIn.set(true);
 	isModerator.set(userData.role === 'moderator' || userData.role === 'admin');
 	isAdmin.set(userData.role === 'admin');
 }
 
-export function clearUser(){
+export function clearUser() {
 	user.set({
 		User_ID: null,
 		Username: '',

@@ -53,7 +53,7 @@ user_id
         <Tabs tabStyle="underline">
                 <TabItem open title="All">
                     {#each data.reviews as review}
-                        <ProfessorReviewCard />
+                        <ProfessorReviewCard data=review/>
                     {/each}
                 </TabItem>
 
