@@ -39,3 +39,25 @@ export async function addAccount(username, email, password) {
 	);
 	return acc;
 }
+
+export async function getTeacherWithSubs() {
+	const id = 1;
+	const [teacher] = await pool.query(
+		`SELECT
+    p.Prof_ID,
+    p.Professor_Name,
+    p.Professor_img,
+    s.Subject_ID,
+    s.Subject_Code,
+    s.Subject_Name
+    FROM Professor p
+    INNER JOIN ProfessorInfo pi ON p.Prof_ID = pi.Prof_ID
+    INNER JOIN Request r ON pi.Request_ID = r.Request_ID AND r.Status_ID = 2
+    INNER JOIN SubjectInfo si ON r.Request_ID = si.Request_ID
+    INNER JOIN Subject s ON si.Subject_ID = s.Subject_ID
+    WHERE p.Prof_ID = ?
+    ORDER BY s.Subject_Code;`,
+		[id]
+	);
+	return teacher;
+}
