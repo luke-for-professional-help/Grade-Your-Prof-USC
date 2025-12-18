@@ -93,6 +93,7 @@ export async function getSearchResults(searchInput){
             ORDER BY
                 p.Professor_Name;
     `, [searchInput], [searchInput], [searchInput]);
+    console.log(results[0]);
     return results;
 }
 
