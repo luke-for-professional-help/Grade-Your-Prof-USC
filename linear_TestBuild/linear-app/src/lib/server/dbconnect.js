@@ -44,10 +44,10 @@ export async function getTeacherWithSubs() {
 	const id = 1;
 	const [teacher] = await pool.query(
 		`SELECT
-    p.Prof_ID,            -- Included Professor ID
+    p.Prof_ID,
     p.Professor_Name,
     p.Professor_img,
-    s.Subject_ID,         -- Included Subject ID
+    s.Subject_ID,
     s.Subject_Code,
     s.Subject_Name
     FROM Professor p
