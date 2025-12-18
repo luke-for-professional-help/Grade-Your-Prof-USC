@@ -33,7 +33,7 @@ async function search() {
                     <label for="hero-search" class="sr-only">Search</label>
                 <input
                 id="hero-search"
-                name="q"
+                name="term"
                 type="text"
                 bind:value={query}
                 placeholder="Search"
