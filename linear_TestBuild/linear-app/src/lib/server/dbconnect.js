@@ -66,7 +66,7 @@ export async function getSearchResults(searchInput) {
 	const [results] = await pool.query(
 		`
         SELECT
-            p.Professor_ID,
+            p.Prof_ID,
             p.Professor_Name,
             p.Professor_img,
             GROUP_CONCAT(
@@ -94,8 +94,7 @@ export async function getSearchResults(searchInput) {
             ORDER BY
                 p.Professor_Name;
     `,
-		[searchInput],
-		[searchInput]
+		[searchInput, searchInput]
 	);
 	return results;
 }
