@@ -5,16 +5,17 @@
     import { Card } from "flowbite-svelte";
     import ProfessorQueryResults from '$lib/components/professor/professorQueryResults.svelte';
 	import Footer from "$lib/components/footer.svelte";
-    import { getSearchResults}  from "$lib/server/dbconnect.js";
-    import pool from "$lib/server/dbconnect.js";
+
 //script for handling user query
 let query = '';
 
-async function search() {
-  const response = await fetch(`/search?term=${encodeURIComponent(query)}`);
-  const data = await response.json();
-  console.log(data);
-}
+// async function search() {
+//   const response = await fetch(`/search?term=${encodeURIComponent(query)}`);
+//   const data = await response.json();
+//   console.log(data);
+// }
+
+let {data} = $props();
 
 </script>
 
