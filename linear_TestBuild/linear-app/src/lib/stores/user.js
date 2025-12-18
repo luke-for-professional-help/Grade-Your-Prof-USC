@@ -20,9 +20,9 @@ export function setUser(userData) {
 		userId: userData.userId,
 		userName: userData.userName,
 		userEmail: userData.userEmail,
-		userAvatar: userData.userAvatar || ''
-		role: userData.role || 'user';
-	})
+		userAvatar: userData.userAvatar || '',
+		role: userData.role || 'user'
+	});
 
 	isLoggedIn.set(true);
 	isModerator.set(userData.role === 'moderator' || userData.role === 'admin');
@@ -32,7 +32,7 @@ export function setUser(userData) {
 export function clearUser(){
 	user.set({
 		userId: null,
-		userName: '';
+		userName: '',
 		userEmail: '',
 		userAvatar: '',
 		role: 'user'
