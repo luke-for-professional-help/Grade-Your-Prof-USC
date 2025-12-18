@@ -22,11 +22,7 @@ export function setUser(userData) {
 		userEmail: userData.userEmail,
 		userAvatar: userData.userAvatar || '',
 		role: userData.role || 'user'
-<<<<<<< HEAD
-	})
-=======
 	});
->>>>>>> d6306f719db7f4630313d8f14cb3e26818a5328f
 
 	isLoggedIn.set(true);
 	isModerator.set(userData.role === 'moderator' || userData.role === 'admin');

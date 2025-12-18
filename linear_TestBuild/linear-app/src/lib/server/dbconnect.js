@@ -61,3 +61,37 @@ export async function getTeacherWithSubs() {
 	);
 	return teacher;
 }
+
+export async function getSearchResults(searchInput){
+    const [results] = await pool.query(`
+        SELECT
+            p.Professor_Name,
+            p.Professor_img,
+            GROUP_CONCAT(
+                DISTINCT CONCAT(s.Subject_Code, ' - ', s.Subject_Name)
+                ORDER BY s.Subject_Code
+                SEPARATOR ', '
+            ) AS Subjects
+            FROM Professor p
+            INNER JOIN ProfessorInfo pi
+                ON p.Prof_ID = pi.Prof_ID
+            INNER JOIN Request r
+                ON pi.Request_ID = r.Request_ID
+                AND r.Status_ID = 2
+            INNER JOIN SubjectInfo si
+                ON r.Request_ID = si.Request_ID
+            INNER JOIN Subject s
+                ON si.Subject_ID = s.Subject_ID
+            GROUP BY
+                p.Prof_ID,
+                p.Professor_Name,
+                p.Professor_img
+            HAVING
+                p.Professor_Name LIKE CONCAT('%', ?, '%')
+                OR GROUP_CONCAT(DISTINCT s.Subject_Code) LIKE CONCAT('%', ?, '%')
+                OR GROUP_CONCAT(DISTINCT s.Subject_Name) LIKE CONCAT('%', ?, '%')
+            ORDER BY
+                p.Professor_Name;
+    `, [searchInput], [searchInput], [searchInput]);
+    return results;
+}
