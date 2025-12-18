@@ -5,24 +5,16 @@
     import { Card } from "flowbite-svelte";
     import ProfessorQueryResults from '$lib/components/professor/professorQueryResults.svelte';
 	import Footer from "$lib/components/footer.svelte";
+    import { getSearchResults}  from "$lib/server/dbconnect.js";
+    import pool from "$lib/server/dbconnect.js";
 //script for handling user query
-    let results = [];
-    let query = "";
+    let results = $state([]);
+    let query = $state("");
 
-    $: query = $page.url.searchParams.get('q') || "";
+    $effect(() => {
+        results = await getSearchResults(query);
+    });
 
-    $: if (query) {
-        fetchResults();
-    }
-
-    async function fetchResults() {
-        try {
-            const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-            results = await res.json();
-        } catch(err) {
-            console.error("Error fetching search results", err);
-        }   
-  }
 </script>
 
 <section class="relative isolate min-h-[30vh] flex flex-col items-center justify-center px-4">
@@ -65,9 +57,9 @@ subject_id
 	<div class="w-full max-w-5xl rounded-xl p-6">
         <Card size="xl" class="p-4 text-left sm:p-8 md:p-10">
             <h1 class="text-base md:text-xl font-bold tracking-tight text-gray-600 pb-3">Results for "{query}":</h1>
-                <ProfessorQueryResults />
-                <ProfessorQueryResults />
-                <ProfessorQueryResults />
+            {#each results as result}
+
+            {/each}
             <div class="text-center mt-4">
                 <p>Cant find your prof or subject? <a href="/request-page" class="text-blue-600 underline">Click here.</a></p>
             </div>

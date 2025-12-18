@@ -2,7 +2,7 @@
     import { Card, Avatar } from "flowbite-svelte";
     
     //STORE VARIABLES HERE
-    
+    let { profResult } = $props();
 </script>
 
 <a href="/professor-profile">
