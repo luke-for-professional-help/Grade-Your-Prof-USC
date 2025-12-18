@@ -4,8 +4,8 @@
     import { goto } from '$app/navigation';
     import AdminUserManagement from "$lib/components/user-management/adminUserManagement.svelte";
 
+    
     let { data } = $props();
-
     function goToPage(p: number) {
         const url = new URL(window.location.href);
         url.searchParams.set('page', p.toString());
