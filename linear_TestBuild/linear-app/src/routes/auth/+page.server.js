@@ -29,8 +29,8 @@ export const actions = {
 		cookies.set('userId', user.userId.toString(), {
 			path: '/',
 			httpOnly: true,
-			secure: true
-			sameSite: 'strict'
+			secure: true,
+			sameSite: 'strict',
 		});
 
 		return { 

@@ -44,7 +44,7 @@
                         </h4>
                     {/if}
                     {#if requestData.subName}
-                        <h4 class="text-md font-medium text-gray-600">
+                        <h4 class="text-lg font-medium text-gray-600">
                             Course: {requestData.subCode} - {requestData.subName}
                         </h4>
                     {/if}

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 17, 2025 at 09:04 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.1.17
+-- Host: 127.0.0.1
+-- Generation Time: Dec 18, 2025 at 11:32 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,45 +24,69 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Professor`
+-- Table structure for table `professor`
 --
 
-CREATE TABLE `Professor` (
+CREATE TABLE `professor` (
   `Prof_ID` int(11) NOT NULL,
   `Professor_Name` varchar(100) NOT NULL,
   `Professor_img` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `professor`
+--
+
+INSERT INTO `professor` (`Prof_ID`, `Professor_Name`, `Professor_img`) VALUES
+(1, 'Christine Peña', 'null');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ProfessorInfo`
+-- Table structure for table `professorinfo`
 --
 
-CREATE TABLE `ProfessorInfo` (
+CREATE TABLE `professorinfo` (
   `Request_ID` int(11) NOT NULL,
   `Prof_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `professorinfo`
+--
+
+INSERT INTO `professorinfo` (`Request_ID`, `Prof_ID`) VALUES
+(2, 1),
+(3, 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Request`
+-- Table structure for table `request`
 --
 
-CREATE TABLE `Request` (
+CREATE TABLE `request` (
   `Request_ID` int(11) NOT NULL,
   `User_ID` int(11) NOT NULL,
   `Status_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `request`
+--
+
+INSERT INTO `request` (`Request_ID`, `User_ID`, `Status_ID`) VALUES
+(1, 1, 1),
+(2, 1, 1),
+(3, 1, 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Review`
+-- Table structure for table `review`
 --
 
-CREATE TABLE `Review` (
+CREATE TABLE `review` (
   `Review_ID` int(11) NOT NULL,
   `User_ID` int(11) NOT NULL,
   `Prof_ID` int(11) NOT NULL,
@@ -72,22 +96,29 @@ CREATE TABLE `Review` (
   `Status_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`Review_ID`, `User_ID`, `Prof_ID`, `Subject_ID`, `Date`, `Description`, `Status_ID`) VALUES
+(1, 1, 1, 1, '2025-01-01', 'Test lorem ipsum', 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Status`
+-- Table structure for table `status`
 --
 
-CREATE TABLE `Status` (
+CREATE TABLE `status` (
   `Status_ID` int(11) NOT NULL,
   `Status_Name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Status`
+-- Dumping data for table `status`
 --
 
-INSERT INTO `Status` (`Status_ID`, `Status_Name`) VALUES
+INSERT INTO `status` (`Status_ID`, `Status_Name`) VALUES
 (1, 'Pending'),
 (2, 'Approved'),
 (3, 'Rejected');
@@ -95,71 +126,93 @@ INSERT INTO `Status` (`Status_ID`, `Status_Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Subject`
+-- Table structure for table `subject`
 --
 
-CREATE TABLE `Subject` (
+CREATE TABLE `subject` (
   `Subject_ID` int(11) NOT NULL,
   `Subject_Code` varchar(20) NOT NULL,
   `Subject_Name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `subject`
+--
+
+INSERT INTO `subject` (`Subject_ID`, `Subject_Code`, `Subject_Name`) VALUES
+(1, 'CIS 1101', 'Programming 1');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `SubjectInfo`
+-- Table structure for table `subjectinfo`
 --
 
-CREATE TABLE `SubjectInfo` (
+CREATE TABLE `subjectinfo` (
   `Request_ID` int(11) NOT NULL,
   `Subject_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `subjectinfo`
+--
+
+INSERT INTO `subjectinfo` (`Request_ID`, `Subject_ID`) VALUES
+(1, 1),
+(3, 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `User`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `User` (
+CREATE TABLE `user` (
   `User_ID` int(11) NOT NULL,
-  `Email` varchar(255) NOT NULL UNIQUE,
+  `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `isModerator` tinyint(1) DEFAULT 0,
   `isAdmin` tinyint(1) DEFAULT 0,
   `Status_ID` int(11) DEFAULT NULL,
-  `Username` varchar(30) NOT NULL UNIQUE
+  `Username` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`User_ID`, `Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES
+(1, 'admin123@example.com', 'admin123', 1, 1, 2, 'Admin');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `Professor`
+-- Indexes for table `professor`
 --
-ALTER TABLE `Professor`
+ALTER TABLE `professor`
   ADD PRIMARY KEY (`Prof_ID`);
 
 --
--- Indexes for table `ProfessorInfo`
+-- Indexes for table `professorinfo`
 --
-ALTER TABLE `ProfessorInfo`
+ALTER TABLE `professorinfo`
   ADD PRIMARY KEY (`Request_ID`,`Prof_ID`),
   ADD KEY `Prof_ID` (`Prof_ID`);
 
 --
--- Indexes for table `Request`
+-- Indexes for table `request`
 --
-ALTER TABLE `Request`
+ALTER TABLE `request`
   ADD PRIMARY KEY (`Request_ID`),
   ADD KEY `User_ID` (`User_ID`),
   ADD KEY `Status_ID` (`Status_ID`);
 
 --
--- Indexes for table `Review`
+-- Indexes for table `review`
 --
-ALTER TABLE `Review`
+ALTER TABLE `review`
   ADD PRIMARY KEY (`Review_ID`),
   ADD KEY `User_ID` (`User_ID`),
   ADD KEY `Prof_ID` (`Prof_ID`),
@@ -167,28 +220,28 @@ ALTER TABLE `Review`
   ADD KEY `Status_ID` (`Status_ID`);
 
 --
--- Indexes for table `Status`
+-- Indexes for table `status`
 --
-ALTER TABLE `Status`
+ALTER TABLE `status`
   ADD PRIMARY KEY (`Status_ID`);
 
 --
--- Indexes for table `Subject`
+-- Indexes for table `subject`
 --
-ALTER TABLE `Subject`
+ALTER TABLE `subject`
   ADD PRIMARY KEY (`Subject_ID`);
 
 --
--- Indexes for table `SubjectInfo`
+-- Indexes for table `subjectinfo`
 --
-ALTER TABLE `SubjectInfo`
+ALTER TABLE `subjectinfo`
   ADD PRIMARY KEY (`Request_ID`,`Subject_ID`),
   ADD KEY `Subject_ID` (`Subject_ID`);
 
 --
--- Indexes for table `User`
+-- Indexes for table `user`
 --
-ALTER TABLE `User`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`User_ID`),
   ADD UNIQUE KEY `Email` (`Email`),
   ADD KEY `Status_ID` (`Status_ID`);
@@ -198,84 +251,84 @@ ALTER TABLE `User`
 --
 
 --
--- AUTO_INCREMENT for table `Professor`
+-- AUTO_INCREMENT for table `professor`
 --
-ALTER TABLE `Professor`
-  MODIFY `Prof_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `professor`
+  MODIFY `Prof_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `Request`
+-- AUTO_INCREMENT for table `request`
 --
-ALTER TABLE `Request`
-  MODIFY `Request_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `request`
+  MODIFY `Request_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `Review`
+-- AUTO_INCREMENT for table `review`
 --
-ALTER TABLE `Review`
-  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `review`
+  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `Status`
+-- AUTO_INCREMENT for table `status`
 --
-ALTER TABLE `Status`
+ALTER TABLE `status`
   MODIFY `Status_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `Subject`
+-- AUTO_INCREMENT for table `subject`
 --
-ALTER TABLE `Subject`
-  MODIFY `Subject_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `subject`
+  MODIFY `Subject_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `User`
+-- AUTO_INCREMENT for table `user`
 --
-ALTER TABLE `User`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `user`
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `ProfessorInfo`
+-- Constraints for table `professorinfo`
 --
-ALTER TABLE `ProfessorInfo`
-  ADD CONSTRAINT `professorinfo_ibfk_1` FOREIGN KEY (`Request_ID`) REFERENCES `Request` (`Request_ID`),
-  ADD CONSTRAINT `professorinfo_ibfk_2` FOREIGN KEY (`Prof_ID`) REFERENCES `Professor` (`Prof_ID`);
+ALTER TABLE `professorinfo`
+  ADD CONSTRAINT `professorinfo_ibfk_1` FOREIGN KEY (`Request_ID`) REFERENCES `request` (`Request_ID`),
+  ADD CONSTRAINT `professorinfo_ibfk_2` FOREIGN KEY (`Prof_ID`) REFERENCES `professor` (`Prof_ID`);
 
 --
--- Constraints for table `Request`
+-- Constraints for table `request`
 --
-ALTER TABLE `Request`
-  ADD CONSTRAINT `request_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `User` (`User_ID`),
-  ADD CONSTRAINT `request_ibfk_2` FOREIGN KEY (`Status_ID`) REFERENCES `Status` (`Status_ID`);
+ALTER TABLE `request`
+  ADD CONSTRAINT `request_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`),
+  ADD CONSTRAINT `request_ibfk_2` FOREIGN KEY (`Status_ID`) REFERENCES `status` (`Status_ID`);
 
 --
--- Constraints for table `Review`
+-- Constraints for table `review`
 --
-ALTER TABLE `Review`
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `User` (`User_ID`),
-  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`Prof_ID`) REFERENCES `Professor` (`Prof_ID`),
-  ADD CONSTRAINT `review_ibfk_3` FOREIGN KEY (`Subject_ID`) REFERENCES `Subject` (`Subject_ID`),
-  ADD CONSTRAINT `review_ibfk_4` FOREIGN KEY (`Status_ID`) REFERENCES `Status` (`Status_ID`);
+ALTER TABLE `review`
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`),
+  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`Prof_ID`) REFERENCES `professor` (`Prof_ID`),
+  ADD CONSTRAINT `review_ibfk_3` FOREIGN KEY (`Subject_ID`) REFERENCES `subject` (`Subject_ID`),
+  ADD CONSTRAINT `review_ibfk_4` FOREIGN KEY (`Status_ID`) REFERENCES `status` (`Status_ID`);
 
 --
--- Constraints for table `SubjectInfo`
+-- Constraints for table `subjectinfo`
 --
-ALTER TABLE `SubjectInfo`
-  ADD CONSTRAINT `subjectinfo_ibfk_1` FOREIGN KEY (`Request_ID`) REFERENCES `Request` (`Request_ID`),
-  ADD CONSTRAINT `subjectinfo_ibfk_2` FOREIGN KEY (`Subject_ID`) REFERENCES `Subject` (`Subject_ID`);
+ALTER TABLE `subjectinfo`
+  ADD CONSTRAINT `subjectinfo_ibfk_1` FOREIGN KEY (`Request_ID`) REFERENCES `request` (`Request_ID`),
+  ADD CONSTRAINT `subjectinfo_ibfk_2` FOREIGN KEY (`Subject_ID`) REFERENCES `subject` (`Subject_ID`);
 
 --
--- Constraints for table `User`
+-- Constraints for table `user`
 --
-ALTER TABLE `User`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`Status_ID`) REFERENCES `Status` (`Status_ID`);
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`Status_ID`) REFERENCES `status` (`Status_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
---heres the whole thing btw to make the db
+-- phpMyAdmin SQL Dump
+-- version 5.2.1  
