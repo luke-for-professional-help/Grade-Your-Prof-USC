@@ -16,6 +16,7 @@ let query = $state("");
 // }
 
 let {data} = $props();
+console.log(data);
 
 </script>
 
