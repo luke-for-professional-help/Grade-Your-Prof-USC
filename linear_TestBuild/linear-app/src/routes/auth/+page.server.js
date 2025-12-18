@@ -16,18 +16,32 @@ export const actions = {
 		const formData = await request.formData();
 		const username = formData.get('user_name');
 		const password = formData.get('pass');
-		if (!username || !password) throw new error('Fields must be complete');
-		const user = await loginAccount(username, password);
-		if (user) {
-			console.log('sheeshh signup works');
-			isLoggedIn.set(true);
-		} else {
-			console.log('mehn it dont work');
+		if (!username || !password) {
+			throw new error(400, 'Fields must be complete');
 		}
-		console.log(user);
-		cookies.set('User_ID', user.User_ID, { path: '/' });
 
-		return { success: true };
+		const user = await loginAccount(username, password);
+
+		if(!user){
+			throw error(401, 'Invalid username or password!');
+		}
+	
+		cookies.set('userId', user.userId.toString(), {
+			path: '/',
+			httpOnly: true,
+			secure: true
+			sameSite: 'strict'
+		});
+
+		return { 
+			success: true,
+			user: {
+				userId: user.userId, 
+				userName: user.userName,
+				userEmail: user.userEmail,
+				role: user.role
+			}
+		};
 	},
 
 	signup: async ({ request }) => {
@@ -35,9 +49,29 @@ export const actions = {
 		const username = formData.get('user_name');
 		const email = formData.get('email');
 		const password = formData.get('pass');
-		console.log('Account to be added: ', username, email, password);
-		if (!email || !password || !username) throw new error('Fields must be complete');
-		await addAccount(username, email, password);
-		return { success: true };
+		
+		if(!email || !password || !username ){
+			throw error(400, 'All fields must be complete!');
+		}
+
+		if(password !== confirmPassword){
+			throw error(400, 'Passwords do not match');
+		}
+
+		try {
+			const newUser = await addAccount(username, email, password);
+
+			return {
+				success: true,
+				messahe: 'Account created successfully!',
+				user: {
+					userId: newUser.userId,
+					userName: newUser.userName,
+					userEmail: newUser.userEmail
+				}
+			};
+		} catch (err){
+			throw error(400, 'Failed to create account!');
+		}
 	}
 };
