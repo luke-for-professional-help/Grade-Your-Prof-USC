@@ -113,9 +113,7 @@
                         <br>
                         <Label class="mb-2" for="professor-name">Professor Name </Label>
                         <Input id="professor-name" type="text" placeholder="Enter professor's full name (e.g., John Doe)" required class="mb-4"/>
-
-                        <Label class="mb-2" for="subjects">Enter subjects taught (e.g., GE-ART, GE-PC, EDM1)</Label>
-                        <MultiSelect items={availableSubjects} value={selectedValues} size="lg"  required/>
+                        
                         <Button type="submit" class="mt-4">Submit Request</Button>
                     </div>
                 </TabItem>
