@@ -88,8 +88,7 @@
       <Input type="password" 
             id="confirm_password" 
             name="confirmPassword"
-            placeholder="•••••••••" 
-            name="confirm_password"
+            placeholder="•••••••••"
             required 
             disabled={loading}
       />  

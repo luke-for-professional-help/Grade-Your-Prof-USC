@@ -28,10 +28,12 @@
         let selected = "";
     //placeholder subjects
     //backend should load the list of subejcts binded to the selected professor's ID
-    let subjectCode: { value: string; name: string }[] = [
-        { value: "cis1101", name: "CIS1101: Programming I" },
-        { value: "cis1201", name: "CIS1201: Programming II" },
-        { value: "cis2102", name: "CIS2102: Web Development II" }
+    const subjects = [
+        "CIS1101 - Programming I",
+        "CIS1102N - Introduction to Computing",
+        "CIS1103 - Discrete Mathematics",
+        "CIS1104 - Human Computer Interaction",
+        "CIS1201 - Programming II"
     ];
 
 
@@ -77,10 +79,10 @@
                 <p class="text-xs">Professor not found? Click <a href="/request-page" class="underline text-blue-400">here</a></p>
                 <br>
                 <Label>
-                    Select a subject to review under this professor.
-                    <Select class="mt-2" items={subjectCode} bind:value={selected} />
+                    Search for a subject to review with this professor
                 </Label>
-                <p class="text-xs">Subject not found? Click <a href="#" onclick={() => (formModal = true)} class="underline text-blue-400">here</a></p>
+                <Input data={subjects} clearable placeholder="Search for subject code here..."/>
+                <p class="text-xs">Subject not found? Click <a href="/request-page" class="underline text-blue-400">here</a></p>
                 <br>
                 <Label for="textarea-id" class="mb-2">Review</Label>
                 <Textarea id="textarea-id" placeholder="Write your review here..." rows={4} name="message" class="w-full" />
