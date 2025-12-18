@@ -35,7 +35,7 @@
 <form method="POST" 
       action="?/login"
       use:enhance={({formData}) => {
-          handleLogin({ FormData});
+          handleLogin({ formData});
           return async ({ result }) => {
             handleSuccess(result);
           };
