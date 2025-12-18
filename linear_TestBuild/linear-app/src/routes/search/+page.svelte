@@ -59,9 +59,7 @@ subject_id
 	<div class="w-full max-w-5xl rounded-xl p-6">
         <Card size="xl" class="p-4 text-left sm:p-8 md:p-10">
             <h1 class="text-base md:text-xl font-bold tracking-tight text-gray-600 pb-3">Results for "{query}":</h1>
-            {#each results as result}
 
-            {/each}
             <div class="text-center mt-4">
                 <p>Cant find your prof or subject? <a href="/request-page" class="text-blue-600 underline">Click here.</a></p>
             </div>

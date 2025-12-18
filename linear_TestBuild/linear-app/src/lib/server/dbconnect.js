@@ -62,8 +62,9 @@ export async function getTeacherWithSubs() {
 	return teacher;
 }
 
-export async function getSearchResults(searchInput){
-    const [results] = await pool.query(`
+export async function getSearchResults(searchInput) {
+	const [results] = await pool.query(
+		`
         SELECT
             p.Professor_ID,
             p.Professor_Name,
@@ -92,6 +93,33 @@ export async function getSearchResults(searchInput){
                 OR Subjects LIKE CONCAT('%', ?, '%')
             ORDER BY
                 p.Professor_Name;
-    `, [searchInput], [searchInput]);
-    return results;
+    `,
+		[searchInput],
+		[searchInput]
+	);
+	return results;
+}
+
+export async function getApprovedReviews(profId) {
+	const [reviews] = await pool.query(
+		`
+        SELECT 
+            p.Prof_ID,
+            p.Professor_Name,
+            p.Professor_img,
+            rev.Review_ID,
+            rev.Description,
+            rev.Date,
+            rev.Status_ID
+        FROM professor p
+        INNER JOIN review rev ON p.Prof_ID = rev.Prof_ID
+        WHERE p.Prof_ID = ? 
+          AND rev.Status_ID = 2;
+    `,
+		[profId]
+	);
+
+	// The [profId] array replaces the '?' in the query safely
+	if (!reviews) error(404);
+	return reviews;
 }
