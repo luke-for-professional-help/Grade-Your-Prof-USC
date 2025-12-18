@@ -20,12 +20,9 @@ export function setUser(userData) {
 		userId: userData.userId,
 		userName: userData.userName,
 		userEmail: userData.userEmail,
-		userAvatar: userData.userAvatar || ''
-		role: userData.role || 'user';
-	})
-=======
+		userAvatar: userData.userAvatar || '',
+		role: userData.role || 'user'
 	});
->>>>>>> d6306f719db7f4630313d8f14cb3e26818a5328f
 
 	isLoggedIn.set(true);
 	isModerator.set(userData.role === 'moderator' || userData.role === 'admin');

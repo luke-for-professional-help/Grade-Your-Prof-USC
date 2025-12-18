@@ -12,12 +12,12 @@ import { isLoggedIn } from '$lib/stores/user';
 // }
 
 export const actions = {
-	login: async ({ request }) => {
+	login: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const username = formData.get('user_name');
 		const password = formData.get('pass');
 		if (!username || !password) {
-			throw new error(400, 'Fields must be complete');
+			throw error(400, 'Fields must be complete');
 		}
 
 		const user = await loginAccount(username, password);
@@ -29,8 +29,8 @@ export const actions = {
 		cookies.set('userId', user.userId.toString(), {
 			path: '/',
 			httpOnly: true,
-			secure: true
-			sameSite: 'strict'
+			secure: true,
+			sameSite: 'strict',
 		});
 
 		return { 
@@ -49,6 +49,7 @@ export const actions = {
 		const username = formData.get('user_name');
 		const email = formData.get('email');
 		const password = formData.get('pass');
+		const confirmPassword = formData.get('confirmPassword');
 		
 		if(!email || !password || !username ){
 			throw error(400, 'All fields must be complete!');

@@ -2,12 +2,13 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import usc from '$lib/assets/images/usc.svg';
-	let { children } = $props();
 	import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownGroup } from "flowbite-svelte";
 	import Footer from "$lib/components/footer.svelte";
 	import UserMenu from '$lib/components/UserMenu.svelte';
 	import UserLogin from '$lib/components/UserLogin.svelte';
 	import { isLoggedIn } from '$lib/stores/user.js';
+	
+	let { children } = $props();
 </script>
 
 <style>
