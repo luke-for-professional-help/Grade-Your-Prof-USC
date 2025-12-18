@@ -3,7 +3,6 @@
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
     import { Card } from "flowbite-svelte";
-    import Pageination from '$lib/components/item-management/pageination.svelte';
     import ProfessorQueryResults from '$lib/components/professor/professorQueryResults.svelte';
 	import Footer from "$lib/components/footer.svelte";
 //script for handling user query
