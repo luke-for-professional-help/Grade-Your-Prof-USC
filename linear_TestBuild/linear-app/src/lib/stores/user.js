@@ -5,9 +5,9 @@ export const isModerator = writable(false); //can manage user generated reviews
 export const isAdmin = writable(false); //can manage user roles and site settings
 
 export const user = writable({
-	userId: null,
-	userName: '',
-	userEmail:'',
+	User_ID: null,
+	Username: '',
+	Email:'',
 	userAvatar: '',
 	role: 'user'
 });
@@ -17,15 +17,13 @@ export const user = writable({
 
 export function setUser(userData) {
 	user.set({
-		userId: userData.userId,
-		userName: userData.userName,
-		userEmail: userData.userEmail,
-		userAvatar: userData.userAvatar || ''
-		role: userData.role || 'user';
-	})
-=======
+		User_ID: userData.User_ID,
+		Username: userData.Username,
+		Email: userData.Email,
+		userAvatar: userData.userAvatar || '',
+		role: userData.role || 'user'
 	});
->>>>>>> d6306f719db7f4630313d8f14cb3e26818a5328f
+
 
 	isLoggedIn.set(true);
 	isModerator.set(userData.role === 'moderator' || userData.role === 'admin');
@@ -34,9 +32,9 @@ export function setUser(userData) {
 
 export function clearUser(){
 	user.set({
-		userId: null,
-		userName: '',
-		userEmail: '',
+		User_ID: null,
+		Username: '',
+		Email: '',
 		userAvatar: '',
 		role: 'user'
 	});

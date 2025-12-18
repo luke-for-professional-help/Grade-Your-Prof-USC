@@ -61,7 +61,7 @@
       <Label for="password" class="mb-2">Password</Label>
       <Input type="password" 
               id="password" 
-              name="pass" 
+              name="password" 
               placeholder="•••••••••" 
               required 
               disabled={loading}/>

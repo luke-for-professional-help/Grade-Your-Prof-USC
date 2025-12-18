@@ -3,42 +3,35 @@ import { error } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import { isLoggedIn } from '$lib/stores/user';
 
-// export async function load() {
-// 	const accounts = await ();
-// 	//console.log(accounts);
-// 	console.log('Email[0]= ' + accounts[1].Email);
-// 	if (!accounts) error(404);
-// 	return { accounts };
-// }
 
 export const actions = {
-	login: async ({ request }) => {
+	login: async ({ request, cookies }) => {
 		const formData = await request.formData();
-		const username = formData.get('user_name');
-		const password = formData.get('pass');
-		if (!username || !password) {
-			throw new error(400, 'Fields must be complete');
+		const Username = formData.get('user_name');
+		const password = formData.get('password');
+		if (!Username || !password) {
+			throw error(400, 'Fields must be complete');
 		}
 
-		const user = await loginAccount(username, password);
+		const user = await loginAccount(Username, password);
 
 		if(!user){
-			throw error(401, 'Invalid username or password!');
+			throw error(401, 'Invalid Username or password!');
 		}
 	
-		cookies.set('userId', user.userId.toString(), {
+		cookies.set('User_ID', user.User_ID.toString(), {
 			path: '/',
 			httpOnly: true,
-			secure: true
+			secure: true,
 			sameSite: 'strict'
 		});
 
 		return { 
 			success: true,
 			user: {
-				userId: user.userId, 
-				userName: user.userName,
-				userEmail: user.userEmail,
+				User_ID: user.User_ID, 
+				Username: user.Username,
+				Email: user.Email,
 				role: user.role
 			}
 		};
@@ -46,28 +39,29 @@ export const actions = {
 
 	signup: async ({ request }) => {
 		const formData = await request.formData();
-		const username = formData.get('user_name');
+		const Username = formData.get('user_name');
 		const email = formData.get('email');
-		const password = formData.get('pass');
+		const password = formData.get('password');
+		const confirm_password = formData.get('confirm_password');
 		
-		if(!email || !password || !username ){
+		if(!email || !password || !Username ){
 			throw error(400, 'All fields must be complete!');
 		}
 
-		if(password !== confirmPassword){
+		if(password !== confirm_password){
 			throw error(400, 'Passwords do not match');
 		}
 
 		try {
-			const newUser = await addAccount(username, email, password);
+			const newUser = await addAccount(Username, email, password);
 
 			return {
 				success: true,
-				messahe: 'Account created successfully!',
+				message: 'Account created successfully!',
 				user: {
-					userId: newUser.userId,
-					userName: newUser.userName,
-					userEmail: newUser.userEmail
+					User_ID: newUser.User_ID,
+					Username: newUser.Username,
+					Email: newUser.Email
 				}
 			};
 		} catch (err){

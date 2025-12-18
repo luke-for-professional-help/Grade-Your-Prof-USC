@@ -3,14 +3,14 @@
     import { setUser } from '$lib/stores/user.js';
     import { enhance } from '$app/forms';
     import { goto } from '$app/navigation';
-	import { error } from "@sveltejs/kit";
+	  import { error } from "@sveltejs/kit";
     
     let loading = $state(false);
     let errorMessage = $state('');
     let passwordMatch = $state(true);
 
-    function validatePasswords(confirmPassword: string, password: string){
-      passwordMatch = password === confirmPassword;
+    function validatePasswords(confirm_password: string, password: string){
+      passwordMatch = password === confirm_password;
     }
 
     function handleSignup(){
@@ -26,7 +26,7 @@
 
         await goto('/');
       } else{
-        errorMessage = result.data?.error || 'SignUp failed!';
+        errorMessage = result.data?.error || 'Sign-up failed!';
       }
     }
     
@@ -78,7 +78,7 @@
       <Input type="password" 
               id="password" 
               placeholder="•••••••••" 
-              name="pass" 
+              name="password" 
               required 
               disabled={loading}/>
     </div>
@@ -88,6 +88,7 @@
       <Input type="password" 
             id="confirm_password" 
             placeholder="•••••••••" 
+            name="confirm_password"
             required 
             disabled={loading}
       />  
