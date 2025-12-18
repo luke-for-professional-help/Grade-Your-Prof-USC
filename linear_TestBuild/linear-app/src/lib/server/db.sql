@@ -123,12 +123,12 @@ CREATE TABLE `SubjectInfo` (
 
 CREATE TABLE `User` (
   `User_ID` int(11) NOT NULL,
-  `Email` varchar(255) NOT NULL,
+  `Email` varchar(255) NOT NULL UNIQUE,
   `Password` varchar(255) NOT NULL,
   `isModerator` tinyint(1) DEFAULT 0,
   `isAdmin` tinyint(1) DEFAULT 0,
   `Status_ID` int(11) DEFAULT NULL,
-  `Username` varchar(30) NOT NULL
+  `Username` varchar(30) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

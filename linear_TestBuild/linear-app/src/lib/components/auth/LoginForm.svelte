@@ -8,16 +8,16 @@
     user_name:
     password:  
   }-->
-<form>
+<form method="POST" action="?/login">
     <div class="mb-6">
       <Label for="text" class="mb-2">Username</Label>
-      <Input type="text" id="user_name" placeholder="John Doe" required />
+      <Input type="text" id="user_name" name="user_name" placeholder="John Doe" required />
     </div>
     <div class="mb-6">
       <Label for="password" class="mb-2">Password</Label>
-      <Input type="password" id="password" placeholder="•••••••••" required />
+      <Input type="password" id="password" name="pass" placeholder="•••••••••" required />
     </div>
-    <Button type="submit" href="/">Submit</Button>
+    <Button type="submit" name="action" value="login" >Submit</Button>
 </form>
 
 <!--GUYS PLEASE MAKE SURE THAT THE USER HAS INPUTTED THEIR DETAILS BEFORE SIGNING IN

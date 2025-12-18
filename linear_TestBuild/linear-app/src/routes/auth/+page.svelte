@@ -2,8 +2,10 @@
     import { Card, Button } from "flowbite-svelte";
     import LoginForm from "$lib/components/auth/LoginForm.svelte";
     import SignUpForm from "$lib/components/auth/SignUpForm.svelte";
-
-    let mode = 'signup';
+    //let {data} = $props();
+    //console.log(data.accounts[0]?.Email);
+    let mode = $state('signup');
+    console.log(mode);
 </script>
 <!--USER AUTHENTICATION SCREEN-->
 <div class="flex justify-center items-start mt-20">
