@@ -8,12 +8,13 @@
     import { getSearchResults}  from "$lib/server/dbconnect.js";
     import pool from "$lib/server/dbconnect.js";
 //script for handling user query
-    let results = $state([]);
-    let query = $state("");
+let query = '';
 
-    $effect(() => {
-        results = await getSearchResults(query);
-    });
+async function search() {
+  const response = await fetch(`/search?term=${encodeURIComponent(query)}`);
+  const data = await response.json();
+  console.log(data);
+}
 
 </script>
 

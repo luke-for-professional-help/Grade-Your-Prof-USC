@@ -88,11 +88,10 @@ export async function getSearchResults(searchInput){
                 p.Professor_img
             HAVING
                 p.Professor_Name LIKE CONCAT('%', ?, '%')
-                OR GROUP_CONCAT(DISTINCT s.Subject_Code) LIKE CONCAT('%', ?, '%')
-                OR GROUP_CONCAT(DISTINCT s.Subject_Name) LIKE CONCAT('%', ?, '%')
+                OR Subjects LIKE CONCAT('%', ?, '%')
             ORDER BY
                 p.Professor_Name;
-    `, [searchInput], [searchInput], [searchInput]);
+    `, [searchInput], [searchInput]);
     console.log(results[0]);
     return results;
 }
