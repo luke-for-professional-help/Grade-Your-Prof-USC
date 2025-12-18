@@ -4,7 +4,7 @@
     import { Tabs, TabItem   } from "flowbite-svelte";
     import { isLoggedIn } from "$lib/stores/user";
     let {data} = $props();
-    console.log("STUF",data);
+    console.log(data.teacher[0]);
 </script>
 
 
@@ -64,7 +64,6 @@ user_id
                     {/each}
                 </TabItem>
             {/each}
-            <ProfessorReviewCard data={data.reviews} />
         </Tabs>
     </div>
 </div>

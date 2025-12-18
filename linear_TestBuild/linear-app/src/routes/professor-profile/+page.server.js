@@ -1,10 +1,10 @@
 /** @type {import('./$types').PageServerLoad} */
-import { getTeacherWithSubs, getApprovedReviews } from '$lib/server/dbconnect';
+import { getTeacherWithSubs, getAllReviews } from '$lib/server/dbconnect';
 
 export async function load() {
 	try {
 		const teacher = await getTeacherWithSubs();
-		const reviews = await getApprovedReviews();
+		const reviews = await getAllReviews();
 		console.log(reviews);
 		return { teacher, reviews };
 	} catch (error) {

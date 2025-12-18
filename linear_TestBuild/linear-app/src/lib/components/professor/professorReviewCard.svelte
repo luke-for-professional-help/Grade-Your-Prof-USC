@@ -2,7 +2,6 @@
     import { Card } from "flowbite-svelte";
     import { Hr } from "flowbite-svelte";
     let {data} = $props();
-    console.log("data: ", data);
 </script>
 
 <!--EACH CARD DISPLAYS INDIVIDUAL REVIEWS MADE BY STUDENTS
