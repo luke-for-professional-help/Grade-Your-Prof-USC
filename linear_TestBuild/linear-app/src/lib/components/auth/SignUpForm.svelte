@@ -87,6 +87,7 @@
       <Label for="confirm_password" class="mb-2">Confirm password</Label>
       <Input type="password" 
             id="confirm_password" 
+            name="confirmPassword"
             placeholder="•••••••••" 
             required 
             disabled={loading}
