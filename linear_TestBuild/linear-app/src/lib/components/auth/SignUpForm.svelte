@@ -4,16 +4,15 @@
     import { enhance } from '$app/forms';
     import { goto } from '$app/navigation';
 
-    let loading = false;
-    let errorMessage = '';
-    let passwordMatch = true;
-    let password = '';
-    let confirm_password = '';
+    let loading = $state(false);
+    let errorMessage = $state('');
+    let passwordMatch = $state(true);
+    let password = $state('');
+    let confirm_password = $state('');
 
-    $: validatePasswords(password, confirm_password);
 
     function validatePasswords(confirm_password: string, password: string){
-      passwordMatch = Boolean(password && confirm_password && password === confirm_password);
+      passwordMatch = password && confirm_password === confirm_password;
     }
 
     function handleSignup(){

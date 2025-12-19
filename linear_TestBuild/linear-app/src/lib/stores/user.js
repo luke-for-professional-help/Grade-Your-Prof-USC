@@ -4,10 +4,10 @@ export const isLoggedIn = writable(false); //regular member
 export const isModerator = writable(false); //can manage userData generated reviews
 export const isAdmin = writable(false); //can manage userData roles and site settings
 
-export const userData = writable({
-	userId: null,
-	userName: '',
-	userEmail: '',
+export const user = writable({
+	User_ID: null,
+	Username: '',
+	Email: '',
 	userAvatar: '',
 	role: 'userData'
 });
@@ -29,7 +29,7 @@ export function setUser(userData) {
 }
 
 export function clearUser() {
-	userData.set({
+	user.set({
 		User_ID: null,
 		Username: '',
 		Email: '',
