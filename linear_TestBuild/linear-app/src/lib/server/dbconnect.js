@@ -16,7 +16,10 @@ const pool = mysql.createPool({
 export default pool;
 
 export async function loginAccount(username, password) {
-	const [acc] = await pool.query('SELECT * FROM User WHERE Username = ? AND Password = ? AND (Status_ID = 2 OR (Status_ID = 3 AND Ban_Time < NOW()));', [username, password]);
+	const [acc] = await pool.query(
+		'SELECT * FROM User WHERE Username = ? AND Password = ? AND (Status_ID = 2 OR (Status_ID = 3 AND Ban_Time < NOW()));',
+		[username, password]
+	);
 	if (!acc) throw error(404, 'User not found');
 	console.log('Account: ', acc);
 	console.log(acc[0].Password);
@@ -124,4 +127,29 @@ export async function getAllProfessors() {
 	const [profs] = await pool.query('SELECT * FROM professor');
 	if (!profs) error(404);
 	return profs;
+}
+
+export async function getTeacherWithSubsFlattened(profID) {
+	const [subs] = await pool.query(
+		`SELECT
+    p.Prof_ID,
+    p.Professor_Name,
+    p.Professor_img,
+    s.Subject_ID,
+    -- This combines the columns into "CODE - Name"
+    CONCAT(s.Subject_Code, ' - ', s.Subject_Name) AS Full_Subject
+    FROM professor p
+    INNER JOIN professorinfo pi ON p.Prof_ID = pi.Prof_ID
+    INNER JOIN request r ON pi.Request_ID = r.Request_ID
+    INNER JOIN subjectinfo si ON r.Request_ID = si.Request_ID
+    INNER JOIN subject s ON si.Subject_ID = s.Subject_ID
+    WHERE (p.Prof_ID = ? OR ? IS NULL)
+    AND r.Status_ID = 2
+    ORDER BY s.Subject_Code;`,
+		[profID, profID]
+	);
+
+	if (!subs) error(404);
+
+	return subs;
 }
