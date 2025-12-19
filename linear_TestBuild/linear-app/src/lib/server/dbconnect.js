@@ -16,17 +16,22 @@ const pool = mysql.createPool({
 export default pool;
 
 export async function loginAccount(username, password) {
-	const [acc] = await pool.query(
-		'SELECT * FROM User WHERE Username = ? AND Password = ? AND (Status_ID = 2 OR (Status_ID = 3 AND Ban_Time < NOW()));',
-		[username, password]
-	);
-	if (!acc) throw error(404, 'User not found');
-	console.log('Account: ', acc);
-	console.log(acc[0].Password);
-	const isValidAcc = await bcrypt.compare(password, acc[0].Password);
-	return isValidAcc ? acc : false;
-}
+    const [rows] = await pool.query('SELECT * FROM `user` WHERE Username = ?', [username]);
+    if (!rows || rows.length === 0) throw error(404, 'User not found');
+    const dbUser = rows[0];
 
+    const isValidAcc = await bcrypt.compare(password, dbUser.Password);
+    if (!isValidAcc) return false;
+
+    return {
+        User_ID: dbUser.User_ID,
+        Username: dbUser.Username,
+        Email: dbUser.Email,
+        Password: dbUser.Password,
+        role: dbUser.role
+    };
+}
+//
 export async function findUser(user_ID) {
 	const [acc] = await pool.query('SELECT * FROM user WHERE User_ID=?', [user_ID]);
 	if (!acc) throw error(404, 'User not found');
@@ -36,11 +41,22 @@ export async function findUser(user_ID) {
 export async function addAccount(username, email, password) {
 	const saltRounds = 10;
 	const hashedPass = await bcrypt.hash(password, saltRounds);
-	const [acc] = await pool.query(
-		'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 1, ?)',
-		[email, hashedPass, username]
-	);
-	return acc;
+	const [result] = await pool.query(
+        'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 1, ?)',
+        [email, hashedPass, username]
+    );
+
+    const insertId = result.insertId;
+    const [rows] = await pool.query('SELECT * FROM `user` WHERE User_ID = ?', [insertId]);
+    if (!rows || rows.length === 0) throw error(500, 'Failed to retrieve new user');
+    const dbUser = rows[0];
+
+    return {
+        User_ID: dbUser.User_ID,
+        Username: dbUser.Username,
+        Email: dbUser.Email,
+        role: dbUser.role
+    };
 }
 
 export async function getTeacherWithSubs(profID) {

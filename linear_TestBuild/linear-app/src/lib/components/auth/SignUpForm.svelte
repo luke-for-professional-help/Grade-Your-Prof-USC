@@ -3,14 +3,17 @@
     import { setUser } from '$lib/stores/user.js';
     import { enhance } from '$app/forms';
     import { goto } from '$app/navigation';
-	  import { error } from "@sveltejs/kit";
-    
-    let loading = $state(false);
-    let errorMessage = $state('');
-    let passwordMatch = $state(true);
+
+    let loading = false;
+    let errorMessage = '';
+    let passwordMatch = true;
+    let password = '';
+    let confirm_password = '';
+
+    $: validatePasswords(password, confirm_password);
 
     function validatePasswords(confirm_password: string, password: string){
-      passwordMatch = password === confirm_password;
+      passwordMatch = Boolean(password && confirm_password && password === confirm_password);
     }
 
     function handleSignup(){
@@ -79,16 +82,19 @@
               id="password" 
               placeholder="•••••••••" 
               name="password" 
+              bind:value={password}
               required 
-              disabled={loading}/>
+              disabled={loading}
+      />
     </div>
 
     <div class="mb-6">
       <Label for="confirm_password" class="mb-2">Confirm password</Label>
       <Input type="password" 
             id="confirm_password" 
-            name="confirmPassword"
+            name="confirm_password"
             placeholder="•••••••••"
+            bind:value={confirm_password}
             required 
             disabled={loading}
       />  
@@ -96,7 +102,10 @@
       {#if !passwordMatch}
         <Helper class="mt-2 text-red-600">Passwords do not match!</Helper>
       {/if}
+
     </div>
+
+
     <Button type="submit" disabled={loading || !passwordMatch}>
       {loading ? 'Creating account...' : 'Submit'}
     </Button>
