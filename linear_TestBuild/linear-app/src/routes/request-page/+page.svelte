@@ -2,7 +2,7 @@
     import { Card, Input, Label, MultiSelect, Button } from "flowbite-svelte";
     import { Tabs, TabItem, Dropzone, Img} from "flowbite-svelte";
     import RequestSubject from "$lib/components/forms/RequestSubject.svelte";
-
+    let {data} = $props();
 
     let filesInDropzone: FileList | null = $state(null);
     let imagePreview: string | null = $state(null);
@@ -70,7 +70,7 @@
         <Card size="xl" class="p-4 text-center sm:p-8 md:p-10">
             <Tabs>
                 <TabItem open title="Request a Professor">
-                    <form method="POST" action="?/addProf">
+                    <form method="POST" action="?/addProf" enctype="multipart/form-data">
                         <div class="text-justify">
                             <h2 class="text-2xl font-bold mb-4">Request a New Professor</h2>
                             <p class="mb-4">If you would like to request the addition of a new professor to our database, please fill out the appropriate form below. We appreciate your input and will review your request as soon as possible.</p>
@@ -116,13 +116,18 @@
                             <Label class="mb-2" for="professor-name">Professor Name </Label>
                             <Input id="professor-name" name="profName" type="text" placeholder="Enter professor's full name (e.g., John Doe)" required class="mb-4"/>
                             
-                            <Button type="submit" class="mt-4">Submit Request</Button>
+                            {#if data.profID!=null}
+                            <Button type="submit" class="mt-4" href="/professor-profile/{data.profID}">Submit Request</Button>
+                            {:else}
+                            <Button type="submit" class="mt-4" href="/">Submit Request</Button>
+                            {/if}
+
                         </div>
                     </form>
                 </TabItem>
                 <TabItem open title="Request a Subject">
                     <div class="text-justify">
-                        <RequestSubject />
+                        <RequestSubject data={data} />
                     </div>
                 </TabItem>
             </Tabs>

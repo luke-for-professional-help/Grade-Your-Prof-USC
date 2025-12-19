@@ -9,7 +9,7 @@
     let prof=$state("");
     let sub= $state("");
     let review = $state("");
-    console.log("Rev: ", data.allProfs[0]);
+    console.log("Rev: ", data.profID);
     //handles autocomplete for professor name 
     //to verify they exist in our database
     //currently these are just placeholder names
@@ -60,7 +60,7 @@
   
     <Tabs role="tablist">
         <TabItem open title="Make Review Form">
-            <form method="POST" enctype="multipart/form-data" action="?/addReview&prof_ID={data.allProfs[0]?.Prof_ID ?? ''}">
+            <form method="POST" enctype="multipart/form-data" action="?/addReview&prof_ID={data.profID ?? ''}">
                 <div class="text-justify">
                     <Label for="name" class="my-4">Professor Name</Label>
                     <Input bind:value={prof} data={professorName} name="profName" clearable placeholder="Enter professor name here..." />

@@ -4,7 +4,7 @@ import {
 	getTeacherWithSubsFlattened,
 	findSub
 } from '$lib/server/dbconnect';
-
+import { redirect } from '@sveltejs/kit';
 import { user } from '$lib/stores/user.js';
 console.log('user: ', user);
 export async function load({ url }) {
@@ -12,7 +12,7 @@ export async function load({ url }) {
 	console.log('ProfIdCreate: ', profID);
 	const allProfs = await getAllProfessors();
 	const subsUnderProfFlattened = await getTeacherWithSubsFlattened(profID);
-	return { allProfs, subsUnderProfFlattened };
+	return { allProfs, subsUnderProfFlattened, profID };
 }
 
 export const actions = {
@@ -30,10 +30,11 @@ export const actions = {
 		// We check if file exists and has a name to avoid errors if the user didn't upload anything
 		const fileNameOnly = file && file.name !== 'undefined' ? file.name : 'No file uploaded';
 
-		console.log('Saving to DB:', fileNameOnly); // Results in "my_document.pdf"
 		const user_ID = cookies.get('User_ID');
 		console.log('Cookie userID: ', user_ID);
+
 		await addReview(user_ID, profID, actualSub[0].Subject_ID, dateForDB, msg, fileNameOnly, 1);
+		throw redirect(303, `/professor-profile/${profID}`);
 		return { success: true };
 	}
 };

@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Input, Card, Label, Button } from "flowbite-svelte";
-    
-    
+    let {data} = $props();
 </script>
 
 <h2 class="text-2xl font-bold">Request a New Subject</h2>
@@ -9,7 +8,7 @@
 <p>If you would like to add a subejct that doesn't exist in our database, please fill out the form below. We appreciate your input and we will review your request as soon as possible.</p>
 
 <br>
-<form method="post" action="?/addSub">
+<form method="post" action="?/addSub&prof_ID={data.profID}">
     <Label class="mb-2" for="subjectCode">Subject Code</Label>
     <Input id="subjectCode" type="text" name="subCode" placeholder="Enter subject code (e.g. GE-ART, CIS1101, GE-LWR)" required class="mb-4"/>
     <br>
