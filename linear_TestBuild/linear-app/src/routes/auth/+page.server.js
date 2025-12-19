@@ -65,6 +65,7 @@ export const actions = {
 				}
 			};
 		} catch (err){
+			console.error(err);
 			throw error(400, 'Failed to create account!');
 		}
 	}
