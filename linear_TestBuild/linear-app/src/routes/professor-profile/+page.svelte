@@ -4,7 +4,9 @@
     import { Tabs, TabItem   } from "flowbite-svelte";
     import { isLoggedIn } from "$lib/stores/user";
     let {data} = $props();
-    console.log("STUF",data);
+    console.log("STUF",data.reviews[0].Description);
+    console.log("data1: ", data.reviews[0].Subject_Code);
+    console.log("data2: ", data.teacher[0].Subject_Code);
 </script>
 
 
@@ -53,18 +55,19 @@ user_id
         <Tabs tabStyle="underline">
                 <TabItem open title="All">
                     {#each data.reviews as review}
-                        <ProfessorReviewCard data=review/>
+                        <ProfessorReviewCard data={review}/>
                     {/each}
                 </TabItem>
 
             {#each data.teacher as teacher}
                 <TabItem open title={teacher.Subject_Code}>
                     {#each data.reviews as review}
-                        <ProfessorReviewCard data=review />
+                        {#if review.Subject_Code == teacher.Subject_Code}
+                            <ProfessorReviewCard data={review} />
+                        {/if}
                     {/each}
                 </TabItem>
             {/each}
-            <ProfessorReviewCard data={data.reviews} />
         </Tabs>
     </div>
 </div>

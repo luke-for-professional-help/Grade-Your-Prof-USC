@@ -50,13 +50,14 @@ export async function getTeacherWithSubs() {
     s.Subject_ID,
     s.Subject_Code,
     s.Subject_Name
-    FROM Professor p
-    INNER JOIN ProfessorInfo pi ON p.Prof_ID = pi.Prof_ID
-    INNER JOIN Request r ON pi.Request_ID = r.Request_ID AND r.Status_ID = 2
-    INNER JOIN SubjectInfo si ON r.Request_ID = si.Request_ID
-    INNER JOIN Subject s ON si.Subject_ID = s.Subject_ID
-    WHERE p.Prof_ID = ?
-    ORDER BY s.Subject_Code;`,
+FROM professor p
+INNER JOIN professorinfo pi ON p.Prof_ID = pi.Prof_ID
+INNER JOIN request r ON pi.Request_ID = r.Request_ID
+INNER JOIN subjectinfo si ON r.Request_ID = si.Request_ID
+INNER JOIN subject s ON si.Subject_ID = s.Subject_ID
+WHERE p.Prof_ID = 1
+  AND r.Status_ID = 2 -- Strictly filter for approved requests
+ORDER BY s.Subject_Code;`,
 		[id]
 	);
 	return teacher;
@@ -102,18 +103,15 @@ export async function getSearchResults(searchInput) {
 export async function getApprovedReviews(profId) {
 	const [reviews] = await pool.query(
 		`
-        SELECT 
-            p.Prof_ID,
-            p.Professor_Name,
-            p.Professor_img,
-            rev.Review_ID,
-            rev.Description,
-            rev.Date,
-            rev.Status_ID
-        FROM professor p
-        INNER JOIN review rev ON p.Prof_ID = rev.Prof_ID
-        WHERE p.Prof_ID = ? 
-          AND rev.Status_ID = 2;
+SELECT 
+    rev.*,
+    s.Subject_Code,
+    s.Subject_Name
+    FROM professor p
+    INNER JOIN review rev ON p.Prof_ID = rev.Prof_ID
+    INNER JOIN subject s ON rev.Subject_ID = s.Subject_ID -- The join
+    WHERE p.Prof_ID = ?
+    AND rev.Status_ID = 2;
     `,
 		[profId]
 	);
@@ -121,4 +119,10 @@ export async function getApprovedReviews(profId) {
 	// The [profId] array replaces the '?' in the query safely
 	if (!reviews) error(404);
 	return reviews;
+}
+
+export async function getAllProfessors() {
+	const [profs] = await pool.query('SELECT * FROM professor');
+	if (!profs) error(404);
+	return profs;
 }
