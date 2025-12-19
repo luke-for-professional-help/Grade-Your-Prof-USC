@@ -3,10 +3,15 @@
 Grade Your Prof USC is a web application that allows USC students to review their professors. The platform provides a centralized hub for sharing academic experiences, helping students make informed decisions about course selection.
 
 ##Tech Stack:
+
 ***Frontend:** SvelteKit, Svelte, Flowbite, Tailwind CSS
+
 ***Backend:** Node.js, SvelteKit Server Routes
+
 ***Database:** MySQL (with XAMPP or standalone)
+
 ***Language:** TypeScript, JavaScript
+
 ***Package Manager**: npm
 
 ##Folder structure
@@ -41,13 +46,17 @@ Grade Your Prof USC is a web application that allows USC students to review thei
 └── README.md               # This file
 ```
 
-##Installation
+Installation
 
 **Prerequisites**
 
 *Node.js (v16 or higher)
+
 *npm (comes with Node.js)
+
 *MySQL Server (XAMPP)
+
+Steps:
 
 1. Clone Repository
 git clone https://github.com/yourusername/Grade-Your-Prof-USC.git
