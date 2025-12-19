@@ -3,6 +3,7 @@ import { getTeacherWithSubs, getApprovedReviews } from '$lib/server/dbconnect';
 
 export async function load() {
 	try {
+
 		const teacher = await getTeacherWithSubs();
 		const reviews = await getApprovedReviews();
 		console.log(reviews);
