@@ -58,10 +58,9 @@
 
 </script>
   
-<form method="post" enctype="multipart/form-data">
     <Tabs role="tablist">
         <TabItem open title="Make Review Form">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data" action="?/addReview&prof_ID={data.allProfs[0]?.Prof_ID ?? ''}">
                 <div class="text-justify">
                     <Label for="name" class="my-4">Professor Name</Label>
                     <Input bind:value={prof} data={professorName} name="profName" clearable placeholder="Enter professor name here..." />
@@ -80,7 +79,7 @@
                     <Label for="textarea-id" class="mb-2" >Upload a copy of your study load here</Label>
                     <Fileupload name="studyLoad" clearable bind:files={selectedFiles} multiple />
                     <Helper color="emerald" class="mt-2">Selected files: {fileNames}</Helper>
-                    <Button name="action" value="addReview" class="mt-4">Submit</Button>
+                    <Button type="submit" class="mt-4">Submit</Button>
                 </div>
             </form>
         </TabItem>
@@ -92,9 +91,7 @@
             </p>
         </TabItem>
     </Tabs>
-</form>
 {#if formModal == true}
-<form method="POST">
     <div class="text-justify">
         <Modal form bind:open={formModal} size="xs">
                 <div class="flex flex-col space-y-6">
@@ -111,7 +108,6 @@
                 </div>
         </Modal>
     </div>
-</form>
 
 {/if}
 
