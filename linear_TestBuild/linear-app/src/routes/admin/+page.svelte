@@ -19,7 +19,7 @@
     <div class="w-full max-w-6xl">
         <Card size="xl" class="p-6">
             <Card size="xl" class="p-4 text-justify sm:p-8 md:p-10 mb-4">
-                <h1 class="text-2xl font-bold text-gray-800">Welcome, {$user.userName}!</h1>
+                <h1 class="text-2xl font-bold text-gray-800">Welcome, {$user.Username}!</h1>
             </Card>            
             <Tabs style="underline">
                 <TabItem open title="My Admin Panel">
@@ -47,9 +47,9 @@
                     <div class="space-y-4 mt-6">
                         {#each data.users as userData}
                             <Card size="xl" class="p-4">
-                                <div class="flex justify-between">
+                                <div class="flex justify-between gap-4">
                                     <AdminUserManagement {userData} />
-                                    <div class="flex flex-col items-end gap-2">
+                                    <div class="flex flex-col items-end justify-center gap-2">
                                         <Badge color="indigo">
                                             <MessageCaptionOutline class="w-3 h-3 me-1" />
                                             {userData.reviewCount} Reviews
@@ -63,10 +63,14 @@
                                     <form method="POST" action="?/banUser" use:enhance 
                                           onsubmit={(e) => { if(!confirm('Apply ban?')) e.preventDefault(); }}>
                                         <input type="hidden" name="userId" value={userData.User_ID} />
-                                        <div class="flex items-center gap-2">
-                                            <Label class="text-xs">Ban (Hours):</Label>
-                                            <Input size="sm" type="number" name="banHours" value="24" class="w-20" />
-                                            <Button type="submit" color="yellow" size="xs">Ban User</Button>
+                                        <div class="flex justify-between items-end w-full">
+                                            <div class="flex flex-col">
+                                                <Label class="text-xs mb-1">Ban (Hours):</Label>
+                                                <Input size="sm" type="number" name="banHours" value="24" class="w-24" />
+                                            </div>
+                                            <Button type="submit" color="yellow" size="sm" class="ml-4">
+                                                Ban User
+                                            </Button>
                                         </div>
                                     </form>
                                 </div>

@@ -2,7 +2,6 @@
     import FAQAccordion from "$lib/components/FAQAccordion.svelte";
 	import heroImage from '$lib/assets/hero-background.jpg';
 	import { Heading, P, Button } from "flowbite-svelte";
-	import Footer from "$lib/components/footer.svelte";
 	let query = "";
 </script>
 

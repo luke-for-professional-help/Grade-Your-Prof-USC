@@ -13,3 +13,10 @@ export async function load() {
         return { professors: [], error: "Could not fetch data" };
     }
 }
+
+/** @type {import('./$types').LayoutServerLoad} */
+export async function load({ locals }) {
+    return {
+        sessionUser: locals.user
+    };
+}

@@ -6,109 +6,62 @@
 
     let loading = $state(false);
     let errorMessage = $state('');
-    let passwordMatch = $state(true);
     let password = $state('');
     let confirm_password = $state('');
 
+    // Instant check as the user types
+    let passwordMatch = $derived(password === confirm_password || confirm_password === '');
 
-    function validatePasswords(confirm_password: string, password: string){
-      passwordMatch = password && confirm_password === confirm_password;
-    }
-
-    function handleSignup(){
-      loading = true;
-      errorMessage = '';
-    }
-
-    async function handleSuccess(result: any){
+    async function handleResult(result: any){
       loading = false; 
-
-      if(result.data?.success){
+      if (result.type === 'success' && result.data?.success) {
         setUser(result.data.user);
-
         await goto('/');
-      } else{
+      } else {
         errorMessage = result.data?.error || 'Sign-up failed!';
       }
     }
-    
 </script>
-    <!--NOTE TO BACKEND: THIS IS FOR SIGNING UP-->
-    <!--DATA{
-      user_id: RANDOMLY GENERATED
-      user_password:
-      user_IdNumber: **FROM USC**
 
-    }-->
-<form method="post" 
-      action="?/signup"
-      
-      use:enhance={() => {
-          handleSignup();
-          return async ({ result }) => {
-            handleSuccess(result);
-          };
-      }}>
-
+<form method="post" action="?/signup" use:enhance={() => {
+    loading = true;
+    errorMessage = '';
+    return async ({ result }) => {
+        await handleResult(result);
+    };
+}}>
     {#if errorMessage}
-      <div class="mb-4 p-3 text-red-600 bg-red-100 rounded-lg">
+      <div class="mb-4 p-3 text-red-600 bg-red-100 rounded-lg text-center font-medium">
         {errorMessage}
       </div>
     {/if}
 
-    <div class="mb-6">
-      <Label for="text" class="mb-2">User name</Label>
-      <Input type="text" 
-              id="user_name" 
-              placeholder="John Doe" 
-              name="user_name" 
-              required 
-              disabled={loading}/>
+    <div class="mb-4">
+      <Label for="user_name" class="mb-2 text-center block">User name</Label>
+      <Input type="text" id="user_name" name="user_name" required disabled={loading}/>
     </div>
-    <div class="mb-6">
-      <Label for="email" class="mb-2">Email address</Label>
-      <Input type="email" 
-              id="email" 
-              placeholder="john.doe@gmail.com" 
-              name="email" 
-              required 
-              disabled={loading}/>
+
+    <div class="mb-4">
+      <Label for="email" class="mb-2 text-center block">Email address</Label>
+      <Input type="email" id="email" name="email" required disabled={loading}/>
+    </div>
+
+    <div class="mb-4">
+      <Label for="password" class="mb-2 text-center block">Password</Label>
+      <Input type="password" name="password" bind:value={password} required disabled={loading}/>
     </div>
 
     <div class="mb-6">
-      <Label for="password" class="mb-2">Password</Label>
-      <Input type="password" 
-              id="password" 
-              placeholder="•••••••••" 
-              name="password" 
-              bind:value={password}
-              required 
-              disabled={loading}
-      />
-    </div>
-
-    <div class="mb-6">
-      <Label for="confirm_password" class="mb-2">Confirm password</Label>
-      <Input type="password" 
-            id="confirm_password" 
-            name="confirm_password"
-            placeholder="•••••••••"
-            bind:value={confirm_password}
-            required 
-            disabled={loading}
-      />  
-            
-      {#if !passwordMatch}
-        <Helper class="mt-2 text-red-600">Passwords do not match!</Helper>
+      <Label for="confirm_password" class="mb-2 text-center block">Confirm password</Label>
+      <Input type="password" name="confirm_password" bind:value={confirm_password} required disabled={loading}/>
+      {#if !passwordMatch && confirm_password !== ''}
+        <Helper class="mt-2 text-red-600 text-center">Passwords do not match!</Helper>
       {/if}
-
     </div>
 
-
-    <Button type="submit" disabled={loading || !passwordMatch}>
-      {loading ? 'Creating account...' : 'Submit'}
-    </Button>
+    <div class="flex justify-center">
+        <Button type="submit" class="w-32 bg-orange-600" disabled={loading || (password !== confirm_password)}>
+          {loading ? 'Saving...' : 'Submit'}
+        </Button>
+    </div>
 </form>
-<!--GUYS PLEASE MAKE SURE THAT THE USER HAS INPUTTED THEIR DETAILS BEFORE SIGNING IN
-
-ALSO MAKE SURE isLoggedIn = true, isMember = true  -->

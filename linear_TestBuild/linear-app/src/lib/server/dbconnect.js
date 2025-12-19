@@ -3,33 +3,31 @@ import bcrypt from 'bcrypt';
 import { error } from '@sveltejs/kit';
 
 const pool = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'gradeyourprof',
-	waitForConnections: true,
-	connectionLimit: 10,
-	queueLimit: 0
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'gradeyourprof',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-//export default db;
 export default pool;
 
 export async function loginAccount(username, password) {
-    const [rows] = await pool.query('SELECT * FROM `user` WHERE Username = ?', [username]);
-    if (!rows || rows.length === 0) throw error(404, 'User not found');
+    // 1. Fetch user by username ONLY to get the stored hash
+    const [rows] = await pool.query('SELECT * FROM user WHERE Username = ? LIMIT 1', [username]);
+    
+    if (!rows || rows.length === 0) return null;
+
     const dbUser = rows[0];
 
+    // 2. Use bcrypt to compare the plain text with the hash
     const isValidAcc = await bcrypt.compare(password, dbUser.Password);
-    if (!isValidAcc) return false;
+    
+    if (!isValidAcc) return null;
 
-    return {
-        User_ID: dbUser.User_ID,
-        Username: dbUser.Username,
-        Email: dbUser.Email,
-        Password: dbUser.Password,
-        role: dbUser.role
-    };
+    return dbUser; 
 }
 //
 export async function findUser(user_ID) {
@@ -39,24 +37,16 @@ export async function findUser(user_ID) {
 }
 
 export async function addAccount(username, email, password) {
-	const saltRounds = 10;
-	const hashedPass = await bcrypt.hash(password, saltRounds);
-	const [result] = await pool.query(
-        'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 1, ?)',
+    const saltRounds = 10;
+    const hashedPass = await bcrypt.hash(password, saltRounds);
+    
+    // Status_ID 2 = Approved (from your SQL dump)
+    const [result] = await pool.query(
+        'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 2, ?)',
         [email, hashedPass, username]
     );
 
-    const insertId = result.insertId;
-    const [rows] = await pool.query('SELECT * FROM `user` WHERE User_ID = ?', [insertId]);
-    if (!rows || rows.length === 0) throw error(500, 'Failed to retrieve new user');
-    const dbUser = rows[0];
-
-    return {
-        User_ID: dbUser.User_ID,
-        Username: dbUser.Username,
-        Email: dbUser.Email,
-        role: dbUser.role
-    };
+    return { User_ID: result.insertId, Username: username, Email: email };
 }
 
 export async function getTeacherWithSubs(profID) {

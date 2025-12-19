@@ -7,71 +7,48 @@
   let loading = $state(false);
   let errorMessage = $state('');
 
-
-  function handleLogin({ formData }: any){
-    loading = true;
-    errorMessage = '';
-  }
-
-  async function handleSuccess(result: any) {
+  async function handleResult(result: any) {
     loading = false;
     
-    if(result.data?.success){
-
-      setUser(result.data.user);
-
-      await goto('/');
+    // SvelteKit returns 'success' type if the server didn't throw an error or fail()
+    if (result.type === 'success' && result.data?.success) {
+      setUser(result.data.user); // Fixed store assignment
+      await goto('/');           // Manual redirect after store is ready
+    } else if (result.type === 'failure') {
+      // This catches the fail(400, { error: '...' }) from your server
+      errorMessage = result.data?.error || 'Login failed';
     } else {
-      errorMessage = result.data.error || 'Login failed';
+      errorMessage = 'Incorrect username or password.';
     }
   }
 </script>
-  <!--NOTE FOR BACKEND: THIS IS FOR LOGGING IN-->
-  <!--
-  data{
-    user_name:
-    password:  
-  }-->
-<form method="POST" 
-      action="?/login"
-      use:enhance={({formData}) => {
-          handleLogin({ formData});
-          return async ({ result }) => {
-            handleSuccess(result);
-          };
-      }}
->
 
+<form method="POST" action="?/login" use:enhance={() => {
+    loading = true;
+    errorMessage = '';
+    return async ({ result }) => {
+        await handleResult(result);
+    };
+}}>
     {#if errorMessage}
-      <div class="mb-4 p-3 text-red-600 bg-red-100 rounded-lg">
+      <div class="mb-4 p-3 text-red-600 bg-red-100 rounded-lg text-center font-medium">
         {errorMessage}
       </div>
     {/if}
-    <div class="mb-6">
-      <Label for="text" class="mb-2">Username</Label>
-      <Input type="text" 
-              id="user_name" 
-              name="user_name" 
-              placeholder="John Doe" 
-              required 
-              disabled={loading}/>
+
+    <div class="mb-6 text-left">
+      <Label for="user_name" class="mb-2 text-center block text-lg">Username</Label>
+      <Input type="text" id="user_name" name="user_name" required disabled={loading}/>
     </div>
 
-    <div class="mb-6">
-      <Label for="password" class="mb-2">Password</Label>
-      <Input type="password" 
-              id="password" 
-              name="password" 
-              placeholder="•••••••••" 
-              required 
-              disabled={loading}/>
+    <div class="mb-6 text-left">
+      <Label for="password" class="mb-2 text-center block text-lg">Password</Label>
+      <Input type="password" id="password" name="password" required disabled={loading}/>
     </div>
 
-    <Button type="submit" disabled={loading}>
-      {loading ? 'Logging In...' : 'Submit'}
-    </Button>
+    <div class="flex justify-center">
+        <Button type="submit" class="w-32 bg-orange-600" disabled={loading}>
+          {loading ? 'Processing...' : 'Submit'}
+        </Button>
+    </div>
 </form>
-
-<!--GUYS PLEASE MAKE SURE THAT THE USER HAS INPUTTED THEIR DETAILS BEFORE SIGNING IN
-
-ALSO MAKE SURE isLoggedIn = true, isMember = true  -->

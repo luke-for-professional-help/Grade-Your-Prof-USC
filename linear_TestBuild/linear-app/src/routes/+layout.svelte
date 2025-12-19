@@ -7,8 +7,16 @@
 	import UserMenu from '$lib/components/UserMenu.svelte';
 	import UserLogin from '$lib/components/UserLogin.svelte';
 	import { isLoggedIn } from '$lib/stores/user.js';
-	
-	let { children } = $props();
+	import { setUser, clearUser } from '$lib/stores/user.js';
+    let { data, children } = $props();
+
+	$effect(() => {
+        if (data.sessionUser) {
+            setUser(data.sessionUser);
+        } else {
+            clearUser();
+        }
+    });
 </script>
 
 <style>

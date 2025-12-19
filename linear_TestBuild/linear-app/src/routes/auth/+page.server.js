@@ -1,72 +1,73 @@
-import { addAccount, loginAccount, loginAcc } from '$lib/server/dbconnect.js';
-import { error } from '@sveltejs/kit';
-import { redirect } from '@sveltejs/kit';
-import { isLoggedIn } from '$lib/stores/user';
-
+import { addAccount, loginAccount } from '$lib/server/dbconnect.js';
+import { fail, redirect } from '@sveltejs/kit';
 
 export const actions = {
-	login: async ({ request, cookies }) => {
-		const formData = await request.formData();
-		const Username = formData.get('user_name');
-		const password = formData.get('password');
-		if (!Username || !password) {
-			throw error(400, 'Fields must be complete');
-		}
+    login: async ({ request, cookies }) => {
+        const formData = await request.formData();
+        const username = formData.get('user_name');
+        const password = formData.get('password');
 
-		const user = await loginAccount(Username, password);
+        if (!username || !password) {
+            return fail(400, { error: 'Fields must be complete' });
+        }
 
-		if(!user){
-			throw error(401, 'Invalid Username or password!');
-		}
-	
-		cookies.set('User_ID', user.User_ID.toString(), {
-			path: '/',
-			httpOnly: true,
-			secure: true,
-			sameSite: 'strict'
-		});
+        const user = await loginAccount(username, password);
+        if (!user) {
+            return fail(401, { error: 'Invalid Username or password!' });
+        }
+    
+        cookies.set('User_ID', user.User_ID.toString(), {
+            path: '/',
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict'
+        });
 
+        // Return data instead of throwing redirect so the client can 'setUser'
+        // Inside your login action
 		return { 
 			success: true,
 			user: {
 				User_ID: user.User_ID, 
 				Username: user.Username,
 				Email: user.Email,
-				role: user.role
+				isModerator: user.isModerator, // Pass these so setUser() can work
+				isAdmin: user.isAdmin
 			}
 		};
-	},
+    },
 
-	signup: async ({ request }) => {
-		const formData = await request.formData();
-		const Username = formData.get('user_name');
-		const email = formData.get('email');
-		const password = formData.get('password');
-		const confirm_password = formData.get('confirm_password');
-		
-		if(!email || !password || !Username ){
-			throw error(400, 'All fields must be complete!');
-		}
+    signup: async ({ request, cookies }) => {
+        const formData = await request.formData();
+        const username = formData.get('user_name');
+        const email = formData.get('email');
+        const password = formData.get('password');
+        const confirm = formData.get('confirm_password');
+        
+        if (password !== confirm) {
+            return fail(400, { error: 'Passwords do not match' });
+        }
 
-		if(password !== confirm_password){
-			throw error(400, 'Passwords do not match');
-		}
+        try {
+            const newUser = await addAccount(username, email, password);
+            
+            cookies.set('User_ID', newUser.User_ID.toString(), {
+                path: '/',
+                httpOnly: true,
+                sameSite: 'strict'
+            });
 
-		try {
-			const newUser = await addAccount(Username, email, password);
+            return {
+                success: true,
+                user: newUser
+            };
+        } catch (err) {
+            return fail(400, { error: 'Failed to create account. Username or Email may exist.' });
+        }
+    },
 
-			return {
-				success: true,
-				message: 'Account created successfully!',
-				user: {
-					User_ID: newUser.User_ID,
-					Username: newUser.Username,
-					Email: newUser.Email
-				}
-			};
-		} catch (err){
-			console.error(err);
-			throw error(400, 'Failed to create account!');
-		}
-	}
+    logout: async ({ cookies }) => {
+        cookies.delete('User_ID', { path: '/' });
+        throw redirect(303, '/auth');
+    }
 };
