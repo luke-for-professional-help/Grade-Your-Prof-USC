@@ -3,13 +3,13 @@ import bcrypt from 'bcrypt';
 import { error } from '@sveltejs/kit';
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'gradeyourprof',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+	host: 'localhost',
+	user: 'root',
+	password: '',
+	database: 'gradeyourprof',
+	waitForConnections: true,
+	connectionLimit: 10,
+	queueLimit: 0
 });
 
 export default pool;
@@ -18,7 +18,6 @@ export async function loginAccount(username, password) {
     const [rows] = await pool.query('SELECT * FROM user WHERE Username = ? LIMIT 1', [username]);
     if (!rows || rows.length === 0) return null;
 
-    const dbUser = rows[0];
 
     // 1. Check for Ban Status
     if (dbUser.Ban_Time) {
@@ -66,7 +65,14 @@ export async function addAccount(username, email, password) {
         [email, hashedPass, username]
     );
 
-    return { User_ID: result.insertId, Username: username, Email: email };
+
+	// Status_ID 2 = Approved (from your SQL dump)
+	const [result] = await pool.query(
+		'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 2, ?)',
+		[email, hashedPass, username]
+	);
+
+	return { User_ID: result.insertId, Username: username, Email: email };
 }
 
 export async function findUser(user_ID) {
@@ -208,6 +214,69 @@ export async function findSub(subject) {
         FROM subject 
         WHERE ? LIKE CONCAT(Subject_Code, '%');`,
 		[subject]
+	);
+	if (!sub) error(404);
+
+	return sub;
+}
+
+export async function makeReq(userID) {
+	const [req] = await pool.query(
+		`
+        INSERT INTO request (User_ID, Status_ID) VALUES (?, 1);
+        `,
+		[userID]
+	);
+	if (!req) error(404);
+	return req;
+}
+
+export async function reqProfOnly(profID, requestID) {
+	const [profReq] = await pool.query(
+		`
+        INSERT INTO professorinfo (Prof_ID, Request_ID) VALUES (?, ?);
+        `,
+		[profID, requestID]
+	);
+
+	if (!profReq) error(404);
+
+	return profReq;
+}
+
+export async function addProfessor(profName, profImg) {
+	const [prof] = await pool.query(
+		`
+        INSERT INTO professor (Professor_Name, Professor_img) 
+        VALUES (?, ?);
+        `,
+		[profName, profImg]
+	);
+	if (!prof) error(404);
+
+	return prof;
+}
+
+export async function addSubject(subCode, subName) {
+	const [sub] = await pool.query(
+		`
+        INSERT INTO subject (Subject_Code, Subject_Name) 
+        VALUES (?, ?);
+        `,
+		[subCode, subName]
+	);
+	if (!sub) error(404);
+
+	return sub;
+}
+
+export async function reqSubOnly(requestID, subjectID) {
+	const [sub] = await pool.query(
+		`
+        INSERT INTO subjectinfo (Subject_ID, Request_ID) 
+        VALUES (?, ?);
+        `,
+		[subjectID, requestID]
 	);
 	if (!sub) error(404);
 

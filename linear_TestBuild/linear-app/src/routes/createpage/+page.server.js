@@ -32,7 +32,7 @@ export const actions = {
 
 		console.log('Saving to DB:', fileNameOnly); // Results in "my_document.pdf"
 		const user_ID = cookies.get('User_ID');
-
+		console.log('Cookie userID: ', user_ID);
 		await addReview(user_ID, profID, actualSub[0].Subject_ID, dateForDB, msg, fileNameOnly, 1);
 		return { success: true };
 	}
