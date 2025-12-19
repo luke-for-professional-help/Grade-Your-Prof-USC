@@ -16,7 +16,7 @@ const pool = mysql.createPool({
 export default pool;
 
 export async function loginAccount(username, password) {
-	const [acc] = await pool.query('SELECT * FROM user WHERE Username=?', [username]);
+	const [acc] = await pool.query('SELECT * FROM User WHERE Username = ? AND Password = ? AND (Status_ID = 2 OR (Status_ID = 3 AND Ban_Time < NOW()));', [username, password]);
 	if (!acc) throw error(404, 'User not found');
 	console.log('Account: ', acc);
 	console.log(acc[0].Password);
