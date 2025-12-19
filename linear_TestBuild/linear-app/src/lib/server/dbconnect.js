@@ -18,6 +18,7 @@ export async function loginAccount(username, password) {
     const [rows] = await pool.query('SELECT * FROM user WHERE Username = ? LIMIT 1', [username]);
     if (!rows || rows.length === 0) return null;
 
+    const dbUser = rows[0];
 
     // 1. Check for Ban Status
     if (dbUser.Ban_Time) {
@@ -64,13 +65,6 @@ export async function addAccount(username, email, password) {
         'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 1, ?)',
         [email, hashedPass, username]
     );
-
-
-	// Status_ID 2 = Approved (from your SQL dump)
-	const [result] = await pool.query(
-		'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 2, ?)',
-		[email, hashedPass, username]
-	);
 
 	return { User_ID: result.insertId, Username: username, Email: email };
 }
@@ -191,21 +185,23 @@ export async function getTeacherWithSubsFlattened(profID) {
 	return subs;
 }
 
-export async function addReview(userID, profID, subjectID, date, desc, studyLoad, status) {
-	const [review] = await pool.query(
-		`INSERT INTO review (
-    User_ID, 
-    Prof_ID, 
-    Subject_ID, 
-    Date, 
-    Description, 
-    Study_Load, 
-    Status_ID
-  ) VALUES (?, ?, ?, ?, ?, ?, 1);`,
-		[userID, profID, subjectID, date, desc, studyLoad, status]
-	);
+export async function getAverageRating(profID) {
+    const [rows] = await pool.query(
+        `SELECT AVG(Rating) as avgRating, COUNT(Review_ID) as totalReviews 
+         FROM review 
+         WHERE Prof_ID = ? AND Status_ID = 2`, // Only count approved reviews
+        [profID]
+    );
+    return rows[0] || { avgRating: 0, totalReviews: 0 };
+}
 
-	return review;
+export async function addReview(user_ID, profID, subID, date, description, studyLoad, status, rating) {
+    const [result] = await pool.query(
+        `INSERT INTO review (User_ID, Prof_ID, Subject_ID, Date, Description, Study_Load, Status_ID, Rating) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [user_ID, profID, subID, date, description, studyLoad, status, rating]
+    );
+    return result;
 }
 
 export async function findSub(subject) {

@@ -2,7 +2,7 @@
 	import AddReviewForm from "$lib/components/forms/AddReviewForm.svelte";
     import { Card } from "flowbite-svelte";
     let {data} = $props();
-    console.log("Page: ", data.subsUnderProfFlattened.map(t => t.Full_Subject));
+    const subjects = data.profSubjects || [];
 </script>
 
 <div class="flex justify-center items-start mt-15">
