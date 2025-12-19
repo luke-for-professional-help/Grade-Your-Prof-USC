@@ -4,7 +4,9 @@
     import { Tabs, TabItem   } from "flowbite-svelte";
     import { isLoggedIn } from "$lib/stores/user";
     let {data} = $props();
-    console.log("STUF",data);
+    console.log("STUF",data.reviews[0]);
+    console.log("data1: ", data.reviews[0].Subject_Code);
+    console.log("data2: ", data.teacher[0].Subject_Code);
 </script>
 
 
@@ -20,7 +22,7 @@ subjectsTaught:
     <div class="w-full max-w-5xl rounded-xl p-6">
         <Card size="xl">
             <div class="flex flex-row items-center m-5">
-                <Img src="/images/examples/image-2@2x.jpg" alt="sample 1" class="max-w-xl shadow-xl dark:shadow-gray-800" />
+                <Img src="/img/{data.teacher[0].Professor_img}" alt="sample 1" class="max-w-full max-h-18 object-contain rounded-full shadow-xl dark:shadow-gray-800"  />
                 <div class="flex flex-col ml-5">
                     <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{data.teacher[0].Professor_Name}</h5>
                     <span class="text-sm text-gray-500 dark:text-gray-400">Teaches: {data.teacher.map(t => t.Subject_Code).join(', ')}</span>
@@ -53,18 +55,19 @@ user_id
         <Tabs tabStyle="underline">
                 <TabItem open title="All">
                     {#each data.reviews as review}
-                        <ProfessorReviewCard data=review/>
+                        <ProfessorReviewCard data={review}/>
                     {/each}
                 </TabItem>
 
             {#each data.teacher as teacher}
                 <TabItem open title={teacher.Subject_Code}>
                     {#each data.reviews as review}
-                        <ProfessorReviewCard data=review />
+                        {#if review.Subject_Code == teacher.Subject_Code}
+                            <ProfessorReviewCard data={review} />
+                        {/if}
                     {/each}
                 </TabItem>
             {/each}
-            <ProfessorReviewCard data={data.reviews} />
         </Tabs>
     </div>
 </div>

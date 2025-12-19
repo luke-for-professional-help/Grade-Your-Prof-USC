@@ -1,12 +1,12 @@
 /** @type {import('./$types').PageServerLoad} */
 import { getTeacherWithSubs, getApprovedReviews } from '$lib/server/dbconnect';
 
-export async function load() {
+export async function load({ params }) {
 	try {
-
-		const teacher = await getTeacherWithSubs();
-		const reviews = await getApprovedReviews();
-		console.log(reviews);
+		//const profID = url.searchParams.get('');
+		console.log('Prof_ID= ', params.slug);
+		const teacher = await getTeacherWithSubs(params.slug);
+		const reviews = await getApprovedReviews(params.slug);
 		return { teacher, reviews };
 	} catch (error) {
 		console.error('Database error:', error);
