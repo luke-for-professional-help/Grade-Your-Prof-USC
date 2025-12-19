@@ -3,6 +3,7 @@
 	import heroImage from '$lib/assets/hero-background.jpg';
 	import { Heading, P, Button } from "flowbite-svelte";
 	import Footer from "$lib/components/footer.svelte";
+	import user from '$lib/assets/images/user.png';
 	let query = "";
 </script>
 
@@ -44,7 +45,7 @@
 					<label for="hero-search" class="sr-only">Search</label>
 				<input
 				id="hero-search"
-				name="q"
+				name="term"
 				type="text"
 				bind:value={query}
 				placeholder="Search"

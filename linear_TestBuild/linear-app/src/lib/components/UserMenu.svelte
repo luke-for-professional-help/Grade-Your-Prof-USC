@@ -1,28 +1,13 @@
 <script>
 	import { Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownGroup, NavHamburger} from "flowbite-svelte";
 	import { user, isLoggedIn, isModerator, isAdmin } from '$lib/stores/user.js';
-	import { WindowsSolid } from "flowbite-svelte-icons";
-    import { goto } from "$app/navigation";
-
-    function processLogout(){
-        isLoggedIn.set(false);
-
-        user.set({
-            userName: '',
-            userEmail: ''
-        });
-
-        isModerator.set(false);
-        isAdmin.set(false);
-
-        goto("/");
-    }
+    import userPic from '$lib/assets/images/user.png';
 </script>
 
 <!--USER PROFILE SETTINGS-->
 
 <div class="flex items-center md:order-2">
-    <Avatar id="avatar-menu" src="$lib/assets/images/user.png" />
+    <Avatar id="avatar-menu" src={userPic} />
     <NavHamburger />
 </div>
 
