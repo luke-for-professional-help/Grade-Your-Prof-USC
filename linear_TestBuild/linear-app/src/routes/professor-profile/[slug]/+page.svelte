@@ -29,7 +29,7 @@ subjectsTaught:
                 </div>
                 <div class="mt-4 flex space-x-3 lg:mt-2 rtl:space-x-reverses ml-auto">
                     {#if $isLoggedIn}
-                        <Button href="/createpage">Add Review</Button>
+                        <Button href="/createpage/?prof_ID={data.teacher[0].Prof_ID}">Add Review</Button>
                     {/if}
                     <Button>Share</Button> 
                 </div>

@@ -159,3 +159,32 @@ export async function getTeacherWithSubsFlattened(profID) {
 
 	return subs;
 }
+
+export async function addReview(userID, profID, subjectID, date, desc, studyLoad, status) {
+	const [review] = await pool.query(
+		`INSERT INTO review (
+    User_ID, 
+    Prof_ID, 
+    Subject_ID, 
+    Date, 
+    Description, 
+    Study_Load, 
+    Status_ID
+  ) VALUES (?, ?, ?, ?, ?, ?, 1);`,
+		[userID, profID, subjectID, date, desc, studyLoad, status]
+	);
+
+	return review;
+}
+
+export async function findSub(subject) {
+	const [sub] = await pool.query(
+		`SELECT *
+        FROM subject 
+        WHERE ? LIKE CONCAT(Subject_Code, '%');`,
+		[subject]
+	);
+	if (!sub) error(404);
+
+	return sub;
+}

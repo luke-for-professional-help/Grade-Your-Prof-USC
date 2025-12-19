@@ -1,8 +1,10 @@
 import { writable } from 'svelte/store';
 
+
 export const isLoggedIn = writable(false);
 export const isModerator = writable(false);
 export const isAdmin = writable(false);
+
 
 export const user = writable({
     User_ID: null,
