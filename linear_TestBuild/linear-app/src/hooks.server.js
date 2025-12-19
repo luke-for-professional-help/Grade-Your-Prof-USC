@@ -1,31 +1,26 @@
+import { redirect } from '@sveltejs/kit';
 import { findUser } from '$lib/server/dbconnect.js';
 
-/** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
     const userId = event.cookies.get('User_ID');
 
-    if (!userId) {
-        event.locals.user = null;
-        return await resolve(event);
-    }
-
-    try {
-        // Fetch the latest user data from your DB
+    if (userId) {
         const user = await findUser(userId);
-        
-        if (user) {
-            event.locals.user = {
-                User_ID: user.User_ID,
-                Username: user.Username,
-                Email: user.Email,
-                isModerator: user.isModerator,
-                isAdmin: user.isAdmin
-            };
+        if (user && user.Status_ID === 2) {
+            event.locals.user = user;
         } else {
             event.locals.user = null;
         }
-    } catch (err) {
+    } else {
         event.locals.user = null;
+    }
+
+    // Protection: If session is gone but user is on a protected route
+    const isProtected = event.url.pathname.startsWith('/admin') || 
+                        event.url.pathname.startsWith('/moderator');
+                        
+    if (isProtected && !event.locals.user) {
+        throw redirect(303, '/');
     }
 
     return await resolve(event);

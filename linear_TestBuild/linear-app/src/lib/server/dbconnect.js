@@ -15,38 +15,63 @@ const pool = mysql.createPool({
 export default pool;
 
 export async function loginAccount(username, password) {
-    // 1. Fetch user by username ONLY to get the stored hash
     const [rows] = await pool.query('SELECT * FROM user WHERE Username = ? LIMIT 1', [username]);
-    
     if (!rows || rows.length === 0) return null;
 
     const dbUser = rows[0];
 
-    // 2. Use bcrypt to compare the plain text with the hash
+    // 1. Check for Ban Status
+    if (dbUser.Ban_Time) {
+        const banExpiration = new Date(dbUser.Ban_Time);
+        const now = new Date();
+
+        if (banExpiration > now) {
+            // Format the date for the user (e.g., "Dec 20, 2025, 8:00 PM")
+            const formattedTime = banExpiration.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            throw new Error(`You are currently banned. Your account will be opened at ${formattedTime}`);
+        }
+    }
+
+    // 2. Check for Approval Status
+    if (dbUser.Status_ID !== 2) {
+        throw new Error('Your account is pending admin approval.');
+    }
+
     const isValidAcc = await bcrypt.compare(password, dbUser.Password);
-    
     if (!isValidAcc) return null;
 
-    return dbUser; 
-}
-//
-export async function findUser(user_ID) {
-	const [acc] = await pool.query('SELECT * FROM user WHERE User_ID=?', [user_ID]);
-	if (!acc) throw error(404, 'User not found');
-	return acc;
+    return {
+        User_ID: dbUser.User_ID,
+        Username: dbUser.Username,
+        Email: dbUser.Email,
+        isModerator: dbUser.isModerator,
+        isAdmin: dbUser.isAdmin
+    };
 }
 
 export async function addAccount(username, email, password) {
     const saltRounds = 10;
     const hashedPass = await bcrypt.hash(password, saltRounds);
     
-    // Status_ID 2 = Approved (from your SQL dump)
+    // Status_ID 1 = Pending
     const [result] = await pool.query(
-        'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 2, ?)',
+        'INSERT INTO `user`(`Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES(?, ?, 0, 0, 1, ?)',
         [email, hashedPass, username]
     );
 
     return { User_ID: result.insertId, Username: username, Email: email };
+}
+
+export async function findUser(user_ID) {
+    const [rows] = await pool.query('SELECT * FROM user WHERE User_ID=?', [user_ID]);
+    return rows[0] || null;
 }
 
 export async function getTeacherWithSubs(profID) {

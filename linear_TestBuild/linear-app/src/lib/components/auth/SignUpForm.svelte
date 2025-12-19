@@ -12,15 +12,16 @@
     // Instant check as the user types
     let passwordMatch = $derived(password === confirm_password || confirm_password === '');
 
-    async function handleResult(result: any){
-      loading = false; 
-      if (result.type === 'success' && result.data?.success) {
-        setUser(result.data.user);
-        await goto('/');
-      } else {
-        errorMessage = result.data?.error || 'Sign-up failed!';
-      }
+    async function handleResult(result: any) {
+    loading = false;
+    if (result.type === 'success' && result.data?.pendingApproval) {
+      errorMessage = ''; 
+      alert(result.data.message); // Or use a pretty toast/alert component
+      await goto('/auth'); // Keep them on the auth page to log in later
+    } else if (result.type === 'failure') {
+      errorMessage = result.data?.error || 'Sign-up failed!';
     }
+  }
 </script>
 
 <form method="post" action="?/signup" use:enhance={() => {

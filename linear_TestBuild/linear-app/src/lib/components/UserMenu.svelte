@@ -1,9 +1,15 @@
 <script>
-	import { Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownGroup, NavHamburger } from "flowbite-svelte";
+	import { Avatar, Dropdown, DropdownItem, DropdownHeader, DropdownGroup, NavHamburger} from "flowbite-svelte";
 	import { user, isLoggedIn, isModerator, isAdmin, clearUser } from '$lib/stores/user.js';
     import { enhance } from '$app/forms';
     import { goto } from '$app/navigation';
     import userPic from '$lib/assets/images/user.png';
+
+    // Helper to ensure we leave the page immediately on logout
+    async function handleLogout() {
+        clearUser();
+        await goto('/'); // Redirects to the landing page
+    }
 </script>
 
 <div class="flex items-center md:order-2">
@@ -27,13 +33,21 @@
             <DropdownItem href="/admin">Admin Panel</DropdownItem>
         {/if}
 
-        <form method="POST" action="/auth?/logout" use:enhance={() => {
-            return async ({ result }) => {
-                clearUser();
-                await goto('/auth');
-            };
-        }}>
-            <button type="submit" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600">
+        <DropdownItem>
+            Please work </DropdownItem>
+
+        <hr class="my-1 border-gray-200" />
+
+        <form 
+            method="POST" 
+            action="/auth?/logout" 
+            use:enhance={() => {
+                return async ({ result }) => {
+                    await handleLogout();
+                };
+            }}
+        >
+            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
                 Sign-out
             </button>
         </form>
