@@ -16,12 +16,8 @@ let query = $state("");
 // }
 
 let {data} = $props();
-<<<<<<< HEAD
 console.log(data);
 
-=======
-console.log()
->>>>>>> 37dc40d873f3765cfd9e4ea10be81e8289cc7bcb
 </script>
 
 <section class="relative isolate min-h-[30vh] flex flex-col items-center justify-center px-4">
