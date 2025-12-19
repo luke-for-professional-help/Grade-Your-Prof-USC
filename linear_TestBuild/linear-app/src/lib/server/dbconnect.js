@@ -40,8 +40,7 @@ export async function addAccount(username, email, password) {
 	return acc;
 }
 
-export async function getTeacherWithSubs() {
-	const id = 1;
+export async function getTeacherWithSubs(profID) {
 	const [teacher] = await pool.query(
 		`SELECT
     p.Prof_ID,
@@ -55,10 +54,10 @@ INNER JOIN professorinfo pi ON p.Prof_ID = pi.Prof_ID
 INNER JOIN request r ON pi.Request_ID = r.Request_ID
 INNER JOIN subjectinfo si ON r.Request_ID = si.Request_ID
 INNER JOIN subject s ON si.Subject_ID = s.Subject_ID
-WHERE p.Prof_ID = 1
+WHERE p.Prof_ID = ?
   AND r.Status_ID = 2 -- Strictly filter for approved requests
 ORDER BY s.Subject_Code;`,
-		[id]
+		[profID]
 	);
 	return teacher;
 }
@@ -103,7 +102,7 @@ export async function getSearchResults(searchInput) {
 export async function getApprovedReviews(profId) {
 	const [reviews] = await pool.query(
 		`
-SELECT 
+    SELECT 
     rev.*,
     s.Subject_Code,
     s.Subject_Name
