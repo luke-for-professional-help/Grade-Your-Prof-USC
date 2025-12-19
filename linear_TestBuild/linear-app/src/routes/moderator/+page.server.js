@@ -12,23 +12,35 @@ export async function load({ url }) {
         // --- 1. PENDING REVIEWS ---
         const [[{ totalReviews }]] = await pool.query('SELECT COUNT(*) as totalReviews FROM Review WHERE Status_ID = 1');
         const [reviews] = await pool.query(`
-            SELECT r.*, u.Username, p.Professor_Name, s.Subject_Code 
-            FROM Review r JOIN User u ON r.User_ID = u.User_ID
-            JOIN Professor p ON r.Prof_ID = p.Prof_ID JOIN Subject s ON r.Subject_ID = s.Subject_ID
+            SELECT 
+                r.Review_ID, 
+                r.Rating, 
+                r.Description,   -- This matches your DB structure
+                r.Status_ID, 
+                r.Study_Load, 
+                u.Username, 
+                p.Professor_Name, 
+                s.Subject_Code
+            FROM Review r 
+            JOIN User u ON r.User_ID = u.User_ID
+            JOIN Professor p ON r.Prof_ID = p.Prof_ID 
+            JOIN Subject s ON r.Subject_ID = s.Subject_ID
             WHERE r.Status_ID = 1 LIMIT ? OFFSET ?`, [limit, (revPage - 1) * limit]);
 
         // --- 2. PENDING REQUESTS ---
         const [[{ totalRequests }]] = await pool.query('SELECT COUNT(*) as totalRequests FROM Request WHERE Status_ID = 1');
         const [requests] = await pool.query(`
-            SELECT req.Request_ID, req.Status_ID, u.Username,
-            CASE WHEN pi.Prof_ID IS NOT NULL THEN 'professor' ELSE 'subject' END AS requestType,
-            p.Professor_Name as profName, s.Subject_Name as subName, s.Subject_Code as subCode
-            FROM Request req JOIN User u ON req.User_ID = u.User_ID
-            LEFT JOIN ProfessorInfo pi ON req.Request_ID = pi.Request_ID
-            LEFT JOIN Professor p ON pi.Prof_ID = p.Prof_ID
-            LEFT JOIN SubjectInfo si ON req.Request_ID = si.Request_ID
-            LEFT JOIN Subject s ON si.Subject_ID = s.Subject_ID
-            WHERE req.Status_ID = 1 LIMIT ? OFFSET ?`, [limit, (reqPage - 1) * limit]);
+        SELECT req.Request_ID, req.Status_ID, req.Study_Load, u.Username,
+        CASE WHEN pi.Prof_ID IS NOT NULL THEN 'professor' ELSE 'subject' END AS requestType,
+        p.Professor_Name as profName, 
+        p.Professor_Img as profImg, -- Add this line
+        s.Subject_Name as subName, s.Subject_Code as subCode
+        FROM Request req JOIN User u ON req.User_ID = u.User_ID
+        LEFT JOIN ProfessorInfo pi ON req.Request_ID = pi.Request_ID
+        LEFT JOIN Professor p ON pi.Prof_ID = p.Prof_ID
+        LEFT JOIN SubjectInfo si ON req.Request_ID = si.Request_ID
+        LEFT JOIN Subject s ON si.Subject_ID = s.Subject_ID
+        WHERE req.Status_ID = 1 LIMIT ? OFFSET ?`, [limit, (reqPage - 1) * limit]);
 
         // --- 3. APPROVAL HISTORY ---
         const [revHist] = await pool.query(`

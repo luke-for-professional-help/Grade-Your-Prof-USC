@@ -3,7 +3,6 @@
 	import heroImage from '$lib/assets/hero-background.jpg';
 	import { Heading, P, Button } from "flowbite-svelte";
 	import Footer from "$lib/components/footer.svelte";
-	import user from '$lib/assets/images/user.png';
 	let query = "";
 </script>
 

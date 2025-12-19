@@ -22,7 +22,7 @@ subjectsTaught:
     <div class="w-full max-w-5xl rounded-xl p-6">
         <Card size="xl">
             <div class="flex flex-row items-center m-5">
-                <Img src="/img/{data.teacher[0].Professor_img}" alt="sample 1" class="max-w-full max-h-18 object-contain rounded-full shadow-xl dark:shadow-gray-800"  />
+                <Img src={data.teacher[0].Professor_img && data.teacher[0].Professor_img !== 'null' ? `/img/${data.teacher[0].Professor_img}` : '/img/default-avatar.png'} alt="sample 1" class="max-w-full max-h-18 object-contain rounded-full shadow-xl dark:shadow-gray-800"  />
                 <div class="flex flex-col ml-5">
                     <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{data.teacher[0].Professor_Name}</h5>
                     <span class="text-sm text-gray-500 dark:text-gray-400">Teaches: {data.teacher.map(t => t.Subject_Code).join(', ')}</span>
