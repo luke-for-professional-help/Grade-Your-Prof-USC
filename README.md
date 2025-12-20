@@ -59,11 +59,15 @@ Installation
 Steps:
 
 1. Clone Repository
+```
 git clone https://github.com/yourusername/Grade-Your-Prof-USC.git
 cd Grade-Your-Prof-USC/linear_TestBuild/linear-app
+```
 
 2. Install dependencies
+```
 npm install
+```
 
 3. Setup database
 Start your MySQL server (XAMPP: Control Panel → Start MySQL)
@@ -78,16 +82,9 @@ Import the schema:
 ```
 mysql -u root -p gradeyourprof < src/lib/server/db.sql
 ```
-4. Create local variables:
-```
-DATABASE_HOST=127.0.0.1
-DATABASE_USER=root
-DATABASE_PASSWORD=
-DATABASE_NAME=gradeyourprof
-DATABASE_PORT=3306
-```
 
-5. Run local dev
+
+4. Run local dev
 ```
 npm run dev
 
