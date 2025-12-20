@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Badge, Card, Tabs, TabItem } from "flowbite-svelte";
     import DeleteReviewBtn from "$lib/components/btns/deleteReviewBtn.svelte";
-    import { enhance } from '$app/forms';
 
     let { data } = $props();
 
@@ -18,7 +17,7 @@
     }
 </script>
 
-<div class="flex justify-center items-start mt-20 pb-20">
+<div class="flex justify-center items-start mt-20 pb-20 px-4">
     <div class="w-full max-w-5xl rounded-xl p-6">
         <h1 class="text-3xl font-bold tracking-tight text-gray-800 mb-6">Manage Your Submissions</h1>
         
@@ -44,15 +43,17 @@
                                             {getStatus(review.Status_ID).text}
                                         </Badge>
                                     </TableBodyCell>
-                                    <TableBodyCell>
-                                        <form method="POST" action="?/deleteReview" use:enhance>
-                                            <DeleteReviewBtn id={review.Review_ID} inputName="reviewId" />
-                                        </form>
+                                    <TableBodyCell class="text-right">
+                                        <DeleteReviewBtn 
+                                            id={review.Review_ID} 
+                                            inputName="reviewId" 
+                                            action="?/deleteReview" 
+                                        />
                                     </TableBodyCell>
                                 </TableBodyRow>
                             {:else}
                                 <TableBodyRow>
-                                    <TableBodyCell colspan={5} class="text-center py-10 text-gray-400">You haven't written any reviews yet.</TableBodyCell>
+                                    <TableBodyCell colspan={5} class="text-center py-10 text-gray-400">No reviews found.</TableBodyCell>
                                 </TableBodyRow>
                             {/each}
                         </TableBody>
@@ -85,10 +86,12 @@
                                             {getStatus(req.Status_ID).text}
                                         </Badge>
                                     </TableBodyCell>
-                                    <TableBodyCell>
-                                        <form method="POST" action="?/deleteRequest" use:enhance>
-                                            <DeleteReviewBtn id={req.Request_ID} inputName="requestId" />
-                                        </form>
+                                    <TableBodyCell class="text-right">
+                                        <DeleteReviewBtn 
+                                            id={req.Request_ID} 
+                                            inputName="requestId" 
+                                            action="?/deleteRequest" 
+                                        />
                                     </TableBodyCell>
                                 </TableBodyRow>
                             {:else}

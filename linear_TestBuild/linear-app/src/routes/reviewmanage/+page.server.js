@@ -39,7 +39,7 @@ export const actions = {
         const formData = await request.formData();
         const id = formData.get('reviewId');
 
-        // Added security: Check User_ID to prevent unauthorized deletion
+        if (!id || !user_ID) return fail(400, { message: "Missing data" });
         await pool.query('DELETE FROM review WHERE Review_ID = ? AND User_ID = ?', [id, user_ID]);
         return { success: true };
     },
@@ -48,17 +48,26 @@ export const actions = {
         const formData = await request.formData();
         const rid = formData.get('requestId');
 
-        // Verify the request belongs to the user before deleting dependencies
+        if (!rid || !user_ID) return fail(400, { message: "Missing data" });
+
         const [rows] = await pool.query('SELECT User_ID FROM request WHERE Request_ID = ?', [rid]);
         if (rows.length === 0 || rows[0].User_ID != user_ID) {
             return fail(403, { message: "Unauthorized" });
         }
 
-        // Clean up junction tables first
-        await pool.query('DELETE FROM professorinfo WHERE Request_ID = ?', [rid]);
-        await pool.query('DELETE FROM subjectinfo WHERE Request_ID = ?', [rid]);
-        await pool.query('DELETE FROM request WHERE Request_ID = ?', [rid]);
-        
+        const conn = await pool.getConnection();
+        try {
+            await conn.beginTransaction();
+            await conn.query('DELETE FROM professorinfo WHERE Request_ID = ?', [rid]);
+            await conn.query('DELETE FROM subjectinfo WHERE Request_ID = ?', [rid]);
+            await conn.query('DELETE FROM request WHERE Request_ID = ?', [rid]);
+            await conn.commit();
+        } catch (e) {
+            await conn.rollback();
+            throw e;
+        } finally {
+            conn.release();
+        }
         return { success: true };
     }
 };
