@@ -76,11 +76,42 @@ export const actions = {
         return { success: true };
     },
     deleteUser: async ({ request }) => {
-        const data = await request.formData();
-        const userId = data.get('userId');
-        await pool.query('DELETE FROM User WHERE User_ID = ?', [userId]);
+    const data = await request.formData();
+    const userId = data.get('userId');
+
+    try {
+        // Start a transaction so if one fails, none happen
+        const connection = await pool.getConnection();
+        await connection.beginTransaction();
+
+        // 1. Delete reviews written by this user
+        await connection.query('DELETE FROM review WHERE User_ID = ?', [userId]);
+
+        // 2. Handle requests (Note: subjectinfo and professorinfo depend on Request_ID)
+        // First, find the Request_IDs belonging to this user
+        const [userReqs] = await connection.query('SELECT Request_ID FROM request WHERE User_ID = ?', [userId]);
+        const reqIds = userReqs.map(r => r.Request_ID);
+
+        if (reqIds.length > 0) {
+            // Delete from child tables of request
+            await connection.query('DELETE FROM subjectinfo WHERE Request_ID IN (?)', [reqIds]);
+            await connection.query('DELETE FROM professorinfo WHERE Request_ID IN (?)', [reqIds]);
+            // Delete the requests themselves
+            await connection.query('DELETE FROM request WHERE User_ID = ?', [userId]);
+        }
+
+        // 3. Finally, delete the user
+        await connection.query('DELETE FROM User WHERE User_ID = ?', [userId]);
+
+        await connection.commit();
+        connection.release();
+        
         return { success: true };
-    },
+    } catch (err) {
+        console.error("Deletion Error:", err);
+        return fail(500, { message: 'Could not delete user due to existing activity.' });
+    }
+},
     updateRole: async ({ request }) => {
         const data = await request.formData();
         const userId = data.get('userId');
