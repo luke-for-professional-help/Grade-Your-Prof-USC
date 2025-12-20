@@ -1,47 +1,107 @@
 <script lang="ts">
-
-    import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from "flowbite-svelte";
+    import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Badge, Card, Tabs, TabItem } from "flowbite-svelte";
     import DeleteReviewBtn from "$lib/components/btns/deleteReviewBtn.svelte";
-    import { Card } from "flowbite-svelte";
 
+    let { data } = $props();
+
+    // 1. Fixed the color type to match Flowbite-Svelte's allowed strings
+    // 2. Added 'as const' to ensure the colors are treated as literal types
+    const statusMap = {
+        1: { text: 'Pending', color: 'yellow' },
+        2: { text: 'Approved', color: 'green' },
+        3: { text: 'Rejected', color: 'red' },
+        0: { text: 'Unknown', color: 'gray' }
+    } as const;
+
+    // Helper to safely get status data
+    function getStatus(id: any) {
+        const numericId = Number(id);
+        return statusMap[numericId as keyof typeof statusMap] || statusMap[0];
+    }
 </script>
 
-<!--PROFILE PAGE-->
-<div class="flex justify-center items-start mt-20">
-	<div class="w-full max-w-5xl rounded-xl p-6">
-		<h1 class="text-base md:text-3xl font-bold tracking-tight text-gray-600 pb-3">Your reviews:</h1>
-        <Card size="xl" class="p-4 text-center sm:p-8 md:p-10">
-            <Table striped={true}>
-                <TableHead>
-                    <TableHeadCell>Professor Name</TableHeadCell>
-                    <TableHeadCell>Subject Code</TableHeadCell>
-                    <TableHeadCell>Date</TableHeadCell>
-                    <TableHeadCell>Status</TableHeadCell>
-                    <TableHeadCell>
-                        <span class="sr-only">Edit</span>
-                    </TableHeadCell>
-                </TableHead>
-                <TableBody>
-                    <TableBodyRow>
-                        <TableBodyCell>Mr. P. Diddy</TableBodyCell>
-                        <TableBodyCell>GE-FEL-DP101</TableBodyCell>
-                        <TableBodyCell>09/23/2025</TableBodyCell>
-                        <TableBodyCell>Pending</TableBodyCell>
-                        <TableBodyCell>
-                        <DeleteReviewBtn />
-                    </TableBodyCell>
-                </TableBodyRow>
-                <TableBodyRow>
-                    <TableBodyCell>Mrs. Sam Altman</TableBodyCell>
-                    <TableBodyCell>CIS2101</TableBodyCell>
-                    <TableBodyCell>10/13/2025</TableBodyCell>
-                    <TableBodyCell>Posted</TableBodyCell>
-                    <TableBodyCell>
-                      <DeleteReviewBtn />
-                    </TableBodyCell>
-                </TableBodyRow>
-                </TableBody>
-            </Table>
-        </Card>
-	</div>
+<div class="flex justify-center items-start mt-20 pb-20">
+    <div class="w-full max-w-5xl rounded-xl p-6">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-800 mb-6">Manage Your Submissions</h1>
+        
+        <Tabs style="underline">
+            <TabItem open title="My Reviews">
+                <Card size="xl" class="mt-4 p-0 shadow-sm overflow-hidden">
+                    <Table striped={true}>
+                        <TableHead class="bg-gray-50">
+                            <TableHeadCell>Professor</TableHeadCell>
+                            <TableHeadCell>Subject</TableHeadCell>
+                            <TableHeadCell>Date</TableHeadCell>
+                            <TableHeadCell>Status</TableHeadCell>
+                            <TableHeadCell><span class="sr-only">Delete</span></TableHeadCell>
+                        </TableHead>
+                        <TableBody>
+                            {#each data.reviews as review}
+                                <TableBodyRow>
+                                    <TableBodyCell class="font-bold text-gray-900">{review.Professor_Name}</TableBodyCell>
+                                    <TableBodyCell>{review.Subject_Code}</TableBodyCell>
+                                    <TableBodyCell>{new Date(review.Date).toLocaleDateString()}</TableBodyCell>
+                                    <TableBodyCell>
+                                        <Badge color={getStatus(review.Status_ID).color}>
+                                            {getStatus(review.Status_ID).text}
+                                        </Badge>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <form method="POST" action="?/deleteReview">
+                                            <DeleteReviewBtn id={review.Review_ID} inputName="reviewId" />
+                                        </form>
+                                    </TableBodyCell>
+                                </TableBodyRow>
+                            {:else}
+                                <TableBodyRow>
+                                    <TableBodyCell colspan={5} class="text-center py-10 text-gray-400">You haven't written any reviews yet.</TableBodyCell>
+                                </TableBodyRow>
+                            {/each}
+                        </TableBody>
+                    </Table>
+                </Card>
+            </TabItem>
+
+            <TabItem title="My Requests">
+                <Card size="xl" class="mt-4 p-0 shadow-sm overflow-hidden">
+                    <Table striped={true}>
+                        <TableHead class="bg-gray-50">
+                            <TableHeadCell>Type</TableHeadCell>
+                            <TableHeadCell>Details</TableHeadCell>
+                            <TableHeadCell>Status</TableHeadCell>
+                            <TableHeadCell><span class="sr-only">Delete</span></TableHeadCell>
+                        </TableHead>
+                        <TableBody>
+                            {#each data.requests as req}
+                                <TableBodyRow>
+                                    <TableBodyCell class="font-bold">
+                                        {#if req.profName && req.subName} Reassignment 
+                                        {:else if req.profName} Professor 
+                                        {:else} Subject {/if}
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        {req.profName || ''} {req.subCode ? `(${req.subCode})` : (req.subName || '')}
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Badge color={getStatus(req.Status_ID).color}>
+                                            {getStatus(req.Status_ID).text}
+                                        </Badge>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <form method="POST" action="?/deleteRequest">
+                                            <DeleteReviewBtn id={req.Request_ID} inputName="requestId" />
+                                        </form>
+                                    </TableBodyCell>
+                                </TableBodyRow>
+                            {:else}
+                                <TableBodyRow>
+                                    <TableBodyCell colspan={4} class="text-center py-10 text-gray-400">No requests found.</TableBodyCell>
+                                </TableBodyRow>
+                            {/each}
+                        </TableBody>
+                    </Table>
+                </Card>
+            </TabItem>
+        </Tabs>
+    </div>
 </div>
