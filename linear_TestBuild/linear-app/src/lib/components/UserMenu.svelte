@@ -32,10 +32,7 @@
         {#if $isAdmin}
             <DropdownItem href="/admin">Admin Panel</DropdownItem>
         {/if}
-
-        <DropdownItem>
-            Please work </DropdownItem>
-
+        
         <hr class="my-1 border-gray-200" />
 
         <form 

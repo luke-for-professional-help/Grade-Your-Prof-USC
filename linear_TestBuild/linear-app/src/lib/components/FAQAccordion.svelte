@@ -21,6 +21,11 @@
     </AccordionItem>
 
     <AccordionItem>
+      {#snippet header()}Where can I find the rules?{/snippet}
+      <p class="mb-2 text-gray-500 dark:text-gray-400">Rules can be found <a href="/rules" class="text-blue-500 underline">here</a>. Make sure to read them so that your requests and reviews can be approved. </p>
+    </AccordionItem>
+
+    <AccordionItem>
       {#snippet header()}How do I add my own reviews/professors/subject code?{/snippet}
       <p class="mb-2 text-gray-500 dark:text-gray-400">Make sure you're signed up first. Then you can proceed to request to add a professor or subject, we will only require a screenshot or copy of your study load in order to verify you are under that professor or currently taking that subject for the term.
       </p>
@@ -30,12 +35,6 @@
         {#snippet header()}Why are my reviews aren't posted yet?{/snippet}
         <p class="mb-2 text-gray-500 dark:text-gray-400">Please be patient. Each review is individually moderated by staff to make sure it follows the rules.</p>
     
-    </AccordionItem>
-
-    <AccordionItem>
-        {#snippet header()}Why are my reviews aren't posted yet?{/snippet}
-        <p class="mb-2 text-gray-500 dark:text-gray-400">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo ab necessitatibus sint explicabo ...</p>
-
     </AccordionItem>
     </p>
 </Accordion>

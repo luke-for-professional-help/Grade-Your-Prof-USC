@@ -38,7 +38,7 @@
 
                 <div>
                     <Label class="mb-2">Description</Label>
-                    <Textarea name="message" placeholder="Write your review here..." rows={4} required />
+                    <Textarea name="message" placeholder="Write your review here..." rows={4} required class="w-full"/>
                 </div>
 
                 <div>

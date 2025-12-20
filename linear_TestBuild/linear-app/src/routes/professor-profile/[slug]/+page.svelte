@@ -75,7 +75,7 @@
                     {#each reviews as review (review.Review_ID)}
                         <Card size="lg" class="max-w-full shadow-sm">
                             <div class="flex justify-between items-start mb-4">
-                                <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-3 p-3">
                                     <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">
                                         U
                                     </div>
@@ -84,7 +84,7 @@
                                         <p class="text-xs text-gray-500 uppercase font-semibold">{review.Subject_Code || 'General'}</p>
                                     </div>
                                 </div>
-                                <div class="text-right">
+                                <div class="text-right p-3">
                                     <SafeRating total={5} rating={review.Rating} size={16} />
                                     <p class="text-[10px] text-gray-400 font-medium mt-1">
                                         {new Date(review.Date).toLocaleDateString()}
