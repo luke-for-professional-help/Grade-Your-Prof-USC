@@ -18,7 +18,7 @@
 <div class="flex justify-center items-start mt-20 pb-20">
     <div class="w-full max-w-5xl p-6">
         <Card size="xl" class="text-justify p-8 mb-4">
-            <h3 class="text-2xl font-bold">Welcome, {$user.name}!</h3>
+            <h3 class="text-2xl font-bold">Welcome, {$user.Username}!</h3>
             <p class="text-gray-600 text-sm">Review the community guidelines before taking action.</p>
         </Card>
 

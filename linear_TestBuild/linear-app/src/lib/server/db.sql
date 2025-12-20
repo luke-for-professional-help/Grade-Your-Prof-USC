@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 18, 2025 at 11:32 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Dec 20, 2025 at 02:09 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,7 @@ CREATE TABLE `professor` (
 --
 
 INSERT INTO `professor` (`Prof_ID`, `Professor_Name`, `Professor_img`) VALUES
-(1, 'Christine Peña', 'null');
+(1, 'Christine Peña', NULL);
 
 -- --------------------------------------------------------
 
@@ -68,17 +68,18 @@ INSERT INTO `professorinfo` (`Request_ID`, `Prof_ID`) VALUES
 CREATE TABLE `request` (
   `Request_ID` int(11) NOT NULL,
   `User_ID` int(11) NOT NULL,
-  `Status_ID` int(11) NOT NULL
+  `Status_ID` int(11) NOT NULL,
+  `Study_Load` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `request`
 --
 
-INSERT INTO `request` (`Request_ID`, `User_ID`, `Status_ID`) VALUES
-(1, 1, 1),
-(2, 1, 1),
-(3, 1, 1);
+INSERT INTO `request` (`Request_ID`, `User_ID`, `Status_ID`, `Study_Load`) VALUES
+(1, 1, 2, NULL),
+(2, 1, 2, NULL),
+(3, 1, 2, '/docus/StudentStudyLoad.pdf');
 
 -- --------------------------------------------------------
 
@@ -93,6 +94,8 @@ CREATE TABLE `review` (
   `Subject_ID` int(11) NOT NULL,
   `Date` date DEFAULT NULL,
   `Description` text DEFAULT NULL,
+  `Rating` float DEFAULT NULL,
+  `Study_Load` varchar(255) DEFAULT NULL,
   `Status_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -100,8 +103,10 @@ CREATE TABLE `review` (
 -- Dumping data for table `review`
 --
 
-INSERT INTO `review` (`Review_ID`, `User_ID`, `Prof_ID`, `Subject_ID`, `Date`, `Description`, `Status_ID`) VALUES
-(1, 1, 1, 1, '2025-01-01', 'Test lorem ipsum', 1);
+INSERT INTO `review` (`Review_ID`, `User_ID`, `Prof_ID`, `Subject_ID`, `Date`, `Description`, `Rating`, `Study_Load`, `Status_ID`) VALUES
+(1, 1, 1, 1, '2025-01-01', 'Test lorem ipsum', 3.5, '/docus/StudentStudyLoad.pdf', 1),
+(2, 1, 1, 1, '2025-12-19', 'test', 5, '/docus/StudentStudyLoad.pdf', 1),
+(6, 1, 1, 1, '2025-12-20', 'test', 4.5, '/docus/1_1766192945769_StudentStudyLoad.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -174,15 +179,19 @@ CREATE TABLE `user` (
   `isModerator` tinyint(1) DEFAULT 0,
   `isAdmin` tinyint(1) DEFAULT 0,
   `Status_ID` int(11) DEFAULT NULL,
-  `Username` varchar(30) NOT NULL
+  `Username` varchar(30) NOT NULL,
+  `Ban_Time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`User_ID`, `Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`) VALUES
-(1, 'admin123@example.com', 'admin123', 1, 1, 2, 'Admin');
+INSERT INTO `user` (`User_ID`, `Email`, `Password`, `isModerator`, `isAdmin`, `Status_ID`, `Username`, `Ban_Time`) VALUES
+(1, 'admin123@example.com', '$2b$10$P70PbX/qfEw0vkd1X1Ss2OS24dIVfHX9kp70c/Wf0fW6G12nyfzq6', 1, 1, 2, 'Admin', NULL),
+(4, 'admin2@example.com', '$2b$10$P70PbX/qfEw0vkd1X1Ss2OS24dIVfHX9kp70c/Wf0fW6G12nyfzq6', 0, 0, 2, 'admin2', NULL),
+(12, 'admin3@example.com', '$2b$10$TZjcvHdhuXLCV7WhkCCiMObm7bxWMRVGuE8iYPgudGCdsB7RbDyoS', 0, 0, 3, 'admin3', '2025-12-20 20:16:49'),
+(13, 'admin4@example.com', '$2b$10$mbl/WoLUDUpEYtTqcI/sUuogj68kQplo4OFCBxsIAk5CRWJwGWN4u', 0, 0, 1, 'admin4', NULL);
 
 --
 -- Indexes for dumped tables
@@ -266,7 +275,7 @@ ALTER TABLE `request`
 -- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
-  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `status`
@@ -284,7 +293,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -327,12 +336,6 @@ ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`Status_ID`) REFERENCES `status` (`Status_ID`);
 COMMIT;
 
-
--- Add Ban_Time
-ALTER TABLE User ADD COLUMN Ban_Time DATETIME NULL;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
--- phpMyAdmin SQL Dump
--- version 5.2.1  

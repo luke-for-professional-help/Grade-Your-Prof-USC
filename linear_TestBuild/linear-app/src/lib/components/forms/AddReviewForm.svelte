@@ -5,13 +5,13 @@
     let { data } = $props();
     let rating = $state(5);
 
-    // Map subjects into name/value pairs for the Select component
-    let subjectOptions = $derived((data.profSubjects || []).map(s => ({
+    // FIX: Add a fallback empty array inside the derived state
+    let subjectOptions = $derived((data?.profSubjects ?? []).map(s => ({
         value: s.Subject_ID,
         name: `${s.Subject_Code} - ${s.Subject_Name}`
     })));
 
-    let professor = $derived(data.allProfs?.find(p => p.Prof_ID == data.profID));
+    let professor = $derived(data?.allProfs?.find(p => p.Prof_ID == data.profID));
 </script>
 
 <Tabs role="tablist">
@@ -19,8 +19,13 @@
         <form method="POST" enctype="multipart/form-data" action="?/addReview&prof_ID={data.profID}" use:enhance>
             <div class="text-left space-y-4">
                 <div>
-                    <Label class="mb-2">Reviewing: <span class="font-bold">{professor?.Professor_Name}</span></Label>
-                    <Select items={subjectOptions} name="subjectID" placeholder="Select the subject..." required />
+                    <Label class="mb-2">Reviewing: <span class="font-bold">{professor?.Professor_Name || 'Professor'}</span></Label>
+                    
+                    {#if subjectOptions.length > 0}
+                        <Select items={subjectOptions} name="subjectID" placeholder="Select the subject..." required />
+                    {:else}
+                        <p class="text-sm text-red-500 italic">No subjects found for this professor in the database.</p>
+                    {/if}
                 </div>
 
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
