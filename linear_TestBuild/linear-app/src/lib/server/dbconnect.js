@@ -74,6 +74,22 @@ export async function findUser(user_ID) {
     return rows[0] || null;
 }
 
+export async function assignSubToProf(subjectID, requestID) {
+    const [result] = await pool.query(
+        'INSERT INTO subjectinfo (Subject_ID, Request_ID) VALUES (?, ?)',
+        [subjectID, requestID]
+    );
+    return result;
+}
+
+export async function getRequestIDByProf(profID) {
+    const [rows] = await pool.query(
+        'SELECT Request_ID FROM professorinfo WHERE Prof_ID = ? LIMIT 1',
+        [profID]
+    );
+    return rows[0]?.Request_ID;
+}
+
 export async function getTeacherWithSubs(profID) {
 	const [teacher] = await pool.query(
 		`SELECT
@@ -217,14 +233,11 @@ export async function findSub(subject) {
 }
 
 export async function makeReq(userID) {
-	const [req] = await pool.query(
-		`
-        INSERT INTO request (User_ID, Status_ID) VALUES (?, 1);
-        `,
-		[userID]
-	);
-	if (!req) error(404);
-	return req;
+    const [req] = await pool.query(
+        'INSERT INTO request (User_ID, Status_ID) VALUES (?, 1);',
+        [userID]
+    );
+    return req;
 }
 
 export async function reqProfOnly(profID, requestID) {

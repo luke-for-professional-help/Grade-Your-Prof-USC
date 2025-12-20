@@ -4,19 +4,19 @@
     
 </script>
 
-<h2 class="text-2xl font-bold">Request a New Subject</h2>
-<br>
-<p>If you would like to add a subejct that doesn't exist in our database, please fill out the form below. We appreciate your input and we will review your request as soon as possible.</p>
+<form method="POST" action="?/addSubject" class="space-y-4">
+    <h2 class="text-2xl font-bold">Request a New Subject</h2>
+    <p>Submit a subject that is currently missing from our database.</p>
+    
+    <div>
+        <Label for="subCode" class="mb-2">Subject Code</Label>
+        <Input id="subCode" name="subCode" placeholder="e.g., CIS 2101" required />
+    </div>
 
-<br>
-<form method="post" action="?/addSub">
-    <Label class="mb-2" for="subjectCode">Subject Code</Label>
-    <Input id="subjectCode" type="text" name="subCode" placeholder="Enter subject code (e.g. GE-ART, CIS1101, GE-LWR)" required class="mb-4"/>
-    <br>
-    <Label class="mb-2" for="subjectName">Subject Name</Label>
-    <Input id="subjectName" type="text" name="subName" placeholder="Enter subject name (e.g. Art Appreciation, Programming I, Life and Works of Rizal)" required class="mb-4"/>
-    <br>
-    <p class="text-sm text-gray-400">Please make sure you've read the guidelines before submitting!</p>
-    <Button type="submit" class="mt-4">Submit Request</Button>
+    <div>
+        <Label for="subName" class="mb-2">Subject Name</Label>
+        <Input id="subName" name="subName" placeholder="e.g., Web Development" required />
+    </div>
 
+    <Button type="submit" color="orange">Submit Subject Request</Button>
 </form>

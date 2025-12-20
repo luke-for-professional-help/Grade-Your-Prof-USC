@@ -1,11 +1,26 @@
 <script lang="ts">
-    import { Card, Input, Label, MultiSelect, Button } from "flowbite-svelte";
+    import { Card, Input, Label, Select, Button } from "flowbite-svelte";
     import { Tabs, TabItem, Dropzone, Img} from "flowbite-svelte";
     import RequestSubject from "$lib/components/forms/RequestSubject.svelte";
 
 
     let filesInDropzone: FileList | null = $state(null);
     let imagePreview: string | null = $state(null);
+
+    let { data } = $props();
+
+    let profOptions = $derived((data?.allProfs ?? []).map(p => ({
+        value: p.Prof_ID,
+        name: p.Professor_Name
+    })));
+
+    let subOptions = $derived((data?.allSubjects ?? []).map(s => ({
+        value: s.Subject_ID,
+        name: `${s.Subject_Code} - ${s.Subject_Name}`
+    })));
+
+    let selectedProf = $state('');
+    let selectedSub = $state('');
 
 
     function handleOnChange(event: Event) {
@@ -49,20 +64,6 @@
             .map((file) => file.name)
             .join(", ");
     }
-
-
-    //BACKEND!
-    //THIS IS FOR LOADING AVAILABLE SUBS THAT THE USER CAN
-    //INITIALLY SET
-    let availableSubjects = [
-        { value: "GE-ART", name: "GE-ART" },
-        { value: "GE-PC", name: "GE-PC" },
-        { value: "EDM1", name: "EDM1" },
-        { value: "MATH1101", name: "MATH1101" },
-        { value: "CIS1101", name: "CIS1101" }
-    ];
-
-    let selectedValues: string[] = [];
 </script>
 
 <div class="flex justify-center items-start mt-20">
@@ -124,6 +125,26 @@
                     <div class="text-justify">
                         <RequestSubject />
                     </div>
+                </TabItem>
+                <TabItem open title="Assign Prof to Subject">
+                    <form method="POST" action="?/assignSubject" class="text-left space-y-6">
+                        <div>
+                            <h2 class="text-2xl font-bold mb-2">Assign to Subject</h2>
+                            <p class="text-gray-500 mb-4">Link an existing professor to an existing course.</p>
+                        </div>
+
+                        <div>
+                            <Label class="mb-2">Select Professor</Label>
+                            <Select items={profOptions} bind:value={selectedProf} name="profID" placeholder="Choose professor..." required />
+                        </div>
+
+                        <div>
+                            <Label class="mb-2">Select Subject</Label>
+                            <Select items={subOptions} bind:value={selectedSub} name="subjectID" placeholder="Choose subject..." required />
+                        </div>
+
+                        <Button type="submit" color="orange" class="w-full">Link Professor to Subject</Button>
+                    </form>
                 </TabItem>
             </Tabs>
         </Card>
