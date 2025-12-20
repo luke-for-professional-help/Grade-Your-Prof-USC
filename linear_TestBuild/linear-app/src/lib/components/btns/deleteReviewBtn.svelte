@@ -2,7 +2,8 @@
   import { Button, Modal } from "flowbite-svelte";
   import { ExclamationCircleOutline } from "flowbite-svelte-icons";
   
-  let { id, inputName } = $props(); // Pass Review_ID or Request_ID here
+  // inputName and id are used by the hidden input
+  let { id, inputName } = $props(); 
   let popupModal = $state(false);
 </script>
 
@@ -15,12 +16,11 @@
       Are you sure you want to delete this submission?
     </h3>
     
-    <form method="POST">
-      <input type="hidden" name={inputName} value={id} />
-      <div class="flex justify-center gap-4">
-        <Button type="submit" color="red">Yes, I'm sure</Button>
-        <Button color="alternative" onclick={() => (popupModal = false)}>No, cancel</Button>
-      </div>
-    </form>
+    <input type="hidden" name={inputName} value={id} />
+    
+    <div class="flex justify-center gap-4">
+      <Button type="submit" color="red">Yes, I'm sure</Button>
+      <Button type="button" color="alternative" onclick={() => (popupModal = false)}>No, cancel</Button>
+    </div>
   </div>
 </Modal>

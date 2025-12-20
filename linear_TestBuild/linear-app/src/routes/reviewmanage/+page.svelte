@@ -1,11 +1,10 @@
 <script lang="ts">
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Badge, Card, Tabs, TabItem } from "flowbite-svelte";
     import DeleteReviewBtn from "$lib/components/btns/deleteReviewBtn.svelte";
+    import { enhance } from '$app/forms';
 
     let { data } = $props();
 
-    // 1. Fixed the color type to match Flowbite-Svelte's allowed strings
-    // 2. Added 'as const' to ensure the colors are treated as literal types
     const statusMap = {
         1: { text: 'Pending', color: 'yellow' },
         2: { text: 'Approved', color: 'green' },
@@ -13,7 +12,6 @@
         0: { text: 'Unknown', color: 'gray' }
     } as const;
 
-    // Helper to safely get status data
     function getStatus(id: any) {
         const numericId = Number(id);
         return statusMap[numericId as keyof typeof statusMap] || statusMap[0];
@@ -47,7 +45,7 @@
                                         </Badge>
                                     </TableBodyCell>
                                     <TableBodyCell>
-                                        <form method="POST" action="?/deleteReview">
+                                        <form method="POST" action="?/deleteReview" use:enhance>
                                             <DeleteReviewBtn id={review.Review_ID} inputName="reviewId" />
                                         </form>
                                     </TableBodyCell>
@@ -88,7 +86,7 @@
                                         </Badge>
                                     </TableBodyCell>
                                     <TableBodyCell>
-                                        <form method="POST" action="?/deleteRequest">
+                                        <form method="POST" action="?/deleteRequest" use:enhance>
                                             <DeleteReviewBtn id={req.Request_ID} inputName="requestId" />
                                         </form>
                                     </TableBodyCell>
