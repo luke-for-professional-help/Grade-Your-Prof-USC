@@ -94,5 +94,25 @@ export const actions = {
         const statusId = formData.get('action') === 'approve' ? 2 : 3;
         await pool.query('UPDATE Request SET Status_ID = ? WHERE Request_ID = ?', [statusId, formData.get('requestId')]);
         return { success: true };
+    },
+    // NEW: Permanent Deletion Actions
+    deleteReview: async ({ request }) => {
+        const formData = await request.formData();
+        const reviewId = formData.get('reviewId');
+        await pool.query('DELETE FROM Review WHERE Review_ID = ?', [reviewId]);
+        return { success: true };
+    },
+    deleteRequest: async ({ request }) => {
+        const formData = await request.formData();
+        const requestId = formData.get('requestId');
+        
+        /** * Note: Because of foreign key constraints in ProfessorInfo/SubjectInfo,
+         * you may need to delete those links first or ensure ON DELETE CASCADE is set.
+         **/
+        await pool.query('DELETE FROM ProfessorInfo WHERE Request_ID = ?', [requestId]);
+        await pool.query('DELETE FROM SubjectInfo WHERE Request_ID = ?', [requestId]);
+        await pool.query('DELETE FROM Request WHERE Request_ID = ?', [requestId]);
+        
+        return { success: true };
     }
 };
