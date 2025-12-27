@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { error } from '@sveltejs/kit';
 
 const pool = mysql.createPool({
-	host: 'localhost',
+	host: 's31200214_gradeyourprof',
 	user: 's31200214_gradeyourprof',
 	password: 'Gradepr0f##',
 	database: 's31200214_gradeyourprof',
