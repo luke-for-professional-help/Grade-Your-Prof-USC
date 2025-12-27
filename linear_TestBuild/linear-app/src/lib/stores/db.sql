@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 27, 2025 at 09:37 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Dec 20, 2025 at 02:09 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,12 +38,7 @@ CREATE TABLE `professor` (
 --
 
 INSERT INTO `professor` (`Prof_ID`, `Professor_Name`, `Professor_img`) VALUES
-(1, 'Christine PeÃ±a', NULL),
-(2, 'Dutch Van der Line', '/prof_imgs/placeholder.png'),
-(3, 'Micah Bell', '/prof_imgs/placeholder.png'),
-(4, 'John Marston', '/prof_imgs/placeholder.png'),
-(5, 'Luke ', '/prof_imgs/placeholder.png'),
-(6, 'Miguel Miguel', '/prof_imgs/placeholder.png');
+(1, 'Christine Peña', NULL);
 
 -- --------------------------------------------------------
 
@@ -62,19 +57,7 @@ CREATE TABLE `professorinfo` (
 
 INSERT INTO `professorinfo` (`Request_ID`, `Prof_ID`) VALUES
 (2, 1),
-(3, 1),
-(4, 2),
-(6, 2),
-(7, 2),
-(8, 3),
-(10, 3),
-(12, 2),
-(13, 4),
-(14, 4),
-(16, 5),
-(17, 4),
-(18, 6),
-(20, 6);
+(3, 1);
 
 -- --------------------------------------------------------
 
@@ -96,23 +79,7 @@ CREATE TABLE `request` (
 INSERT INTO `request` (`Request_ID`, `User_ID`, `Status_ID`, `Study_Load`) VALUES
 (1, 1, 2, NULL),
 (2, 1, 2, NULL),
-(3, 1, 2, '/docus/StudentStudyLoad.pdf'),
-(4, 1, 2, NULL),
-(5, 1, 2, NULL),
-(6, 1, 2, NULL),
-(7, 1, 2, NULL),
-(8, 14, 2, NULL),
-(9, 14, 2, NULL),
-(10, 14, 2, NULL),
-(11, 15, 2, NULL),
-(12, 14, 2, NULL),
-(13, 1, 2, NULL),
-(14, 1, 2, NULL),
-(16, 1, 1, NULL),
-(17, 1, 3, NULL),
-(18, 1, 2, NULL),
-(19, 1, 2, NULL),
-(20, 1, 2, NULL);
+(3, 1, 2, '/docus/StudentStudyLoad.pdf');
 
 -- --------------------------------------------------------
 
@@ -137,16 +104,9 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`Review_ID`, `User_ID`, `Prof_ID`, `Subject_ID`, `Date`, `Description`, `Rating`, `Study_Load`, `Status_ID`) VALUES
-(1, 1, 1, 1, '2025-01-01', 'Test lorem ipsum', 3.5, '/docus/StudentStudyLoad.pdf', 2),
-(2, 1, 1, 1, '2025-12-19', 'test', 5, '/docus/StudentStudyLoad.pdf', 2),
-(6, 1, 1, 1, '2025-12-20', 'test', 4.5, '/docus/1_1766192945769_StudentStudyLoad.pdf', 1),
-(7, 1, 1, 1, '2025-12-20', 'Tough love', 5, '/docus/1_1766200887952_stupid.jpg', 2),
-(8, 1, 2, 2, '2025-12-20', 'I HAD A PLAN!!!!!!!!!!!!!!!!!!!!!!!!!!', 1.2, '/docus/1_1766201098795_you-can-have-your-mangoes-in-brasil-dutch-we-are-in-mango-v0-h0s6nhm14q6e1.jpg', 2),
-(9, 14, 2, 2, '2025-12-20', 'MANGOES, TAHITI, AUSTRALIA, PLAN!!!!!!!!!!', 5, '/docus/14_1766201350597_you-can-have-your-mangoes-in-brasil-dutch-we-are-in-mango-v0-h0s6nhm14q6e1.jpg', 2),
-(11, 14, 2, 1, '2025-12-20', 'He does not know what a mouse is!!!!', 1.8, '/docus/14_1766211269149_Screenshot_2025-12-20_135627.png', 2),
-(12, 14, 3, 3, '2025-12-20', 'Lil bro ruined my life, keeps calling me \"Black lung\" and \"Cowpoke\". \r\n\r\nHe\'s a RAT!', 3.9, '/docus/14_1766211481388_Screenshot_2025-12-20_135627.png', 2),
-(15, 1, 2, 2, '2025-12-20', 'Bro this teacher thought we had a rat in the classroom.', 3.7, '/docus/1_1766242403161_true.png', 2),
-(16, 1, 6, 6, '2025-12-20', 'Very nice', 5, '/docus/1_1766242858566_2PTD_LWR_7.pdf', 2);
+(1, 1, 1, 1, '2025-01-01', 'Test lorem ipsum', 3.5, '/docus/StudentStudyLoad.pdf', 1),
+(2, 1, 1, 1, '2025-12-19', 'test', 5, '/docus/StudentStudyLoad.pdf', 1),
+(6, 1, 1, 1, '2025-12-20', 'test', 4.5, '/docus/1_1766192945769_StudentStudyLoad.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -185,12 +145,7 @@ CREATE TABLE `subject` (
 --
 
 INSERT INTO `subject` (`Subject_ID`, `Subject_Code`, `Subject_Name`) VALUES
-(1, 'CIS 1101', 'Programming 1'),
-(2, 'GE-PM101', 'Plan Making 101'),
-(3, 'GE-RAT', 'Snitch Studies 101'),
-(4, 'RDR301', 'Dead Eye III'),
-(5, 'CIS 1101', 'Programming 1'),
-(6, 'CIS 2101', 'Data Structures and Algorithms');
+(1, 'CIS 1101', 'Programming 1');
 
 -- --------------------------------------------------------
 
@@ -209,18 +164,7 @@ CREATE TABLE `subjectinfo` (
 
 INSERT INTO `subjectinfo` (`Request_ID`, `Subject_ID`) VALUES
 (1, 1),
-(3, 1),
-(5, 2),
-(6, 2),
-(7, 1),
-(9, 3),
-(10, 3),
-(11, 4),
-(12, 4),
-(14, 4),
-(17, 3),
-(19, 6),
-(20, 6);
+(3, 1);
 
 -- --------------------------------------------------------
 
@@ -247,10 +191,7 @@ INSERT INTO `user` (`User_ID`, `Email`, `Password`, `isModerator`, `isAdmin`, `S
 (1, 'admin123@example.com', '$2b$10$P70PbX/qfEw0vkd1X1Ss2OS24dIVfHX9kp70c/Wf0fW6G12nyfzq6', 1, 1, 2, 'Admin', NULL),
 (4, 'admin2@example.com', '$2b$10$P70PbX/qfEw0vkd1X1Ss2OS24dIVfHX9kp70c/Wf0fW6G12nyfzq6', 0, 0, 2, 'admin2', NULL),
 (12, 'admin3@example.com', '$2b$10$TZjcvHdhuXLCV7WhkCCiMObm7bxWMRVGuE8iYPgudGCdsB7RbDyoS', 0, 0, 3, 'admin3', '2025-12-20 20:16:49'),
-(13, 'admin4@example.com', '$2b$10$mbl/WoLUDUpEYtTqcI/sUuogj68kQplo4OFCBxsIAk5CRWJwGWN4u', 1, 0, 2, 'admin4', NULL),
-(14, 'fartsmella@gmail.com', '$2b$10$2UVNQSXiKN5NX9c4QEnpIulsbK2wQQBbI3e..sEMNEwNYjwbHUn5.', 0, 0, 3, 'Smart Fella', '2037-05-18 14:04:42'),
-(15, 'fartsmeller@gmail.com', '$2b$10$xxUu9iSbIWqvE/79.kA2gOXc1oNRApql8U1qJ1nEtR2hxps7AxuAO', 0, 0, 3, 'Fart Smella', '2025-12-21 22:21:09'),
-(16, 'test@example.com', '$2b$10$1PfgLdqiU4ijarES10UGlOaJEzfDfblgUo0ajzVYtSIN4XbzRbmIq', 0, 0, 1, 'Test_new', NULL);
+(13, 'admin4@example.com', '$2b$10$mbl/WoLUDUpEYtTqcI/sUuogj68kQplo4OFCBxsIAk5CRWJwGWN4u', 0, 0, 1, 'admin4', NULL);
 
 --
 -- Indexes for dumped tables
@@ -322,19 +263,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `professor`
 --
 ALTER TABLE `professor`
-  MODIFY `Prof_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Prof_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `Request_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `Request_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
-  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `status`
@@ -346,13 +287,13 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `Subject_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Subject_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
