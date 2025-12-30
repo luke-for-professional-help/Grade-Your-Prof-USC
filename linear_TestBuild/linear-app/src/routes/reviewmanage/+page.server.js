@@ -1,13 +1,11 @@
 import pool from '$lib/server/dbconnect';
 import { redirect, fail } from '@sveltejs/kit';
 
-/** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
     const user_ID = cookies.get('User_ID');
     if (!user_ID) throw redirect(303, '/login');
 
     try {
-        // 1. Fetch User's Reviews
         const [reviews] = await pool.query(`
             SELECT r.Review_ID, r.Date, r.Status_ID, p.Professor_Name, s.Subject_Code
             FROM review r
@@ -16,7 +14,6 @@ export async function load({ cookies }) {
             WHERE r.User_ID = ?
             ORDER BY r.Date DESC`, [user_ID]);
 
-        // 2. Fetch User's Requests (Professors/Subjects/Reassignments)
         const [requests] = await pool.query(`
             SELECT req.Request_ID, req.Status_ID,
             p.Professor_Name as profName, 
@@ -36,21 +33,41 @@ export async function load({ cookies }) {
     }
 }
 
-/** @type {import('./$types').Actions} */
 export const actions = {
-    deleteReview: async ({ request }) => {
+    deleteReview: async ({ request, cookies }) => {
+        const user_ID = cookies.get('User_ID');
         const formData = await request.formData();
         const id = formData.get('reviewId');
-        await pool.query('DELETE FROM review WHERE Review_ID = ?', [id]);
+
+        if (!id || !user_ID) return fail(400, { message: "Missing data" });
+        await pool.query('DELETE FROM review WHERE Review_ID = ? AND User_ID = ?', [id, user_ID]);
         return { success: true };
     },
-    deleteRequest: async ({ request }) => {
+    deleteRequest: async ({ request, cookies }) => {
+        const user_ID = cookies.get('User_ID');
         const formData = await request.formData();
         const rid = formData.get('requestId');
-        // Clean up junction tables first
-        await pool.query('DELETE FROM professorinfo WHERE Request_ID = ?', [rid]);
-        await pool.query('DELETE FROM subjectinfo WHERE Request_ID = ?', [rid]);
-        await pool.query('DELETE FROM request WHERE Request_ID = ?', [rid]);
+
+        if (!rid || !user_ID) return fail(400, { message: "Missing data" });
+
+        const [rows] = await pool.query('SELECT User_ID FROM request WHERE Request_ID = ?', [rid]);
+        if (rows.length === 0 || rows[0].User_ID != user_ID) {
+            return fail(403, { message: "Unauthorized" });
+        }
+
+        const conn = await pool.getConnection();
+        try {
+            await conn.beginTransaction();
+            await conn.query('DELETE FROM professorinfo WHERE Request_ID = ?', [rid]);
+            await conn.query('DELETE FROM subjectinfo WHERE Request_ID = ?', [rid]);
+            await conn.query('DELETE FROM request WHERE Request_ID = ?', [rid]);
+            await conn.commit();
+        } catch (e) {
+            await conn.rollback();
+            throw e;
+        } finally {
+            conn.release();
+        }
         return { success: true };
     }
 };

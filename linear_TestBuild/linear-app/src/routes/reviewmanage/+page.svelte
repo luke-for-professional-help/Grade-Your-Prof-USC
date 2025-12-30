@@ -4,8 +4,6 @@
 
     let { data } = $props();
 
-    // 1. Fixed the color type to match Flowbite-Svelte's allowed strings
-    // 2. Added 'as const' to ensure the colors are treated as literal types
     const statusMap = {
         1: { text: 'Pending', color: 'yellow' },
         2: { text: 'Approved', color: 'green' },
@@ -13,14 +11,13 @@
         0: { text: 'Unknown', color: 'gray' }
     } as const;
 
-    // Helper to safely get status data
     function getStatus(id: any) {
         const numericId = Number(id);
         return statusMap[numericId as keyof typeof statusMap] || statusMap[0];
     }
 </script>
 
-<div class="flex justify-center items-start mt-20 pb-20">
+<div class="flex justify-center items-start mt-20 pb-20 px-4">
     <div class="w-full max-w-5xl rounded-xl p-6">
         <h1 class="text-3xl font-bold tracking-tight text-gray-800 mb-6">Manage Your Submissions</h1>
         
@@ -46,15 +43,17 @@
                                             {getStatus(review.Status_ID).text}
                                         </Badge>
                                     </TableBodyCell>
-                                    <TableBodyCell>
-                                        <form method="POST" action="?/deleteReview">
-                                            <DeleteReviewBtn id={review.Review_ID} inputName="reviewId" />
-                                        </form>
+                                    <TableBodyCell class="text-right">
+                                        <DeleteReviewBtn 
+                                            id={review.Review_ID} 
+                                            inputName="reviewId" 
+                                            action="?/deleteReview" 
+                                        />
                                     </TableBodyCell>
                                 </TableBodyRow>
                             {:else}
                                 <TableBodyRow>
-                                    <TableBodyCell colspan={5} class="text-center py-10 text-gray-400">You haven't written any reviews yet.</TableBodyCell>
+                                    <TableBodyCell colspan={5} class="text-center py-10 text-gray-400">No reviews found.</TableBodyCell>
                                 </TableBodyRow>
                             {/each}
                         </TableBody>
@@ -87,10 +86,12 @@
                                             {getStatus(req.Status_ID).text}
                                         </Badge>
                                     </TableBodyCell>
-                                    <TableBodyCell>
-                                        <form method="POST" action="?/deleteRequest">
-                                            <DeleteReviewBtn id={req.Request_ID} inputName="requestId" />
-                                        </form>
+                                    <TableBodyCell class="text-right">
+                                        <DeleteReviewBtn 
+                                            id={req.Request_ID} 
+                                            inputName="requestId" 
+                                            action="?/deleteRequest" 
+                                        />
                                     </TableBodyCell>
                                 </TableBodyRow>
                             {:else}

@@ -3,10 +3,10 @@ import bcrypt from 'bcrypt';
 import { error } from '@sveltejs/kit';
 
 const pool = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'gradeyourprof',
+	host: 's31200214_gradeyourprof',
+	user: 's31200214_gradeyourprof',
+	password: 'Gradepr0f##',
+	database: 's31200214_gradeyourprof',
 	waitForConnections: true,
 	connectionLimit: 10,
 	queueLimit: 0
