@@ -124,15 +124,15 @@ export async function getSearchResults(searchInput) {
                 ORDER BY s.Subject_Code
                 SEPARATOR ', '
             ) AS Subjects
-            FROM Professor p
-            INNER JOIN ProfessorInfo pi
+            FROM professor p
+            INNER JOIN professorInfo pi
                 ON p.Prof_ID = pi.Prof_ID
-            INNER JOIN Request r
+            INNER JOIN request r
                 ON pi.Request_ID = r.Request_ID
                 AND r.Status_ID = 2
-            INNER JOIN SubjectInfo si
+            INNER JOIN subjectInfo si
                 ON r.Request_ID = si.Request_ID
-            INNER JOIN Subject s
+            INNER JOIN subject s
                 ON si.Subject_ID = s.Subject_ID
             GROUP BY
                 p.Prof_ID,

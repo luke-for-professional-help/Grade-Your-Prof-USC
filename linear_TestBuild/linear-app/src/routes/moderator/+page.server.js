@@ -10,7 +10,7 @@ export async function load({ url }) {
 
     try {
         // --- 1. PENDING REVIEWS ---
-        const [[{ totalReviews }]] = await pool.query('SELECT COUNT(*) as totalReviews FROM Review WHERE Status_ID = 1');
+        const [[{ totalReviews }]] = await pool.query('SELECT COUNT(*) as totalReviews FROM review WHERE Status_ID = 1');
         const [reviews] = await pool.query(`
             SELECT 
                 r.Review_ID, 
@@ -21,43 +21,43 @@ export async function load({ url }) {
                 u.Username, 
                 p.Professor_Name, 
                 s.Subject_Code
-            FROM Review r 
-            JOIN User u ON r.User_ID = u.User_ID
-            JOIN Professor p ON r.Prof_ID = p.Prof_ID 
-            JOIN Subject s ON r.Subject_ID = s.Subject_ID
+            FROM review r 
+            JOIN user u ON r.User_ID = u.User_ID
+            JOIN professor p ON r.Prof_ID = p.Prof_ID 
+            JOIN subject s ON r.Subject_ID = s.Subject_ID
             WHERE r.Status_ID = 1 LIMIT ? OFFSET ?`, [limit, (revPage - 1) * limit]);
 
         // --- 2. PENDING REQUESTS ---
-        const [[{ totalRequests }]] = await pool.query('SELECT COUNT(*) as totalRequests FROM Request WHERE Status_ID = 1');
+        const [[{ totalRequests }]] = await pool.query('SELECT COUNT(*) as totalRequests FROM request WHERE Status_ID = 1');
         const [requests] = await pool.query(`
         SELECT req.Request_ID, req.Status_ID, req.Study_Load, u.Username,
         CASE WHEN pi.Prof_ID IS NOT NULL THEN 'professor' ELSE 'subject' END AS requestType,
         p.Professor_Name as profName, 
         p.Professor_Img as profImg, -- Add this line
         s.Subject_Name as subName, s.Subject_Code as subCode
-        FROM Request req JOIN User u ON req.User_ID = u.User_ID
-        LEFT JOIN ProfessorInfo pi ON req.Request_ID = pi.Request_ID
-        LEFT JOIN Professor p ON pi.Prof_ID = p.Prof_ID
-        LEFT JOIN SubjectInfo si ON req.Request_ID = si.Request_ID
-        LEFT JOIN Subject s ON si.Subject_ID = s.Subject_ID
+        FROM request req JOIN user u ON req.User_ID = u.User_ID
+        LEFT JOIN professorInfo pi ON req.Request_ID = pi.Request_ID
+        LEFT JOIN professor p ON pi.Prof_ID = p.Prof_ID
+        LEFT JOIN subjectInfo si ON req.Request_ID = si.Request_ID
+        LEFT JOIN subject s ON si.Subject_ID = s.Subject_ID
         WHERE req.Status_ID = 1 LIMIT ? OFFSET ?`, [limit, (reqPage - 1) * limit]);
 
         // --- 3. APPROVAL HISTORY ---
         const [revHist] = await pool.query(`
             SELECT r.*, u.Username, p.Professor_Name, s.Subject_Code, 'review' as category 
-            FROM Review r JOIN User u ON r.User_ID = u.User_ID
-            JOIN Professor p ON r.Prof_ID = p.Prof_ID JOIN Subject s ON r.Subject_ID = s.Subject_ID
+            FROM review r JOIN user u ON r.User_ID = u.User_ID
+            JOIN professor p ON r.Prof_ID = p.Prof_ID JOIN subject s ON r.Subject_ID = s.Subject_ID
             WHERE r.Status_ID != 1`);
 
         const [reqHist] = await pool.query(`
             SELECT req.Request_ID, req.Status_ID, u.Username, 'request' as category,
             CASE WHEN pi.Prof_ID IS NOT NULL THEN 'professor' ELSE 'subject' END AS requestType,
             p.Professor_Name as profName, s.Subject_Name as subName, s.Subject_Code as subCode
-            FROM Request req JOIN User u ON req.User_ID = u.User_ID
-            LEFT JOIN ProfessorInfo pi ON req.Request_ID = pi.Request_ID
-            LEFT JOIN Professor p ON pi.Prof_ID = p.Prof_ID
-            LEFT JOIN SubjectInfo si ON req.Request_ID = si.Request_ID
-            LEFT JOIN Subject s ON si.Subject_ID = s.Subject_ID
+            FROM request req JOIN user u ON req.User_ID = u.User_ID
+            LEFT JOIN professorInfo pi ON req.Request_ID = pi.Request_ID
+            LEFT JOIN professor p ON pi.Prof_ID = p.Prof_ID
+            LEFT JOIN subjectInfo si ON req.Request_ID = si.Request_ID
+            LEFT JOIN subject s ON si.Subject_ID = s.Subject_ID
             WHERE req.Status_ID != 1`);
 
         const combinedHistory = [...revHist, ...reqHist]
@@ -86,20 +86,20 @@ export const actions = {
     moderateReview: async ({ request }) => {
         const formData = await request.formData();
         const statusId = formData.get('action') === 'approve' ? 2 : 3;
-        await pool.query('UPDATE Review SET Status_ID = ? WHERE Review_ID = ?', [statusId, formData.get('reviewId')]);
+        await pool.query('UPDATE review SET Status_ID = ? WHERE Review_ID = ?', [statusId, formData.get('reviewId')]);
         return { success: true };
     },
     moderateRequest: async ({ request }) => {
         const formData = await request.formData();
         const statusId = formData.get('action') === 'approve' ? 2 : 3;
-        await pool.query('UPDATE Request SET Status_ID = ? WHERE Request_ID = ?', [statusId, formData.get('requestId')]);
+        await pool.query('UPDATE request SET Status_ID = ? WHERE Request_ID = ?', [statusId, formData.get('requestId')]);
         return { success: true };
     },
     // NEW: Permanent Deletion Actions
     deleteReview: async ({ request }) => {
         const formData = await request.formData();
         const reviewId = formData.get('reviewId');
-        await pool.query('DELETE FROM Review WHERE Review_ID = ?', [reviewId]);
+        await pool.query('DELETE FROM review WHERE Review_ID = ?', [reviewId]);
         return { success: true };
     },
     deleteRequest: async ({ request }) => {
@@ -109,9 +109,9 @@ export const actions = {
         /** * Note: Because of foreign key constraints in ProfessorInfo/SubjectInfo,
          * you may need to delete those links first or ensure ON DELETE CASCADE is set.
          **/
-        await pool.query('DELETE FROM ProfessorInfo WHERE Request_ID = ?', [requestId]);
-        await pool.query('DELETE FROM SubjectInfo WHERE Request_ID = ?', [requestId]);
-        await pool.query('DELETE FROM Request WHERE Request_ID = ?', [requestId]);
+        await pool.query('DELETE FROM professorInfo WHERE Request_ID = ?', [requestId]);
+        await pool.query('DELETE FROM subjectInfo WHERE Request_ID = ?', [requestId]);
+        await pool.query('DELETE FROM request WHERE Request_ID = ?', [requestId]);
         
         return { success: true };
     }
